@@ -31,6 +31,7 @@ public class Game implements ApplicationListener {
 		// Loading resources
 		Art.loadTextures();
 		
+		// Setting first screen to render
 		setScreen(new GameScreen(this));
     }
 
@@ -45,7 +46,7 @@ public class Game implements ApplicationListener {
      */
     public void calculateScreenSize(){
 		float ratio = Gdx.graphics.getWidth() / (float)Gdx.graphics.getHeight();
-		int minSize = SCREEN_HEIGHT; // (In most cases height) //160
+		int minSize = SCREEN_HEIGHT;
 		
 		SCREEN_WIDTH = (int)(minSize * ratio);
 		SCREEN_HEIGHT = minSize;

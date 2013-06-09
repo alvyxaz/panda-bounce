@@ -37,6 +37,14 @@ public abstract class BaseScreen implements Screen {
 	
 	public abstract void update(float deltaTime);
 	
+	/**
+	 * Get's called every time before switching to another screen.
+	 * Perfect for making transitions between screens (Fade out effect, etc.)
+	 * Screen switching is initialized when screenToSwitchTo field is not null.
+	 * 
+	 * @param deltaTime
+	 * @return true if screen is ready to be switched
+	 */
 	public abstract boolean beforeScreenSwitch(float deltaTime);
 	
 	@Override
@@ -64,12 +72,14 @@ public abstract class BaseScreen implements Screen {
 			fpsText.append(fps);
 		}
 		
+		// Check whether the screen has to be switched.
 		if(screenToSwitchTo != null){
 			if(beforeScreenSwitch(Gdx.graphics.getDeltaTime())){
 				game.setScreen(screenToSwitchTo);
 				screenToSwitchTo = null;
 			}
 		}
+		
 	}
 
 	@Override

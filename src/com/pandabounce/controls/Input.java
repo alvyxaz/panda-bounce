@@ -42,6 +42,9 @@ public class Input {
 		}
 	}
 	
+	/*
+	 * Check whether a rectangle is being touched at the moment
+	 */
 	public static boolean isTouching(Rectangle rect){
 		for(int i = 0; i < 2; i++){
 			if(!touch[i].touched) continue;
@@ -54,6 +57,11 @@ public class Input {
 	}
 	
 	
+	/**
+	 * Check whether a rectangle has been released after a touck.
+	 * 
+	 * @param rect Rectangle of interest
+	 */
 	public static boolean isReleasing(Rectangle rect){
 		for(int i = 0; i < 2; i++){
 			if(touch[i].touched) continue;
@@ -66,6 +74,13 @@ public class Input {
 		return false;
 	}
 	
+	/**
+	 * Check whether a certain keyboard key was released. Have in mind
+	 * that in order to track a key, it has to be registered in keys array,
+	 * which happens in initialize() method.
+	 * 
+	 * @param rect Rectangle of interest
+	 */
 	public static boolean keyReleased(int key){
 		for(int i = 0; i < keys.length; i++){
 			if(keys[i].key == key)
@@ -74,6 +89,13 @@ public class Input {
 		return false;
 	}
 	
+	/**
+	 * In case there are multiple touches in the screen, return an index 
+	 * of touch that is touching a given rectangle
+	 * 
+	 * @param rect Rectangle of interest
+	 * @return Index of touch, -1 if not touching.
+	 */
 	public static int getTouchIndex(Rectangle rect){
 		for(int i = 0; i < 2; i++){
 			if(!Gdx.input.isTouched(i)) continue;

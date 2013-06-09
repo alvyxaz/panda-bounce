@@ -7,13 +7,18 @@ import com.pandabounce.controls.Input;
 import com.pandabounce.entities.Panda;
 import com.pandabounce.resources.Art;
 
+/*
+ * TODO: Should work as a base for level objects (screens).
+ * Everything that has to be repeated  in every level should be
+ * in this object.
+ */
 public class GameScreen extends BaseScreen {
 
-	private Panda panda;
+	protected Panda panda;
+	protected float targetAngle;
 	
 	public GameScreen(Game game) {
 		super(game);
-		
 		panda = new Panda(200, 400);
 	}
 
@@ -31,13 +36,19 @@ public class GameScreen extends BaseScreen {
 		panda.update(deltaTime);
 		
 		if(Gdx.input.isTouched()){
-			panda.jumpTo((float) (Math.atan2(Input.getY() - panda.hitBox.y, Input.getX() - panda.hitBox.x ) * 180 / Math.PI));
+			
+			if(Input.isTouching(panda.hitBox)){
+				panda.jump();
+			} else {
+				panda.setTarget(Input.getX(), Input.getY());
+			}
+			
 		}
 	}
 
 	@Override
 	public boolean beforeScreenSwitch(float deltaTime) {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 	
