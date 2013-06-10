@@ -25,13 +25,12 @@ public class Input {
 	
 	public static void update() {
 		for(int i= 0; i < touch.length; i++){
+			touch[i].lastTouched = touch[i].touched;
 			if(Gdx.input.isTouched(i)){
-				touch[i].lastTouched = touch[i].touched;
 				touch[i].touched = true;
 				touch[i].x = (int)(Gdx.input.getX(i) * xRatio);
 				touch[i].y = Game.SCREEN_HEIGHT - (int)(Gdx.input.getY(i) * yRatio);
 			} else {
-				touch[i].lastTouched = touch[i].touched;
 				touch[i].touched = false;
 			}
 		}
@@ -59,6 +58,8 @@ public class Input {
 	
 	/**
 	 * Check whether a rectangle has been released after a touck.
+	 * 
+	 * TODO: Seems like something's not working
 	 * 
 	 * @param rect Rectangle of interest
 	 */

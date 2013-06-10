@@ -32,7 +32,7 @@ public class Game implements ApplicationListener {
 		Art.loadTextures();
 		
 		// Setting first screen to render
-		setScreen(new GameScreen(this));
+		setScreen(new Level1(this));
     }
 
     public void render () {

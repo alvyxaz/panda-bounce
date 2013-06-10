@@ -18,7 +18,7 @@ public class Panda {
 	private int STATE_JUMPING = 1;
 	
 	// Jump related
-	private float targetAngle = 0;	// Degrees
+	private float targetAngle = 90;	// Degrees
 	private int jumpSpeed = 200; // px per second
 	private float jumpTime = 1;
 	private float jumpAngle;
@@ -32,12 +32,14 @@ public class Panda {
 	public void draw(SpriteBatch spriteBatch){
 		spriteBatch.draw(Art.panda[0], hitBox.x, hitBox.y);
 	
+		spriteBatch.setColor(1, 1, 1, 0.5f);
 		spriteBatch.draw(Art.targetArrow, hitBox.x + hitBoxCenterX + targetOffset, hitBox.y, -targetOffset , targetArrow.width/2, targetArrow.height,targetArrow.width , 1.0f, 1.0f, targetAngle, true);
-		// spriteBatch.draw(region, x, y, originX, originY, width, height, scaleX, scaleY, rotation, clockwise);
+		spriteBatch.setColor(Color.WHITE);
 		
-		// Debugging. Display panda hitbox center
-		spriteBatch.draw(Art.px, hitBox.x + hitBoxCenterX, hitBox.y, 4, 4);
-	
+		// Debugging hitbox
+		spriteBatch.setColor(0, 0, 1, 0.5f);
+		spriteBatch.draw(Art.px, hitBox.x, hitBox.y, hitBox.width, hitBox.height);
+		spriteBatch.setColor(Color.WHITE);
 	}
 	
 	public void update(float deltaTime){

@@ -2,6 +2,7 @@ package com.pandabounce.resources;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Art {
@@ -15,16 +16,31 @@ public class Art {
 	private static Texture otherTexture;
 	public static TextureRegion targetArrow;
 	
+	private static Texture guiTexture;
+	public static TextureRegion logo;
+	
+	// Fonts
+	public static BitmapFont fontDefault;
+	
 	public static void loadTextures() {
 		px = new Texture(Gdx.files.internal("assets/textures/1px.png"));
 		
 		loadPandaTextures();
 		loadOtherTextures();
+		
+		loadFonts();
+	}
+	
+	private static void loadFonts() {
+		fontDefault = new BitmapFont();
 	}
 	
 	private static void loadOtherTextures() {
 		otherTexture = new Texture(Gdx.files.internal("assets/textures/other.png"));
 		targetArrow = new TextureRegion(otherTexture, 0, 0, 44, 119);
+		
+		guiTexture = new Texture(Gdx.files.internal("assets/textures/gui.png"));
+		logo = new TextureRegion(guiTexture, 0, 0, 231, 86);
 	}
 	
 	private static void loadPandaTextures(){
