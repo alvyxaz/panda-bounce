@@ -1,4 +1,4 @@
-panda-bounce
+Panda Bounce
 ============
 
-Sup?
+Basic target and movement preview - done.
