@@ -31,7 +31,9 @@ public abstract class GameScreen extends BaseScreen {
 	/*-------------------------------------
 	 * Data
 	 */
-	protected Star [] stars;
+	protected Star [] stars;	// Star entities
+	protected int starsTaken = 0; 	// Number of stars taken
+	
 	protected Surface [] surfaces;
 	
 	
@@ -88,8 +90,9 @@ public abstract class GameScreen extends BaseScreen {
 				
 				// Updating stars
 				for(int i = 0; i < stars.length; i++){
-					if(stars[i].hitBox.overlaps(panda.hitBox)){
+					if(!stars[i].taken && stars[i].hitBox.overlaps(panda.hitBox)){
 						stars[i].pickUp();
+						starsTaken += 1;
 					}
 				}
 				
@@ -105,6 +108,23 @@ public abstract class GameScreen extends BaseScreen {
 		
 	}
 
+	/*
+	 * Indicates how many stars has been taken
+	 */
+	protected void drawStarsIndicator(){
+		int width = 60;
+		int x = 10;
+		int y = Game.SCREEN_HEIGHT - 60;
+		
+		for(int i = 0; i < stars.length; i++){
+			if( i < starsTaken){
+				spriteBatch.draw(Art.star, x + width * i, y);
+			} else {
+				spriteBatch.draw(Art.starEmpty, x + width * i, y);
+			}
+		}
+	}
+	
 	@Override
 	public boolean beforeScreenSwitch(float deltaTime) {
 		opacity += deltaTime * 2;

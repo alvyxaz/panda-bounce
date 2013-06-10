@@ -35,7 +35,7 @@ public class Level1 extends GameScreen {
 				
 		panda.draw(spriteBatch);
 		
-		
+		drawStarsIndicator();
 		
 	
 	}

@@ -15,6 +15,8 @@ public class Art {
 	
 	private static Texture otherTexture;
 	public static TextureRegion targetArrow;
+	public static TextureRegion star;
+	public static TextureRegion starEmpty;
 	
 	private static Texture guiTexture;
 	public static TextureRegion logo;
@@ -38,6 +40,8 @@ public class Art {
 	private static void loadOtherTextures() {
 		otherTexture = new Texture(Gdx.files.internal("assets/textures/other.png"));
 		targetArrow = new TextureRegion(otherTexture, 0, 0, 44, 119);
+		star = new TextureRegion(otherTexture, 44, 0, 51, 48);
+		starEmpty = new TextureRegion(otherTexture, 95, 0, 51, 48);
 		
 		guiTexture = new Texture(Gdx.files.internal("assets/textures/gui.png"));
 		logo = new TextureRegion(guiTexture, 0, 0, 231, 86);
