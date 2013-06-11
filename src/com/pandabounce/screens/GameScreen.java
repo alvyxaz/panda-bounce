@@ -2,6 +2,7 @@ package com.pandabounce.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Rectangle;
 import com.pandabounce.Game;
 import com.pandabounce.controls.Input;
 import com.pandabounce.entities.Panda;
@@ -19,6 +20,8 @@ public abstract class GameScreen extends BaseScreen {
 	protected Panda panda;
 	protected float targetAngle;
 	
+	protected Rectangle room;
+	
 	/*-------------------------------------
 	 * Transitions
 	 */
@@ -35,6 +38,7 @@ public abstract class GameScreen extends BaseScreen {
 	protected int starsTaken = 0; 	// Number of stars taken
 	
 	protected Surface [] surfaces;
+	
 	
 	
 	public GameScreen(Game game) {
@@ -80,11 +84,15 @@ public abstract class GameScreen extends BaseScreen {
 			case LIVE:
 				updateLevel(deltaTime);
 				
+				// INPUT
 				if(Gdx.input.isTouched()){
 					if(Input.isTouching(panda.hitBox)){
-						panda.jump();
+						if(panda.touched == false){
+							panda.jump(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
+						}
+						panda.touched = true;
 					} else {
-						panda.setTarget(Input.getX(), Input.getY());
+						panda.touched = false;
 					}
 				}
 				
@@ -109,7 +117,7 @@ public abstract class GameScreen extends BaseScreen {
 	}
 
 	/*
-	 * Indicates how many stars has been taken
+	 * Indicates how many stars have been taken
 	 */
 	protected void drawStarsIndicator(){
 		int width = 60;
