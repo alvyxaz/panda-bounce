@@ -73,8 +73,8 @@ public class Panda {
 				jumpAngle = (float) Math.PI - jumpAngle;
 			}
 			
-			if (hitBox.x + hitBox.width > virtualScreen.width) {
-				hitBox.x = virtualScreen.width - hitBox.width;
+			if (hitBox.x + hitBox.width > Game.SCREEN_WIDTH) {
+				hitBox.x = Game.SCREEN_WIDTH - hitBox.width;
 				jumpAngle = (float) Math.PI - jumpAngle;
 			}
 			
@@ -83,9 +83,9 @@ public class Panda {
 				jumpAngle = (float) Math.abs(Math.PI - jumpAngle);
 			}
 			
-			if (hitBox.y + hitBox.height > virtualScreen.height) {
-				hitBox.y = virtualScreen.height - hitBox.height;
-				jumpAngle = (float) Math.abs(2*Math.PI - jumpAngle);
+			if (hitBox.y + hitBox.height > Game.SCREEN_HEIGHT) {
+				hitBox.y = Game.SCREEN_HEIGHT - hitBox.height;
+				jumpAngle = (float) (2*Math.PI - jumpAngle);
 			}
 			
 
