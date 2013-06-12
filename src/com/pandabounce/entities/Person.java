@@ -29,5 +29,26 @@ public class Person {
 		hitBox.x += dX;
 		hitBox.y += dY;	
 		
+		// colission with room
+		if (hitBox.x < 0) {
+			hitBox.x = 0;
+			moveAngle = (float) Math.PI - moveAngle;
+		}
+		
+		if (hitBox.x + hitBox.width > Game.SCREEN_WIDTH) {
+			hitBox.x = Game.SCREEN_WIDTH - hitBox.width;
+			moveAngle = (float) Math.PI - moveAngle;
+		}
+		
+		if (hitBox.y < 0) {
+			hitBox.y = 0;
+			moveAngle = (float) Math.abs(Math.PI - moveAngle);
+		}
+		
+		if (hitBox.y + hitBox.height > Game.SCREEN_HEIGHT) {
+			hitBox.y = Game.SCREEN_HEIGHT - hitBox.height;
+			moveAngle = (float) Math.abs(2*Math.PI - moveAngle);
+		}
+		
 	}
 }
