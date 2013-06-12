@@ -11,8 +11,8 @@ public class Person {
 	public Rectangle hitBox;
 	
 	// movement related vars
-	private int moveSpeed = 50;
-	private int restlessness = 10;
+	private int moveSpeed = 30;
+	private int restlessness = 3;
 	private float moveAngle;
 	
 	public Person(int x, int y){
@@ -26,8 +26,8 @@ public class Person {
 
 		float dX = (float) (Math.cos(moveAngle) * moveSpeed * deltaTime);
 		float dY = (float) (Math.sin(moveAngle) * moveSpeed * deltaTime);
-		hitBox.x += dX;
-		hitBox.y += dY;	
+		hitBox.x += dX + (dX > 0 ? Math.random() * restlessness : -Math.random() * restlessness);
+		hitBox.y += dY + (dY > 0 ? Math.random() * restlessness : -Math.random() * restlessness);;
 		
 		// colission with room
 		if (hitBox.x < 0) {
@@ -42,12 +42,12 @@ public class Person {
 		
 		if (hitBox.y < 0) {
 			hitBox.y = 0;
-			moveAngle = (float) Math.abs(Math.PI - moveAngle);
+			moveAngle = (float)  Math.abs(Math.PI - moveAngle);
 		}
 		
 		if (hitBox.y + hitBox.height > Game.SCREEN_HEIGHT) {
 			hitBox.y = Game.SCREEN_HEIGHT - hitBox.height;
-			moveAngle = (float) Math.abs(2*Math.PI - moveAngle);
+			moveAngle = (float) (2*Math.PI - moveAngle);
 		}
 		
 	}
