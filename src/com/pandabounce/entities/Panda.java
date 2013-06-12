@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.pandabounce.Game;
 import com.pandabounce.resources.Art;
 
 public class Panda {
@@ -28,6 +29,9 @@ public class Panda {
 	private int jumpDistance = 0;
 	private int maxJumpDistance = 150;
 	
+	// room size
+	public Rectangle virtualScreen;
+	
 	public boolean touched = false;
 	
 	public Panda(int x, int y) {
@@ -35,6 +39,8 @@ public class Panda {
 		hitBoxCenterX = hitBox.width/2;
 		targetArrow = new Rectangle(hitBox.x, hitBox.y, Art.targetArrow.getRegionWidth(), Art.targetArrow.getRegionHeight());
 		target = new Vector2();
+		
+		virtualScreen = new Rectangle(0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
 	}
 	
 	public void draw(SpriteBatch spriteBatch){
@@ -61,6 +67,28 @@ public class Panda {
 				speedCoef -= deltaTime;
 			}
 			
+			// colission with room
+			if (hitBox.x < 0) {
+				hitBox.x = 0;
+				jumpAngle = (float) Math.PI - jumpAngle;
+			}
+			
+			if (hitBox.x + hitBox.width > virtualScreen.width) {
+				hitBox.x = virtualScreen.width - hitBox.width;
+				jumpAngle = (float) Math.PI - jumpAngle;
+			}
+			
+			if (hitBox.y < 0) {
+				hitBox.y = 0;
+				jumpAngle = (float) Math.abs(Math.PI - jumpAngle);
+			}
+			
+			if (hitBox.y + hitBox.height > virtualScreen.height) {
+				hitBox.y = virtualScreen.height - hitBox.height;
+				jumpAngle = (float) Math.abs(2*Math.PI - jumpAngle);
+			}
+			
+
 			if(speedCoef < 0){
 				state = STATE_WAITING;
 			}
@@ -80,6 +108,8 @@ public class Panda {
 			
 			originalDistance = jumpDistance;
 			speedCoef = (float)Math.PI/2;
+			
+			
 		}
 		
 	}
