@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.pandabounce.Game;
 import com.pandabounce.controls.Input;
 import com.pandabounce.entities.Panda;
+import com.pandabounce.entities.Person;
 import com.pandabounce.entities.Star;
 import com.pandabounce.entities.Surface;
 import com.pandabounce.resources.Art;
@@ -39,12 +40,15 @@ public abstract class GameScreen extends BaseScreen {
 	
 	protected Surface [] surfaces;
 	
+	protected Person [] people;
+	
 	
 	
 	public GameScreen(Game game) {
 		super(game);
 		panda = new Panda(200, 400);
 		stars = new Star[3];
+		people = new Person[3];
 	}
 
 	@Override

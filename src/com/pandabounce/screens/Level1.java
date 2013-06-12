@@ -2,6 +2,7 @@ package com.pandabounce.screens;
 
 import com.pandabounce.Game;
 import com.pandabounce.entities.Island;
+import com.pandabounce.entities.Person;
 import com.pandabounce.entities.Star;
 import com.pandabounce.entities.Surface;
 
@@ -20,6 +21,11 @@ public class Level1 extends GameScreen {
 		// Making land
 		surfaces = new Surface[1];
 		surfaces[0] = new Island(300, 700);
+		
+		// Making people
+		people[0] = new Person(150, 250);
+		people[1] = new Person(250, 500);
+		people[2] = new Person(350, 250);
 	}
 
 	@Override
@@ -32,6 +38,9 @@ public class Level1 extends GameScreen {
 		// Drawing stars 
 		for(int i = 0; i < stars.length; i++)
 			stars[i].draw(spriteBatch, deltaTime);
+		
+		for(int i = 0; i < people.length; i++)
+			people[i].draw(spriteBatch, deltaTime);
 				
 		panda.draw(spriteBatch);
 		
