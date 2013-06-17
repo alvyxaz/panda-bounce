@@ -32,9 +32,9 @@ public class Panda {
 		spriteBatch.draw(Art.panda[0], hitBox.x, hitBox.y);
 		
 		// Debugging hitbox
-		spriteBatch.setColor(0, 0, 1, 0.5f);
-		spriteBatch.draw(Art.px, hitBox.x, hitBox.y, hitBox.width, hitBox.height);
-		spriteBatch.setColor(Color.WHITE);
+//		spriteBatch.setColor(0, 0, 1, 0.5f);
+//		spriteBatch.draw(Art.px, hitBox.x, hitBox.y, hitBox.width, hitBox.height);
+//		spriteBatch.setColor(Color.WHITE);
 	}
 	
 	public void update(float deltaTime){

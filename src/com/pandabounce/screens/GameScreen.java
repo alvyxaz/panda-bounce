@@ -2,13 +2,13 @@ package com.pandabounce.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.pandabounce.Game;
 import com.pandabounce.controls.Input;
 import com.pandabounce.entities.Panda;
 import com.pandabounce.entities.Person;
-import com.pandabounce.entities.Star;
-import com.pandabounce.entities.Surface;
+import com.pandabounce.entities.Bamboo;
 import com.pandabounce.resources.Art;
 
 /*
@@ -35,10 +35,10 @@ public abstract class GameScreen extends BaseScreen {
 	/*-------------------------------------
 	 * Data
 	 */
-	protected Star [] stars;	// Star entities
-	protected int starsTaken = 0; 	// Number of stars taken
+	protected Bamboo [] stars;	// Star entities
+	protected int score = 0; 	// Number of stars taken
 	
-	protected Surface [] surfaces;
+
 	
 	protected Person [] people;
 	
@@ -47,7 +47,7 @@ public abstract class GameScreen extends BaseScreen {
 	public GameScreen(Game game) {
 		super(game);
 		panda = new Panda(200, 400);
-		stars = new Star[3];
+		stars = new Bamboo[3];
 		people = new Person[3];
 	}
 
@@ -102,16 +102,11 @@ public abstract class GameScreen extends BaseScreen {
 				
 				// Updating stars
 				for(int i = 0; i < stars.length; i++){
-					if(!stars[i].taken && stars[i].hitBox.overlaps(panda.hitBox)){
-						stars[i].pickUp();
-						starsTaken += 1;
-					}
-				}
-				
-				// Updating surfaces
-				for(int i = 0; i < surfaces.length; i++){
-					if(surfaces[i].hitBox.contains(panda.hitBox.x + panda.hitBoxCenterX, panda.hitBox.y)){
-						System.out.println("PYZE");
+					if(stars[i].hitBox.overlaps(panda.hitBox)){
+						int newX = Game.random.nextInt(Game.SCREEN_WIDTH-(int)stars[i].hitBox.width);
+						int newY = Game.random.nextInt(Game.SCREEN_HEIGHT-(int)stars[i].hitBox.height);
+						stars[i].regenerate(newX, newY);
+						score += 10;
 					}
 				}
 				
@@ -120,21 +115,8 @@ public abstract class GameScreen extends BaseScreen {
 		
 	}
 
-	/*
-	 * Indicates how many stars have been taken
-	 */
-	protected void drawStarsIndicator(){
-		int width = 60;
-		int x = 10;
-		int y = Game.SCREEN_HEIGHT - 60;
-		
-		for(int i = 0; i < stars.length; i++){
-			if( i < starsTaken){
-				spriteBatch.draw(Art.star, x + width * i, y);
-			} else {
-				spriteBatch.draw(Art.starEmpty, x + width * i, y);
-			}
-		}
+	public void drawBackground(SpriteBatch spriteBatch){
+		spriteBatch.draw(Art.background, 0, 0);
 	}
 	
 	@Override

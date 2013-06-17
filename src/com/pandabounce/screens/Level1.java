@@ -1,10 +1,9 @@
 package com.pandabounce.screens;
 
 import com.pandabounce.Game;
-import com.pandabounce.entities.Island;
 import com.pandabounce.entities.Person;
-import com.pandabounce.entities.Star;
-import com.pandabounce.entities.Surface;
+import com.pandabounce.entities.Bamboo;
+import com.pandabounce.resources.Art;
 
 public class Level1 extends GameScreen {
 	
@@ -14,13 +13,9 @@ public class Level1 extends GameScreen {
 		panda.hitBox.x = Game.SCREEN_HALF_WIDTH - panda.hitBoxCenterX;
 		
 		// Planting stars
-		stars[0] = new Star(80, 500);
-		stars[1] = new Star(160, 500);
-		stars[2] = new Star(240, 500);
-		
-		// Making land
-		surfaces = new Surface[1];
-		surfaces[0] = new Island(300, 700);
+		stars[0] = new Bamboo(80, 500);
+		stars[1] = new Bamboo(160, 500);
+		stars[2] = new Bamboo(240, 500);
 		
 		// Making people
 		people[0] = new Person(150, 250);
@@ -30,11 +25,8 @@ public class Level1 extends GameScreen {
 
 	@Override
 	public void drawLevel(float deltaTime) {
+		drawBackground(spriteBatch);
 		
-		// Drawing surfaces
-		for(int i = 0; i < surfaces.length; i++)
-			surfaces[i].draw(spriteBatch, deltaTime);
-			
 		// Drawing stars 
 		for(int i = 0; i < stars.length; i++)
 			stars[i].draw(spriteBatch, deltaTime);
@@ -44,8 +36,7 @@ public class Level1 extends GameScreen {
 				
 		panda.draw(spriteBatch);
 		
-		drawStarsIndicator();
-		
+		Art.fontDefault.draw(spriteBatch, this.fpsText, 0, Game.SCREEN_HEIGHT);
 	
 	}
 	
