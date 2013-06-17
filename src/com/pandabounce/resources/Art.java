@@ -45,8 +45,6 @@ public class Art {
 		float ratio = (float)Game.SCREEN_WIDTH/(float)Game.SCREEN_HEIGHT;
 		int sourceWidth, sourceHeight;
 		
-		System.out.println(ratio);
-		
 		if(ratio > 1){
 			sourceWidth = bgPixmap.getWidth();
 			sourceHeight = Game.SCREEN_HEIGHT/Game.SCREEN_WIDTH * bgPixmap.getHeight();
