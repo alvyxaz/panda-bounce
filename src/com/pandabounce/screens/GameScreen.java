@@ -92,7 +92,7 @@ public abstract class GameScreen extends BaseScreen {
 				if(Gdx.input.isTouched()){
 					if(Input.isTouching(panda.hitBox)){
 						if(panda.touched == false){
-							panda.jump(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
+							panda.slide(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
 						}
 						panda.touched = true;
 					} else {
