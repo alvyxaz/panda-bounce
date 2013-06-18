@@ -22,6 +22,7 @@ public class Art {
 	
 	private static Texture guiTexture;
 	public static TextureRegion logo;
+	public static TextureRegion [] scoreNumbers;
 	
 	private static Pixmap bgPixmap;
 	public static TextureRegion background;
@@ -78,6 +79,10 @@ public class Art {
 		
 		guiTexture = new Texture(Gdx.files.internal("assets/textures/gui.png"));
 		logo = new TextureRegion(guiTexture, 0, 0, 231, 86);
+		scoreNumbers = new TextureRegion[10];
+		for(int i = 0; i < scoreNumbers.length; i++){
+			scoreNumbers[i] = new TextureRegion(guiTexture, 0 + i*26 + i, 0, 26, 35 );
+		}
 	}
 	
 	private static void loadPandaTextures(){

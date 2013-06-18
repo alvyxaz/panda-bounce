@@ -21,6 +21,8 @@ public class Level1 extends GameScreen {
 		people[0] = new Person(150, 250);
 		people[1] = new Person(250, 500);
 		people[2] = new Person(350, 250);
+		
+		System.out.println();
 	}
 
 	@Override
@@ -31,13 +33,21 @@ public class Level1 extends GameScreen {
 		for(int i = 0; i < stars.length; i++)
 			stars[i].draw(spriteBatch, deltaTime);
 		
+		// Drawing people
 		for(int i = 0; i < people.length; i++)
 			people[i].draw(spriteBatch, deltaTime);
 				
 		panda.draw(spriteBatch);
 		
-		Art.fontDefault.draw(spriteBatch, this.fpsText, 0, Game.SCREEN_HEIGHT);
-	
+		Art.fontDefault.draw(spriteBatch, this.fpsText, 0, 20);
+		score.draw(spriteBatch, deltaTime);
+		
+		// Updating and drawing notifications
+		for(int i = 0; i < notifications.length; i++){
+			if(notifications[i].display){
+				notifications[i].draw(spriteBatch, deltaTime);
+			}
+		}
 	}
 	
 	@Override

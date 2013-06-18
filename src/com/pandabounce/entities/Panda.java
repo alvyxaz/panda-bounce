@@ -76,8 +76,8 @@ public class Panda {
 	
 	public void slide(float dX, float dY){
 		state = STATE_SLIDING; dY *= -1;
-		xVelocity = xVelocity * speedCoef + dX*5;
-		yVelocity = yVelocity * speedCoef + dY*5;
+		xVelocity = xVelocity * speedCoef + dX*7;
+		yVelocity = yVelocity * speedCoef + dY*7;
 		speedCoef = 1;
 	}
 	
