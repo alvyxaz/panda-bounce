@@ -8,7 +8,7 @@ import com.pandabounce.Game;
 import com.pandabounce.controls.Input;
 import com.pandabounce.entities.LiveNotification;
 import com.pandabounce.entities.Panda;
-import com.pandabounce.entities.Person;
+import com.pandabounce.entities.Hedgehog;
 import com.pandabounce.entities.Bamboo;
 import com.pandabounce.entities.Score;
 import com.pandabounce.resources.Art;
@@ -36,15 +36,17 @@ public abstract class GameScreen extends BaseScreen {
 	 * Data
 	 */
 	protected Bamboo [] stars;	// Star entities
-	protected Person [] people;
+	protected Hedgehog [] people;
 	protected Score score;
 	protected LiveNotification [] notifications;
+	
+	private boolean movementRegistered = false;
 	
 	public GameScreen(Game game) {
 		super(game);
 		panda = new Panda(200, 400);
 		stars = new Bamboo[3];
-		people = new Person[3];
+		people = new Hedgehog[3];
 		score = new Score();
 		notifications = new LiveNotification [10];
 		for(int i = 0; i < notifications.length; i++){
@@ -92,11 +94,20 @@ public abstract class GameScreen extends BaseScreen {
 				// INPUT
 				if(Gdx.input.isTouched()){
 					if(Input.isTouching(panda.hitBox)){
-						if(panda.touched == false){
+						if(!panda.touched && !movementRegistered){
 							panda.slide(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
+							movementRegistered = true;
+						} else {
+							movementRegistered = false;
 						}
 						panda.touched = true;
 					} else {
+						if(panda.touched && !movementRegistered){
+							panda.slide(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
+							movementRegistered = true;
+						} else {
+							movementRegistered = false;
+						}
 						panda.touched = false;
 					}
 				}

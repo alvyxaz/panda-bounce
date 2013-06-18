@@ -19,6 +19,7 @@ public class Art {
 	public static TextureRegion targetArrow;
 	public static TextureRegion star;
 	public static TextureRegion starEmpty;
+	public static TextureRegion hedgehog;
 	
 	private static Texture guiTexture;
 	public static TextureRegion logo;
@@ -76,6 +77,7 @@ public class Art {
 		targetArrow = new TextureRegion(otherTexture, 0, 0, 44, 119);
 		star = new TextureRegion(otherTexture, 44, 0, 51, 48);
 		starEmpty = new TextureRegion(otherTexture, 95, 0, 51, 48);
+		hedgehog = new TextureRegion(otherTexture, 146 , 0, 51, 78);
 		
 		guiTexture = new Texture(Gdx.files.internal("assets/textures/gui.png"));
 		logo = new TextureRegion(guiTexture, 0, 0, 231, 86);
@@ -83,6 +85,7 @@ public class Art {
 		for(int i = 0; i < scoreNumbers.length; i++){
 			scoreNumbers[i] = new TextureRegion(guiTexture, 0 + i*26 + i, 0, 26, 35 );
 		}
+		
 	}
 	
 	private static void loadPandaTextures(){

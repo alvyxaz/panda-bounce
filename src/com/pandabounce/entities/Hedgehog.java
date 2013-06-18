@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.pandabounce.Game;
 import com.pandabounce.resources.Art;
 
-public class Person {
+public class Hedgehog {
 	
 	public Rectangle hitBox;
 	
@@ -15,15 +15,18 @@ public class Person {
 	private int restlessness = 3;
 	private float moveAngle;
 	
-	public Person(int x, int y){
-		hitBox = new Rectangle(x, y, 50, 100);
+	public Hedgehog(int x, int y){
+		hitBox = new Rectangle(x, y, Art.hedgehog.getRegionWidth(), Art.hedgehog.getRegionHeight());
 		moveAngle = (float) (Math.random() * Math.PI);
 	}
 	
 	public void draw(SpriteBatch spriteBatch, float deltaTime){
 		// Drawing
-		spriteBatch.draw(Art.px, hitBox.x, hitBox.y, hitBox.width, hitBox.height);
 
+		spriteBatch.draw(Art.hedgehog, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.height, hitBox.width , 1, 1, (float)Math.toDegrees(moveAngle), true);
+
+		System.out.println(moveAngle);
+		
 		float dX = (float) (Math.cos(moveAngle) * moveSpeed * deltaTime);
 		float dY = (float) (Math.sin(moveAngle) * moveSpeed * deltaTime);
 		hitBox.x += dX + (dX > 0 ? Math.random() * restlessness : -Math.random() * restlessness);

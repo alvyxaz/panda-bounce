@@ -1,7 +1,7 @@
 package com.pandabounce.screens;
 
 import com.pandabounce.Game;
-import com.pandabounce.entities.Person;
+import com.pandabounce.entities.Hedgehog;
 import com.pandabounce.entities.Bamboo;
 import com.pandabounce.resources.Art;
 
@@ -18,9 +18,9 @@ public class Level1 extends GameScreen {
 		stars[2] = new Bamboo(240, 500);
 		
 		// Making people
-		people[0] = new Person(150, 250);
-		people[1] = new Person(250, 500);
-		people[2] = new Person(350, 250);
+		people[0] = new Hedgehog(150, 250);
+		people[1] = new Hedgehog(250, 500);
+		people[2] = new Hedgehog(350, 250);
 		
 		System.out.println();
 	}
