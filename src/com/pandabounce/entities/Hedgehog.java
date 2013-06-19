@@ -25,7 +25,6 @@ public class Hedgehog {
 
 		spriteBatch.draw(Art.hedgehog, hitBox.x, hitBox.y, hitBox.width/2, hitBox.height/2, hitBox.height, hitBox.width , 1, 1, (float)Math.toDegrees(moveAngle), true);
 
-		System.out.println(moveAngle);
 		
 		float dX = (float) (Math.cos(moveAngle) * moveSpeed * deltaTime);
 		float dY = (float) (Math.sin(moveAngle) * moveSpeed * deltaTime);

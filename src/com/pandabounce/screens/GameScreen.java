@@ -6,11 +6,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.pandabounce.Game;
 import com.pandabounce.controls.Input;
-import com.pandabounce.entities.LiveNotification;
+import com.pandabounce.entities.GuiHealthBar;
+import com.pandabounce.entities.GuiLiveNotification;
 import com.pandabounce.entities.Panda;
 import com.pandabounce.entities.Hedgehog;
 import com.pandabounce.entities.Bamboo;
-import com.pandabounce.entities.Score;
+import com.pandabounce.entities.GuiScore;
 import com.pandabounce.resources.Art;
 
 /*
@@ -37,8 +38,14 @@ public abstract class GameScreen extends BaseScreen {
 	 */
 	protected Bamboo [] stars;	// Star entities
 	protected Hedgehog [] people;
-	protected Score score;
-	protected LiveNotification [] notifications;
+	
+	protected GuiLiveNotification [] notifications;
+	
+	/*-------------------------------------
+	 * GUI elements
+	 */
+	protected GuiScore score;
+	protected GuiHealthBar healthBar;
 	
 	private boolean movementRegistered = false;
 	
@@ -47,10 +54,15 @@ public abstract class GameScreen extends BaseScreen {
 		panda = new Panda(200, 400);
 		stars = new Bamboo[3];
 		people = new Hedgehog[3];
-		score = new Score();
-		notifications = new LiveNotification [10];
+		
+		
+		// Initializing GUI
+		score = new GuiScore();
+		healthBar = new GuiHealthBar(panda);
+		
+		notifications = new GuiLiveNotification [10];
 		for(int i = 0; i < notifications.length; i++){
-			notifications[i] = new LiveNotification();
+			notifications[i] = new GuiLiveNotification();
 		}
 	}
 
@@ -109,6 +121,16 @@ public abstract class GameScreen extends BaseScreen {
 							movementRegistered = false;
 						}
 						panda.touched = false;
+					}
+				}
+				
+				// Updating hedgehogs
+				for(int i = 0; i < people.length; i++){
+					if(panda.hitBox.overlaps(people[i].hitBox)){
+						panda.health -= 1;
+						if(panda.health <= 0){
+							panda.health = 100;
+						}
 					}
 				}
 				

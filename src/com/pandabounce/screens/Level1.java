@@ -42,6 +42,8 @@ public class Level1 extends GameScreen {
 		Art.fontDefault.draw(spriteBatch, this.fpsText, 0, 20);
 		score.draw(spriteBatch, deltaTime);
 		
+		healthBar.draw(spriteBatch, deltaTime);
+		
 		// Updating and drawing notifications
 		for(int i = 0; i < notifications.length; i++){
 			if(notifications[i].display){

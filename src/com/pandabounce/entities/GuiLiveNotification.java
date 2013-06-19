@@ -3,7 +3,7 @@ package com.pandabounce.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.pandabounce.resources.Art;
 
-public class LiveNotification {
+public class GuiLiveNotification {
 	
 	public float x;
 	public float y;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.pandabounce.Game;
 import com.pandabounce.resources.Art;
 
-public class Score {
+public class GuiScore {
 
 	private int score = 0;
 	private int maxDigits = 9;
@@ -17,7 +17,7 @@ public class Score {
 	
 	private float scaleMultiplier = 1f;
 	
-	public Score() {
+	public GuiScore() {
 		digitWidth = Art.scoreNumbers[0].getRegionWidth();
 		digitHeight = Art.scoreNumbers[1].getRegionHeight();
 		

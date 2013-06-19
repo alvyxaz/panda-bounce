@@ -20,6 +20,7 @@ public class Art {
 	public static TextureRegion star;
 	public static TextureRegion starEmpty;
 	public static TextureRegion hedgehog;
+	public static TextureRegion healthBar;
 	
 	private static Texture guiTexture;
 	public static TextureRegion logo;
@@ -78,6 +79,7 @@ public class Art {
 		star = new TextureRegion(otherTexture, 44, 0, 51, 48);
 		starEmpty = new TextureRegion(otherTexture, 95, 0, 51, 48);
 		hedgehog = new TextureRegion(otherTexture, 146 , 0, 51, 78);
+		healthBar = new TextureRegion(otherTexture, 197, 0, 1, 21);
 		
 		guiTexture = new Texture(Gdx.files.internal("assets/textures/gui.png"));
 		logo = new TextureRegion(guiTexture, 0, 0, 231, 86);
