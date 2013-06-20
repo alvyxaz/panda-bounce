@@ -9,13 +9,11 @@ public class Level1 extends GameScreen {
 	
 	public Level1(Game game) {
 		super(game);
-		panda.hitBox.y = 20;
-		panda.hitBox.x = Game.SCREEN_HALF_WIDTH - panda.hitBoxCenterX;
-		
+
 		// Planting stars
-		stars[0] = new Bamboo(80, 500);
-		stars[1] = new Bamboo(160, 500);
-		stars[2] = new Bamboo(240, 500);
+		stars[0] = new Bamboo(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50));
+		stars[1] = new Bamboo(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50));
+		stars[2] = new Bamboo(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50));
 		
 		// Making people
 		people[0] = new Hedgehog(150, 250);

@@ -4,6 +4,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.pandabounce.Game;
 import com.pandabounce.resources.Art;
 
@@ -25,7 +31,33 @@ public class Panda {
 	
 	public boolean touched = false;
 	
-	public Panda(int x, int y) {
+	private Body body;
+	
+	public Panda(int x, int y, World world) {
+		
+		// Creating body definition
+		BodyDef bodyDef = new BodyDef();
+		bodyDef.type = BodyType.DynamicBody;
+		bodyDef.position.set(new Vector2(x, y));
+		
+		// Creating body
+		body = world.createBody(bodyDef);
+		body.setLinearDamping(0);
+		
+		// Creating a shape
+		PolygonShape shape = new PolygonShape();
+		shape.setAsBox(Art.panda[0].getRegionWidth()/2, Art.panda[0].getRegionHeight()/2);
+		
+		// Creating fixture 
+		FixtureDef fixtureDef = new FixtureDef();
+		fixtureDef.shape = shape;
+		fixtureDef.density = 1f;
+		fixtureDef.restitution = 1f; // Maximum bounce ratio
+		body.createFixture(fixtureDef);
+		
+		// Cleaning up
+		shape.dispose();
+		
 		hitBox = new Rectangle(x, y, Art.panda[0].getRegionWidth(), Art.panda[0].getRegionHeight());
 		hitBoxCenterX = hitBox.width/2;
 	}
@@ -45,10 +77,17 @@ public class Panda {
 			
 			hitBox.x += xVelocity * speedCoef * deltaTime;
 			hitBox.y += yVelocity * speedCoef * deltaTime;
+
+			System.out.println(( yVelocity * speedCoef) + " " + body.getLinearVelocity().y);
+			
+			// Updating physics
+			body.setLinearVelocity(xVelocity * speedCoef, yVelocity * speedCoef);
+		
 			
 			speedCoef -= deltaTime;
 			
 			if(speedCoef < 0) {
+				body.setLinearVelocity(0, 0);
 				state = STATE_WAITING;
 			}
 			

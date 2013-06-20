@@ -4,6 +4,16 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.World;
 import com.pandabounce.Game;
 import com.pandabounce.controls.Input;
 import com.pandabounce.entities.GuiHealthBar;
@@ -49,9 +59,20 @@ public abstract class GameScreen extends BaseScreen {
 	
 	private boolean movementRegistered = false;
 	
+	/*-------------------------------------
+	 * BOX2D stuff
+	 */
+	World world;
+	Box2DDebugRenderer debugRenderer;
+	
+	Body wallBodies[];
+	
 	public GameScreen(Game game) {
 		super(game);
-		panda = new Panda(200, 400);
+		world = new World(new Vector2(0, 0), true);
+		debugRenderer = new Box2DDebugRenderer();
+		
+		panda = new Panda(200, Game.SCREEN_HALF_WIDTH, world);
 		stars = new Bamboo[3];
 		people = new Hedgehog[3];
 		
@@ -64,8 +85,44 @@ public abstract class GameScreen extends BaseScreen {
 		for(int i = 0; i < notifications.length; i++){
 			notifications[i] = new GuiLiveNotification();
 		}
-	}
 
+		createWalls();
+	}
+	
+	private void createWalls(){
+		BodyDef wallBodyDef [] = new BodyDef [4];
+		wallBodies = new Body[4];
+		for(int i = 0; i < wallBodyDef.length; i++){
+			wallBodyDef[i] = new BodyDef();
+			wallBodyDef[i].type = BodyType.StaticBody;
+		}
+		
+		wallBodyDef[0].position.set(new Vector2(0, Game.SCREEN_HALF_HEIGHT)); // Left wall
+		wallBodyDef[1].position.set(new Vector2(Game.SCREEN_WIDTH, Game.SCREEN_HALF_HEIGHT)); // Right wall
+		wallBodyDef[2].position.set(new Vector2(Game.SCREEN_HALF_WIDTH, Game.SCREEN_HEIGHT)); // Top wall
+		wallBodyDef[3].position.set(new Vector2(Game.SCREEN_HALF_WIDTH, 0));  // Bottom wall
+		
+		for(int i = 0; i < wallBodyDef.length; i++){
+			wallBodies[i] = world.createBody(wallBodyDef[i]);
+		}
+		
+		PolygonShape horizontalBox = new PolygonShape();
+		horizontalBox.setAsBox(Game.SCREEN_HALF_WIDTH, 5);
+		
+		PolygonShape verticalBox = new PolygonShape();
+		verticalBox.setAsBox(5, Game.SCREEN_HALF_HEIGHT);
+		
+		wallBodies[0].createFixture(verticalBox, 10);
+		wallBodies[1].createFixture(verticalBox, 10);
+		wallBodies[2].createFixture(horizontalBox, 10);
+		wallBodies[3].createFixture(horizontalBox, 10);
+		
+		// Cleaning up
+		horizontalBox.dispose();
+		verticalBox.dispose();
+		
+	}
+	
 	@Override
 	public void draw(float deltaTime) {
 		spriteBatch.begin();
@@ -85,6 +142,8 @@ public abstract class GameScreen extends BaseScreen {
 				break;
 		}
 		spriteBatch.end();
+		
+		debugRenderer.render(world, guiCam.combined);
 	}
 	
 	public abstract void drawLevel(float deltaTime);
@@ -102,6 +161,7 @@ public abstract class GameScreen extends BaseScreen {
 				break;
 			case LIVE:
 				updateLevel(deltaTime);
+				world.step(deltaTime, 6, 2);
 				
 				// INPUT
 				if(Gdx.input.isTouched()){
