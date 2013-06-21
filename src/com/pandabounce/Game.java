@@ -18,6 +18,9 @@ public class Game implements ApplicationListener {
 	public static boolean isAndroid;
 	public static Random random;
 	
+	public static float BOX_TO_WORLD = 100f;
+	public static float WORLD_TO_BOX = 0.01f;
+	
     public void create () {
     	// Preparing OpenGL viewport
     	calculateScreenSize();

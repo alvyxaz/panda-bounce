@@ -25,8 +25,6 @@ public class Panda {
 	private int STATE_SLIDING = 1;
 	
 	// Jump related
-	private float xVelocity = 0;
-	private float yVelocity = 0;
 	private float speedCoef = 1;
 	
 	public boolean touched = false;
@@ -34,91 +32,53 @@ public class Panda {
 	private Body body;
 	
 	public Panda(int x, int y, World world) {
+		hitBox = new Rectangle(x, y, Art.panda[0].getRegionWidth(), Art.panda[0].getRegionHeight());
+		hitBoxCenterX = hitBox.width/2;
 		
 		// Creating body definition
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
-		bodyDef.position.set(new Vector2(x, y));
+		bodyDef.position.set(new Vector2((x+  hitBoxCenterX)*Game.WORLD_TO_BOX , (y+ hitBox.height/2)*Game.WORLD_TO_BOX ));
 		
 		// Creating body
 		body = world.createBody(bodyDef);
-		body.setLinearDamping(0);
+		body.setLinearDamping(0.5f);
 		
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(Art.panda[0].getRegionWidth()/2, Art.panda[0].getRegionHeight()/2);
+		shape.setAsBox(Art.panda[0].getRegionWidth()/2*Game.WORLD_TO_BOX, Art.panda[0].getRegionHeight()/2*Game.WORLD_TO_BOX);
 		
 		// Creating fixture 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
-		fixtureDef.density = 1f;
+		fixtureDef.density = 0;
 		fixtureDef.restitution = 1f; // Maximum bounce ratio
 		body.createFixture(fixtureDef);
 		
 		// Cleaning up
 		shape.dispose();
 		
-		hitBox = new Rectangle(x, y, Art.panda[0].getRegionWidth(), Art.panda[0].getRegionHeight());
-		hitBoxCenterX = hitBox.width/2;
 	}
 	
 	public void draw(SpriteBatch spriteBatch){
 		spriteBatch.draw(Art.panda[0], hitBox.x, hitBox.y);
 		
-		// Debugging hitbox
-//		spriteBatch.setColor(0, 0, 1, 0.5f);
-//		spriteBatch.draw(Art.px, hitBox.x, hitBox.y, hitBox.width, hitBox.height);
-//		spriteBatch.setColor(Color.WHITE);
 	}
 	
 	public void update(float deltaTime){
 		
 		if(state == STATE_SLIDING){
 			
-			hitBox.x += xVelocity * speedCoef * deltaTime;
-			hitBox.y += yVelocity * speedCoef * deltaTime;
-
-			System.out.println(( yVelocity * speedCoef) + " " + body.getLinearVelocity().y);
-			
-			// Updating physics
-			body.setLinearVelocity(xVelocity * speedCoef, yVelocity * speedCoef);
+			hitBox.x = (body.getPosition().x) * Game.BOX_TO_WORLD  - hitBox.width/2;
+			hitBox.y = body.getPosition().y * Game.BOX_TO_WORLD  - hitBox.height/2;
 		
-			
-			speedCoef -= deltaTime;
-			
-			if(speedCoef < 0) {
-				body.setLinearVelocity(0, 0);
-				state = STATE_WAITING;
-			}
-			
-			// colission with room
-			if (hitBox.x < 0) {
-				hitBox.x = 0;
-				xVelocity *= -1;
-			}
-			
-			if (hitBox.x + hitBox.width > Game.SCREEN_WIDTH) {
-				hitBox.x = Game.SCREEN_WIDTH - hitBox.width;
-				xVelocity *= -1;
-			}
-			
-			if (hitBox.y < 0) {
-				hitBox.y = 0;
-				yVelocity *= -1;
-			}
-			
-			if (hitBox.y + hitBox.height > Game.SCREEN_HEIGHT) {
-				hitBox.y = Game.SCREEN_HEIGHT - hitBox.height;
-				yVelocity *= -1;
-			}
-			
 		}
 	}
 	
 	public void slide(float dX, float dY){
 		state = STATE_SLIDING; dY *= -1;
-		xVelocity = xVelocity * speedCoef + dX*7;
-		yVelocity = yVelocity * speedCoef + dY*7;
+		body.setLinearVelocity(dX*7*Game.WORLD_TO_BOX, dY*7*Game.WORLD_TO_BOX);
+
 		speedCoef = 1;
 	}
 	

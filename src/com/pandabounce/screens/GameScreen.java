@@ -3,6 +3,7 @@ package com.pandabounce.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -64,6 +65,7 @@ public abstract class GameScreen extends BaseScreen {
 	 */
 	World world;
 	Box2DDebugRenderer debugRenderer;
+	Matrix4 debugMatrix;
 	
 	Body wallBodies[];
 	
@@ -71,6 +73,8 @@ public abstract class GameScreen extends BaseScreen {
 		super(game);
 		world = new World(new Vector2(0, 0), true);
 		debugRenderer = new Box2DDebugRenderer();
+		debugMatrix = new Matrix4(guiCam.combined);
+		debugMatrix.scale(Game.BOX_TO_WORLD, Game.BOX_TO_WORLD, 1f);
 		
 		panda = new Panda(200, Game.SCREEN_HALF_WIDTH, world);
 		stars = new Bamboo[3];
@@ -86,10 +90,10 @@ public abstract class GameScreen extends BaseScreen {
 			notifications[i] = new GuiLiveNotification();
 		}
 
-		createWalls();
+		createWalls(Game.WORLD_TO_BOX);
 	}
 	
-	private void createWalls(){
+	private void createWalls(float wtb){
 		BodyDef wallBodyDef [] = new BodyDef [4];
 		wallBodies = new Body[4];
 		for(int i = 0; i < wallBodyDef.length; i++){
@@ -97,25 +101,25 @@ public abstract class GameScreen extends BaseScreen {
 			wallBodyDef[i].type = BodyType.StaticBody;
 		}
 		
-		wallBodyDef[0].position.set(new Vector2(0, Game.SCREEN_HALF_HEIGHT)); // Left wall
-		wallBodyDef[1].position.set(new Vector2(Game.SCREEN_WIDTH, Game.SCREEN_HALF_HEIGHT)); // Right wall
-		wallBodyDef[2].position.set(new Vector2(Game.SCREEN_HALF_WIDTH, Game.SCREEN_HEIGHT)); // Top wall
-		wallBodyDef[3].position.set(new Vector2(Game.SCREEN_HALF_WIDTH, 0));  // Bottom wall
+		wallBodyDef[0].position.set(new Vector2(0, Game.SCREEN_HALF_HEIGHT*wtb)); // Left wall
+		wallBodyDef[1].position.set(new Vector2(Game.SCREEN_WIDTH*wtb, Game.SCREEN_HALF_HEIGHT*wtb)); // Right wall
+		wallBodyDef[2].position.set(new Vector2(Game.SCREEN_HALF_WIDTH*wtb, Game.SCREEN_HEIGHT*wtb)); // Top wall
+		wallBodyDef[3].position.set(new Vector2(Game.SCREEN_HALF_WIDTH*wtb, 0));  // Bottom wall
 		
 		for(int i = 0; i < wallBodyDef.length; i++){
 			wallBodies[i] = world.createBody(wallBodyDef[i]);
 		}
 		
 		PolygonShape horizontalBox = new PolygonShape();
-		horizontalBox.setAsBox(Game.SCREEN_HALF_WIDTH, 5);
+		horizontalBox.setAsBox(Game.SCREEN_HALF_WIDTH*wtb, 5*wtb);
 		
 		PolygonShape verticalBox = new PolygonShape();
-		verticalBox.setAsBox(5, Game.SCREEN_HALF_HEIGHT);
+		verticalBox.setAsBox(5*wtb, Game.SCREEN_HALF_HEIGHT*wtb);
 		
-		wallBodies[0].createFixture(verticalBox, 10);
-		wallBodies[1].createFixture(verticalBox, 10);
-		wallBodies[2].createFixture(horizontalBox, 10);
-		wallBodies[3].createFixture(horizontalBox, 10);
+		wallBodies[0].createFixture(verticalBox, 10*wtb);
+		wallBodies[1].createFixture(verticalBox, 10*wtb);
+		wallBodies[2].createFixture(horizontalBox, 10*wtb);
+		wallBodies[3].createFixture(horizontalBox, 10*wtb);
 		
 		// Cleaning up
 		horizontalBox.dispose();
@@ -142,8 +146,7 @@ public abstract class GameScreen extends BaseScreen {
 				break;
 		}
 		spriteBatch.end();
-		
-		debugRenderer.render(world, guiCam.combined);
+		debugRenderer.render(world, debugMatrix);
 	}
 	
 	public abstract void drawLevel(float deltaTime);
