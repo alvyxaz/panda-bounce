@@ -7,4 +7,8 @@ public class Touch {
 	public boolean lastTouched;
 	
 	public boolean released;
+	
+	public float highestDx;
+	public float highestDy;
+	
 }

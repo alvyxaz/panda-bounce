@@ -26,10 +26,27 @@ public class Input {
 	public static void update() {
 		for(int i= 0; i < touch.length; i++){
 			touch[i].lastTouched = touch[i].touched;
+			
+			// Reseting highest movement speed
+			if(!touch[i].lastTouched){
+				touch[i].highestDx = 0;
+				touch[i].highestDy = 0;
+			}
+			
 			if(Gdx.input.isTouched(i)){
 				touch[i].touched = true;
 				touch[i].x = (int)(Gdx.input.getX(i) * xRatio);
 				touch[i].y = Game.SCREEN_HEIGHT - (int)(Gdx.input.getY(i) * yRatio);
+				
+				// Calculating highest movement speed
+				int tempDx = Gdx.input.getDeltaX(i);
+				int tempDy = Gdx.input.getDeltaY(i);
+				if(Math.abs(tempDx) + Math.abs(tempDy) > 
+						Math.abs(touch[i].highestDx) + Math.abs(touch[i].highestDy)){
+					touch[i].highestDx = tempDx;
+					touch[i].highestDy = tempDy;
+				}
+				
 			} else {
 				touch[i].touched = false;
 			}
@@ -55,6 +72,14 @@ public class Input {
 		return false;
 	}
 	
+	public static boolean isReleasing(){
+		for(int i = 0; i < 2; i++){
+			if(touch[i].touched) continue;
+			if(!touch[i].lastTouched) continue;
+			return true;
+		}
+		return false;
+	}
 	
 	/**
 	 * Check whether a rectangle has been released after a touck.

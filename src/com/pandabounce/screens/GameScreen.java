@@ -116,10 +116,10 @@ public abstract class GameScreen extends BaseScreen {
 		PolygonShape verticalBox = new PolygonShape();
 		verticalBox.setAsBox(5*wtb, Game.SCREEN_HALF_HEIGHT*wtb);
 		
-		wallBodies[0].createFixture(verticalBox, 10*wtb);
-		wallBodies[1].createFixture(verticalBox, 10*wtb);
-		wallBodies[2].createFixture(horizontalBox, 10*wtb);
-		wallBodies[3].createFixture(horizontalBox, 10*wtb);
+		wallBodies[0].createFixture(verticalBox, 0);
+		wallBodies[1].createFixture(verticalBox, 0);
+		wallBodies[2].createFixture(horizontalBox, 0);
+		wallBodies[3].createFixture(horizontalBox, 0);
 		
 		// Cleaning up
 		horizontalBox.dispose();
@@ -167,24 +167,28 @@ public abstract class GameScreen extends BaseScreen {
 				world.step(deltaTime, 6, 2);
 				
 				// INPUT
-				if(Gdx.input.isTouched()){
-					if(Input.isTouching(panda.hitBox)){
-						if(!panda.touched && !movementRegistered){
-							panda.slide(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
-							movementRegistered = true;
-						} else {
-							movementRegistered = false;
-						}
-						panda.touched = true;
-					} else {
-						if(panda.touched && !movementRegistered){
-							panda.slide(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
-							movementRegistered = true;
-						} else {
-							movementRegistered = false;
-						}
-						panda.touched = false;
-					}
+//				if(Gdx.input.isTouched()){
+//					if(Input.isTouching(panda.hitBox)){
+//						if(!panda.touched && !movementRegistered){
+//							panda.slide(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
+//							movementRegistered = true;
+//						} else {
+//							movementRegistered = false;
+//						}
+//						panda.touched = true;
+//					} else {
+//						if(panda.touched && !movementRegistered){
+//							panda.slide(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
+//							movementRegistered = true;
+//						} else {
+//							movementRegistered = false;
+//						}
+//						panda.touched = false;
+//					}
+//				}
+				
+				if(Input.isReleasing()){
+					panda.slide(Input.touch[0].highestDx, Input.touch[0].highestDy);
 				}
 				
 				// Updating hedgehogs

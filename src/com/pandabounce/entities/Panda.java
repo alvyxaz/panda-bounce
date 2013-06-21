@@ -26,6 +26,8 @@ public class Panda {
 	
 	// Jump related
 	private float speedCoef = 1;
+	private float xVelocity;
+	private float yVelocity;
 	
 	public boolean touched = false;
 	
@@ -42,7 +44,7 @@ public class Panda {
 		
 		// Creating body
 		body = world.createBody(bodyDef);
-		body.setLinearDamping(0.5f);
+		body.setLinearDamping(0);
 		
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
@@ -51,7 +53,7 @@ public class Panda {
 		// Creating fixture 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
-		fixtureDef.density = 0;
+		fixtureDef.density = 1f;
 		fixtureDef.restitution = 1f; // Maximum bounce ratio
 		body.createFixture(fixtureDef);
 		
@@ -69,15 +71,33 @@ public class Panda {
 		
 		if(state == STATE_SLIDING){
 			
+
 			hitBox.x = (body.getPosition().x) * Game.BOX_TO_WORLD  - hitBox.width/2;
 			hitBox.y = body.getPosition().y * Game.BOX_TO_WORLD  - hitBox.height/2;
+			
+			// Updating xVelocity and yVelocity sign,
+			// TODO: Optimize
+			xVelocity = Math.abs(xVelocity) * Math.signum(body.getLinearVelocity().x);
+			yVelocity = Math.abs(yVelocity) * Math.signum(body.getLinearVelocity().y);
+			
+			// Updating physics
+			body.setLinearVelocity(xVelocity *speedCoef, yVelocity * speedCoef);
+			
+			// Updating speed coef
+			speedCoef -= deltaTime;
+			if(speedCoef < 0) {
+				body.setLinearVelocity(0, 0);
+				state = STATE_WAITING;
+			}
 		
 		}
 	}
 	
 	public void slide(float dX, float dY){
 		state = STATE_SLIDING; dY *= -1;
-		body.setLinearVelocity(dX*7*Game.WORLD_TO_BOX, dY*7*Game.WORLD_TO_BOX);
+		xVelocity = dX*7*Game.WORLD_TO_BOX;
+		yVelocity = dY*7*Game.WORLD_TO_BOX;
+		body.setLinearVelocity(xVelocity, yVelocity);
 
 		speedCoef = 1;
 	}
