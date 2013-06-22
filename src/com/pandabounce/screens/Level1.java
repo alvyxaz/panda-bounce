@@ -16,9 +16,9 @@ public class Level1 extends GameScreen {
 		stars[2] = new Bamboo(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50));
 		
 		// Making people
-		people[0] = new Hedgehog(150, 250);
-		people[1] = new Hedgehog(250, 500);
-		people[2] = new Hedgehog(350, 250);
+		people[0] = new Hedgehog(150, 250, world);
+		people[1] = new Hedgehog(250, 500, world);
+		people[2] = new Hedgehog(350, 250, world);
 		
 		System.out.println();
 	}

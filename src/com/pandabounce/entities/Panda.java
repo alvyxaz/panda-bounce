@@ -45,6 +45,7 @@ public class Panda {
 		// Creating body
 		body = world.createBody(bodyDef);
 		body.setLinearDamping(0);
+		body.setAngularDamping(1f);
 		
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
@@ -63,8 +64,16 @@ public class Panda {
 	}
 	
 	public void draw(SpriteBatch spriteBatch){
-		spriteBatch.draw(Art.panda[0], hitBox.x, hitBox.y);
-		
+		spriteBatch.draw(Art.panda[0], 
+				body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2, 	// x
+				body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2, // y
+				hitBox.width/2,	// OriginX
+				hitBox.height/2,	// OriginY
+				hitBox.width, 	// Width
+				hitBox.height,	// Height
+				1f,	// ScaleX
+				1f,	// ScaleY
+				body.getAngle()*Game.BOX_TO_WORLD); // Rotation
 	}
 	
 	public void update(float deltaTime){
@@ -98,7 +107,6 @@ public class Panda {
 		xVelocity = dX*7*Game.WORLD_TO_BOX;
 		yVelocity = dY*7*Game.WORLD_TO_BOX;
 		body.setLinearVelocity(xVelocity, yVelocity);
-
 		speedCoef = 1;
 	}
 	

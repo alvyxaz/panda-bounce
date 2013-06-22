@@ -39,6 +39,7 @@ public class Art {
 		loadBackgroundTextures();
 		loadOtherTextures();
 		loadFonts();
+		
 	}
 	
 	private static void loadBackgroundTextures(){
