@@ -2,7 +2,7 @@ package com.pandabounce.screens;
 
 import com.pandabounce.Game;
 import com.pandabounce.entities.Hedgehog;
-import com.pandabounce.entities.Bamboo;
+import com.pandabounce.entities.Star;
 import com.pandabounce.resources.Art;
 
 public class Level1 extends GameScreen {
@@ -11,9 +11,9 @@ public class Level1 extends GameScreen {
 		super(game);
 
 		// Planting stars
-		stars[0] = new Bamboo(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50));
-		stars[1] = new Bamboo(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50));
-		stars[2] = new Bamboo(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50));
+		stars[0] = new Star(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
+		stars[1] = new Star(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
+		stars[2] = new Star(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
 		
 		// Making people
 		people[0] = new Hedgehog(150, 250, world);

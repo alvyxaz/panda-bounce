@@ -57,7 +57,8 @@ public class Panda {
 		fixtureDef.density = 1f;
 		fixtureDef.restitution = 1f; // Maximum bounce ratio
 		body.createFixture(fixtureDef);
-		
+		body.setUserData("panda");
+
 		// Cleaning up
 		shape.dispose();
 		

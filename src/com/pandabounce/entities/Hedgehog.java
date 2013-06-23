@@ -39,7 +39,6 @@ public class Hedgehog {
 		body.setLinearDamping(0);
 		body.setAngularDamping(1f);
 
-
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
 		shape.setAsBox(hitBox.width/2*Game.WORLD_TO_BOX, hitBox.height/2*Game.WORLD_TO_BOX);
@@ -49,7 +48,9 @@ public class Hedgehog {
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
 		fixtureDef.restitution = 1f; // Maximum bounce ratio
+		
 		body.createFixture(fixtureDef);
+		body.setUserData("hedgehog");
 		
 		// Cleaning up
 		shape.dispose();

@@ -11,8 +11,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pandabounce.Game;
@@ -21,7 +25,7 @@ import com.pandabounce.entities.GuiHealthBar;
 import com.pandabounce.entities.GuiLiveNotification;
 import com.pandabounce.entities.Panda;
 import com.pandabounce.entities.Hedgehog;
-import com.pandabounce.entities.Bamboo;
+import com.pandabounce.entities.Star;
 import com.pandabounce.entities.GuiScore;
 import com.pandabounce.resources.Art;
 
@@ -47,7 +51,7 @@ public abstract class GameScreen extends BaseScreen {
 	/*-------------------------------------
 	 * Data
 	 */
-	protected Bamboo [] stars;	// Star entities
+	protected Star [] stars;	// Star entities
 	protected Hedgehog [] people;
 	
 	protected GuiLiveNotification [] notifications;
@@ -77,7 +81,7 @@ public abstract class GameScreen extends BaseScreen {
 		debugMatrix.scale(Game.BOX_TO_WORLD, Game.BOX_TO_WORLD, 1f);
 		
 		panda = new Panda(200, Game.SCREEN_HALF_WIDTH, world);
-		stars = new Bamboo[3];
+		stars = new Star[3];
 		people = new Hedgehog[3];
 		
 		
@@ -91,6 +95,76 @@ public abstract class GameScreen extends BaseScreen {
 		}
 
 		createWalls(Game.WORLD_TO_BOX);
+		createContactListener();
+	}
+	
+	private void createContactListener(){
+		world.setContactListener(new ContactListener(){
+
+			@Override
+			public void beginContact(Contact contact) {
+				Body bA = contact.getFixtureA().getBody();
+				Body bB = contact.getFixtureB().getBody();
+
+				if(bA.getUserData().equals("panda") || bB.getUserData().equals("panda") ){
+					
+					/*
+					 * Collision with Hedgehog
+					 */
+					if(bA.getUserData().equals("hedgehog") || bB.getUserData().equals("hedgehog")){
+						panda.health -= 5;
+						if(panda.health < 0){
+							panda.health = 100;
+						}
+					}
+					
+					/*
+					 * Collision with a Star
+					 */
+					if(bA.getUserData().equals("star") || bB.getUserData().equals("star")){
+
+						// Pushing a notification to the buffer, where there's open space
+						for(int z = 0; z < notifications.length; z++){
+							if(!notifications[z].display){
+								notifications[z].generate("+10", 
+										(int) (panda.hitBox.x + panda.hitBoxCenterX) , 
+										(int) (panda.hitBox.y + panda.hitBox.height/2));
+								break;
+							}
+						}
+						
+						int newX = Game.random.nextInt(Game.SCREEN_WIDTH-(int)stars[0].hitBox.width);
+						int newY = Game.random.nextInt(Game.SCREEN_HEIGHT-(int)stars[0].hitBox.height);
+						
+						// TODO: Regenerate a star in a given position
+						if(bA.getUserData().equals("star")){
+							
+						} else {
+							
+						}
+						
+					}
+				}				
+				
+			}
+
+			@Override
+			public void endContact(Contact contact) {
+				
+			}
+
+			@Override
+			public void preSolve(Contact contact, Manifold oldManifold) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void postSolve(Contact contact, ContactImpulse impulse) {
+
+			}
+			
+		});
 	}
 	
 	private void createWalls(float wtb){
@@ -108,6 +182,7 @@ public abstract class GameScreen extends BaseScreen {
 		
 		for(int i = 0; i < wallBodyDef.length; i++){
 			wallBodies[i] = world.createBody(wallBodyDef[i]);
+			wallBodies[i].setUserData("wall");
 		}
 		
 		PolygonShape horizontalBox = new PolygonShape();
@@ -191,35 +266,25 @@ public abstract class GameScreen extends BaseScreen {
 					panda.slide(Input.touch[0].highestDx, Input.touch[0].highestDy);
 				}
 				
-				// Updating hedgehogs
-				for(int i = 0; i < people.length; i++){
-					if(panda.hitBox.overlaps(people[i].hitBox)){
-						panda.health -= 1;
-						if(panda.health <= 0){
-							panda.health = 100;
-						}
-					}
-				}
-				
-				// Updating stars
-				for(int i = 0; i < stars.length; i++){
-					if(stars[i].hitBox.overlaps(panda.hitBox)){
-						
-						// Pushing a notification to the buffer, where there's open space
-						for(int z = 0; z < notifications.length; z++){
-							if(!notifications[z].display){
-								notifications[z].generate("+10", 
-										(int) (panda.hitBox.x + panda.hitBoxCenterX) , 
-										(int) (panda.hitBox.y + panda.hitBox.height/2));
-								break;
-							}
-						}
-						int newX = Game.random.nextInt(Game.SCREEN_WIDTH-(int)stars[i].hitBox.width);
-						int newY = Game.random.nextInt(Game.SCREEN_HEIGHT-(int)stars[i].hitBox.height);
-						stars[i].regenerate(newX, newY);
-						score.add(10);
-					}
-				}
+//				// Updating stars
+//				for(int i = 0; i < stars.length; i++){
+//					if(stars[i].hitBox.overlaps(panda.hitBox)){
+//						
+//						// Pushing a notification to the buffer, where there's open space
+//						for(int z = 0; z < notifications.length; z++){
+//							if(!notifications[z].display){
+//								notifications[z].generate("+10", 
+//										(int) (panda.hitBox.x + panda.hitBoxCenterX) , 
+//										(int) (panda.hitBox.y + panda.hitBox.height/2));
+//								break;
+//							}
+//						}
+//						int newX = Game.random.nextInt(Game.SCREEN_WIDTH-(int)stars[i].hitBox.width);
+//						int newY = Game.random.nextInt(Game.SCREEN_HEIGHT-(int)stars[i].hitBox.height);
+//						stars[i].regenerate(newX, newY);
+//						score.add(10);
+//					}
+//				}
 				
 				break;
 		}
