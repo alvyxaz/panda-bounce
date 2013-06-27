@@ -31,6 +31,8 @@ public class Level1 extends GameScreen {
 		for(int i = 0; i < stars.length; i++)
 			stars[i].draw(spriteBatch, deltaTime);
 		
+		dust.draw(spriteBatch, deltaTime);
+		
 		// Drawing people
 		for(int i = 0; i < people.length; i++)
 			people[i].draw(spriteBatch, deltaTime);

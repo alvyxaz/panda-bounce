@@ -69,7 +69,7 @@ public class Hedgehog {
 				hitBox.height,	// Height
 				1f,	// ScaleX
 				1f,	// ScaleY
-				body.getAngle()*Game.BOX_TO_WORLD); // Rotation
+				(float)Math.toDegrees(body.getAngle())); // Rotation
 		
 		/*****************************************************
 		 * UPDATING

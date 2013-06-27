@@ -21,6 +21,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pandabounce.Game;
 import com.pandabounce.controls.Input;
+import com.pandabounce.entities.Dust;
 import com.pandabounce.entities.GuiHealthBar;
 import com.pandabounce.entities.GuiLiveNotification;
 import com.pandabounce.entities.Panda;
@@ -64,6 +65,11 @@ public abstract class GameScreen extends BaseScreen {
 	
 	private boolean movementRegistered = false;
 	
+	/*
+	 * Graphic enhancements
+	 */
+	protected Dust dust;
+	
 	/*-------------------------------------
 	 * BOX2D stuff
 	 */
@@ -75,17 +81,21 @@ public abstract class GameScreen extends BaseScreen {
 	
 	public GameScreen(Game game) {
 		super(game);
+		
+		// Box2D
 		world = new World(new Vector2(0, 0), true);
 		debugRenderer = new Box2DDebugRenderer();
 		debugMatrix = new Matrix4(guiCam.combined);
 		debugMatrix.scale(Game.BOX_TO_WORLD, Game.BOX_TO_WORLD, 1f);
+		createWalls(Game.WORLD_TO_BOX);
+		createContactListener();
 		
+		// Entities
 		panda = new Panda(200, Game.SCREEN_HALF_WIDTH, world);
 		stars = new Star[3];
 		people = new Hedgehog[3];
-		
-		
-		// Initializing GUI
+
+		// GUI
 		score = new GuiScore();
 		healthBar = new GuiHealthBar(panda);
 		
@@ -94,8 +104,8 @@ public abstract class GameScreen extends BaseScreen {
 			notifications[i] = new GuiLiveNotification();
 		}
 
-		createWalls(Game.WORLD_TO_BOX);
-		createContactListener();
+		// Graphic enhancements
+		dust = new Dust();
 	}
 	
 	private void createContactListener(){
@@ -116,6 +126,17 @@ public abstract class GameScreen extends BaseScreen {
 						if(panda.health < 0){
 							panda.health = 100;
 						}
+					}
+					
+					/*
+					 * Collision with Wall
+					 */
+					if(bA.getUserData().equals("wall") || bB.getUserData().equals("wall")){
+						
+
+						dust.startCloud(5, 
+								contact.getWorldManifold().getPoints()[0].x * Game.BOX_TO_WORLD, 
+								contact.getWorldManifold().getPoints()[0].y * Game.BOX_TO_WORLD);
 					}
 					
 					/*
@@ -241,50 +262,9 @@ public abstract class GameScreen extends BaseScreen {
 				updateLevel(deltaTime);
 				world.step(deltaTime, 6, 2);
 				
-				// INPUT
-//				if(Gdx.input.isTouched()){
-//					if(Input.isTouching(panda.hitBox)){
-//						if(!panda.touched && !movementRegistered){
-//							panda.slide(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
-//							movementRegistered = true;
-//						} else {
-//							movementRegistered = false;
-//						}
-//						panda.touched = true;
-//					} else {
-//						if(panda.touched && !movementRegistered){
-//							panda.slide(Gdx.input.getDeltaX(), Gdx.input.getDeltaY());
-//							movementRegistered = true;
-//						} else {
-//							movementRegistered = false;
-//						}
-//						panda.touched = false;
-//					}
-//				}
-				
 				if(Input.isReleasing()){
 					panda.slide(Input.touch[0].highestDx, Input.touch[0].highestDy);
 				}
-				
-//				// Updating stars
-//				for(int i = 0; i < stars.length; i++){
-//					if(stars[i].hitBox.overlaps(panda.hitBox)){
-//						
-//						// Pushing a notification to the buffer, where there's open space
-//						for(int z = 0; z < notifications.length; z++){
-//							if(!notifications[z].display){
-//								notifications[z].generate("+10", 
-//										(int) (panda.hitBox.x + panda.hitBoxCenterX) , 
-//										(int) (panda.hitBox.y + panda.hitBox.height/2));
-//								break;
-//							}
-//						}
-//						int newX = Game.random.nextInt(Game.SCREEN_WIDTH-(int)stars[i].hitBox.width);
-//						int newY = Game.random.nextInt(Game.SCREEN_HEIGHT-(int)stars[i].hitBox.height);
-//						stars[i].regenerate(newX, newY);
-//						score.add(10);
-//					}
-//				}
 				
 				break;
 		}

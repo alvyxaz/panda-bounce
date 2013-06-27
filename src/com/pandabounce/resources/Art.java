@@ -13,7 +13,12 @@ public class Art {
 	public static Texture px;
 	
 	private static Texture pandaTexture;
+	private static Texture pandaHorizontalTexture;
+	private static Texture pandaVerticalTexture;
 	public static TextureRegion [] panda;
+	public static TextureRegion [] pandaHorizontal;
+	public static TextureRegion [] pandaVertical;
+	
 	
 	private static Texture otherTexture;
 	public static TextureRegion targetArrow;
@@ -21,6 +26,7 @@ public class Art {
 	public static TextureRegion starEmpty;
 	public static TextureRegion hedgehog;
 	public static TextureRegion healthBar;
+	public static TextureRegion dustCloud;
 	
 	private static Texture guiTexture;
 	public static TextureRegion logo;
@@ -81,6 +87,7 @@ public class Art {
 		starEmpty = new TextureRegion(otherTexture, 95, 0, 51, 48);
 		hedgehog = new TextureRegion(otherTexture, 146 , 0, 51, 78);
 		healthBar = new TextureRegion(otherTexture, 197, 0, 1, 21);
+		dustCloud = new TextureRegion(otherTexture, 199, 0, 52, 52);
 		
 		guiTexture = new Texture(Gdx.files.internal("assets/textures/gui.png"));
 		logo = new TextureRegion(guiTexture, 0, 0, 231, 86);
@@ -95,6 +102,13 @@ public class Art {
 		pandaTexture = new Texture(Gdx.files.internal("assets/textures/panda.png"));
 		panda = new TextureRegion[1];
 		panda[0] = new TextureRegion(pandaTexture,0, 0, 78, 105);
+		
+		pandaVerticalTexture = new Texture(Gdx.files.internal("assets/textures/panda-vertical.png"));
+		pandaHorizontalTexture = new Texture(Gdx.files.internal("assets/textures/panda-horizontal.png"));
+		
+		pandaVertical = new TextureRegion[8];
+		pandaVertical[0] = new TextureRegion(pandaVerticalTexture, 0, 0, 123,215);
+		
 	}
 	
 }
