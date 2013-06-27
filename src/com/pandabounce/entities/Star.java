@@ -29,8 +29,10 @@ public class Star {
 	private int maxLevitation = 10;
 	
 	private Body body;
+	public boolean regenerate;
 	
 	public Star(int x, int y, World world){
+
 		hitBox = new Rectangle(x, y, Art.star.getRegionWidth(), Art.star.getRegionHeight());
 		angle = Game.random.nextInt(360);
 		levitationCoef = Game.random.nextFloat() * 3.14f;
@@ -61,7 +63,7 @@ public class Star {
 		body.setUserData("star");
 		
 		// body.getFixtureList().get(0).setUserData(this);
-		
+		body.getFixtureList().get(0).setUserData(this);
 		// Cleaning up
 		shape.dispose();
 	}
@@ -76,6 +78,7 @@ public class Star {
 		opacity = 0;
 		
 		body.setTransform((x+  hitBox.width/2)*Game.WORLD_TO_BOX, (y+  hitBox.height/2)*Game.WORLD_TO_BOX, 0f);
+		regenerate = false;
 	}
 	
 	public void draw(SpriteBatch spriteBatch, float deltaTime){

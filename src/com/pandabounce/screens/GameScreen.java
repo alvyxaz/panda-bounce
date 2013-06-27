@@ -158,8 +158,8 @@ public abstract class GameScreen extends BaseScreen {
 						int newY = Game.random.nextInt(Game.SCREEN_HEIGHT-(int)stars[0].hitBox.height);
 						
 						// TODO: Regenerate a star in a given position
-						if(bA.getUserData().equals("star")){
-							
+						if(bB.getUserData().equals("star")){
+							((Star) contact.getFixtureB().getUserData()).regenerate = true;
 						} else {
 							
 						}
