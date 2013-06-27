@@ -160,8 +160,10 @@ public abstract class GameScreen extends BaseScreen {
 						// TODO: Regenerate a star in a given position
 						if(bB.getUserData().equals("star")){
 							((Star) contact.getFixtureB().getUserData()).regenerate = true;
-						} else {
-							
+						}
+						
+						if(bA.getUserData().equals("star")){
+							((Star) contact.getFixtureA().getUserData()).regenerate = true;
 						}
 						
 					}
