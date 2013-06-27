@@ -30,7 +30,7 @@ public class Level1 extends GameScreen {
 		// Drawing stars 
 		for(int i = 0; i < stars.length; i++) {
 			if (stars[i].regenerate) {
-				stars[i].regenerate(Game.random.nextInt(Game.SCREEN_WIDTH), Game.random.nextInt(Game.SCREEN_HEIGHT));
+				stars[i].regenerate(Game.random.nextInt((int) (Game.SCREEN_WIDTH - stars[i].hitBox.width)), Game.random.nextInt((int) (Game.SCREEN_HEIGHT - stars[i].hitBox.height)));
 			}
 		}
 		

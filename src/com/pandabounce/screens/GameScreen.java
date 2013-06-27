@@ -147,12 +147,14 @@ public abstract class GameScreen extends BaseScreen {
 						// Pushing a notification to the buffer, where there's open space
 						for(int z = 0; z < notifications.length; z++){
 							if(!notifications[z].display){
-								notifications[z].generate("+10", 
+								notifications[z].generate("+" + (10 * score.getMultiplier()), 
 										(int) (panda.hitBox.x + panda.hitBoxCenterX) , 
 										(int) (panda.hitBox.y + panda.hitBox.height/2));
 								break;
 							}
 						}
+						
+						score.add(10);
 						
 						int newX = Game.random.nextInt(Game.SCREEN_WIDTH-(int)stars[0].hitBox.width);
 						int newY = Game.random.nextInt(Game.SCREEN_HEIGHT-(int)stars[0].hitBox.height);
@@ -166,6 +168,7 @@ public abstract class GameScreen extends BaseScreen {
 							((Star) contact.getFixtureA().getUserData()).regenerate = true;
 						}
 						
+						score.onStarPickedUp();
 					}
 				}				
 				
@@ -266,6 +269,7 @@ public abstract class GameScreen extends BaseScreen {
 				
 				if(Input.isReleasing()){
 					panda.slide(Input.touch[0].highestDx, Input.touch[0].highestDy);
+					score.starsInSingleSlide = 0;
 				}
 				
 				break;

@@ -8,6 +8,9 @@ public class GuiScore {
 
 	private int score = 0;
 	private int maxDigits = 9;
+	private int multiplier = 1;
+	public int starsInSingleSlide = 0;
+	private float multiplierTime;
 	
 	private int digitWidth;
 	private int digitHeight;
@@ -26,6 +29,12 @@ public class GuiScore {
 	}
 	
 	public void draw(SpriteBatch spriteBatch, float deltaTime){
+		multiplierTime -= deltaTime;
+		System.out.println("timeleft: " + multiplierTime);
+		if(multiplierTime < 0){
+		    multiplier = 1;
+		    multiplierTime = 0;
+		}
 		
 		int tempScore = score;
 		int number;
@@ -45,6 +54,8 @@ public class GuiScore {
 			spriteBatch.draw(Art.scoreNumbers[0], position, initialY, digitWidth * scaleMultiplier, digitHeight * scaleMultiplier);
 		}
 		
+		Art.fontDefault.draw(spriteBatch, "+" + multiplier, 15, 25);
+		
 		// Reduce scale multiplier if it's not normal
 		if(scaleMultiplier > 1){
 			scaleMultiplier -= deltaTime *0.5;
@@ -54,8 +65,24 @@ public class GuiScore {
 		
 	}
 	
+	public void onStarPickedUp() {
+		starsInSingleSlide++;
+		
+		if (starsInSingleSlide > 1 || multiplierTime > 0) {
+			multiplierTime = 5;
+			multiplier++;
+		}
+		
+		System.out.println(starsInSingleSlide + "");
+
+	}
+	
+	public int getMultiplier() {
+		return multiplier;
+	}
+	
 	public void add(int x){
-		score += x;
+		score += multiplier * x;
 		scaleMultiplier = 1.3f;
 	}
 	
