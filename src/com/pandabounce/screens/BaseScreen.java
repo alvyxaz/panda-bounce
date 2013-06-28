@@ -23,7 +23,7 @@ public abstract class BaseScreen implements Screen {
 		spriteBatch = new SpriteBatch(300);
 		fpsText = new StringBuilder();
 		
-		Gdx.graphics.getGLCommon().glClearColor(0, 0.7f, 0.8f, 1);
+		Gdx.graphics.getGLCommon().glClearColor(0.39f, 0.56f, 0.11f, 1);
 		
 		// Setting up GUI camera so that bottom left corner is 0 0
 		guiCam = new OrthographicCamera(Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);

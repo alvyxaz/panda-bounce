@@ -91,7 +91,7 @@ public abstract class GameScreen extends BaseScreen {
 		createContactListener();
 		
 		// Entities
-		panda = new Panda(200, Game.SCREEN_HALF_WIDTH, world);
+		panda = new Panda(Game.SCREEN_HALF_WIDTH, Game.SCREEN_HALF_WIDTH, world);
 		stars = new Star[3];
 
 		// GUI
@@ -105,6 +105,14 @@ public abstract class GameScreen extends BaseScreen {
 
 		// Graphic enhancements
 		dust = new Dust();
+	}
+	
+	public float screenShakeTimer = 0;
+	public int screenShakeStrength = 1;
+	
+	public void shakeScreen(int strength){
+		screenShakeTimer = 0.3f;
+		screenShakeStrength = Math.max(1, Math.min(strength/5, 10));
 	}
 	
 	private void createContactListener(){
@@ -132,7 +140,7 @@ public abstract class GameScreen extends BaseScreen {
 					 */
 					if(bA.getUserData().equals("wall") || bB.getUserData().equals("wall")){
 						panda.refreshAnimation = true;
-						
+						shakeScreen(score.multiplier);
 						dust.startCloud(5, 
 								contact.getWorldManifold().getPoints()[0].x * Game.BOX_TO_WORLD, 
 								contact.getWorldManifold().getPoints()[0].y * Game.BOX_TO_WORLD);
@@ -233,6 +241,7 @@ public abstract class GameScreen extends BaseScreen {
 	@Override
 	public void draw(float deltaTime) {
 		spriteBatch.begin();
+		spriteBatch.setProjectionMatrix(guiCam.combined);
 		drawLevel(deltaTime);
 		switch(transitionState){
 			case FADE_IN:
@@ -254,7 +263,7 @@ public abstract class GameScreen extends BaseScreen {
 	
 	public abstract void drawLevel(float deltaTime);
 	public abstract void updateLevel(float deltaTime);
-
+	
 	@Override
 	public void update(float deltaTime) {
 		switch(transitionState){
@@ -269,10 +278,26 @@ public abstract class GameScreen extends BaseScreen {
 				updateLevel(deltaTime);
 				world.step(deltaTime, 6, 2);
 				
+				// Checking input
 				if(Input.isReleasing()){
 					panda.slide(Input.touch[0].highestDx, Input.touch[0].highestDy);
 					score.starsInSingleSlide = 0;
 				}
+				
+				// Updating screen shake
+				if(screenShakeTimer > 0){
+					screenShakeTimer -= deltaTime;
+					guiCam.position.x = Game.SCREEN_HALF_WIDTH - screenShakeStrength/2 + Game.random.nextInt(screenShakeStrength);
+					guiCam.position.y = Game.SCREEN_HALF_HEIGHT - screenShakeStrength/2 + Game.random.nextInt(screenShakeStrength);
+					
+					if(screenShakeTimer < 0){
+						guiCam.position.x = Game.SCREEN_HALF_WIDTH;
+						guiCam.position.y = Game.SCREEN_HALF_HEIGHT;
+					}
+					
+					guiCam.update();
+				}
+				
 				break;
 		}
 	}

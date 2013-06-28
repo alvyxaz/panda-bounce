@@ -8,7 +8,7 @@ public class GuiScore {
 
 	private int score = 0;
 	private int maxDigits = 9;
-	private int multiplier = 1;
+	public int multiplier = 1;
 	public int starsInSingleSlide = 0;
 	private float multiplierTime;
 	

@@ -62,7 +62,7 @@ public class Panda {
 		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(new Vector2((x+  hitBoxCenterX)*Game.WORLD_TO_BOX , (y+ hitBox.height/2)*Game.WORLD_TO_BOX ));
 		bodyDef.fixedRotation = true;
-		
+
 		// Creating body
 		body = world.createBody(bodyDef);
 		body.setLinearDamping(0);
@@ -79,7 +79,7 @@ public class Panda {
 		fixtureDef.restitution = 1f; // Maximum bounce ratio
 		body.createFixture(fixtureDef);
 		body.setUserData("panda");
-
+		
 		// Cleaning up
 		shape.dispose();
 		
