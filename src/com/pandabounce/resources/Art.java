@@ -13,9 +13,7 @@ public class Art {
 	public static Texture px;
 	
 	private static Texture pandaTexture;
-	private static Texture pandaHorizontalTexture;
-	private static Texture pandaVerticalTexture;
-	public static TextureRegion [] panda;
+	public static TextureRegion [] pandaIdle;
 	public static TextureRegion [] pandaHorizontal;
 	public static TextureRegion [] pandaVertical;
 	
@@ -100,15 +98,30 @@ public class Art {
 	
 	private static void loadPandaTextures(){
 		pandaTexture = new Texture(Gdx.files.internal("assets/textures/panda.png"));
-		panda = new TextureRegion[1];
-		panda[0] = new TextureRegion(pandaTexture,0, 0, 78, 105);
-		
-		pandaVerticalTexture = new Texture(Gdx.files.internal("assets/textures/panda-vertical.png"));
-		pandaHorizontalTexture = new Texture(Gdx.files.internal("assets/textures/panda-horizontal.png"));
+		pandaIdle = new TextureRegion[1];
+		pandaIdle[0] = new TextureRegion(pandaTexture,0, 0, 78, 105);
 		
 		pandaVertical = new TextureRegion[8];
-		pandaVertical[0] = new TextureRegion(pandaVerticalTexture, 0, 0, 123,215);
+		pandaVertical[0] = new TextureRegion(pandaTexture, 83, 0, 70,104);
+		pandaVertical[1] = new TextureRegion(pandaTexture, 155, 0, 70,104);
+		pandaVertical[2] = new TextureRegion(pandaTexture, 228, 0, 70,104);
+		pandaVertical[3] = new TextureRegion(pandaTexture, 300, 0, 74,104);
+		pandaVertical[4] = new TextureRegion(pandaTexture, 378, 0, 71,104);
+		pandaVertical[5] = new TextureRegion(pandaTexture, 2, 108, 71,104);
+		pandaVertical[6] = new TextureRegion(pandaTexture, 77, 108, 71,104);
+		pandaVertical[7] = new TextureRegion(pandaTexture, 152, 108, 71,104);
+	
+		pandaHorizontal = new TextureRegion[8];
+		pandaHorizontal[0] = new TextureRegion(pandaTexture, 225, 104, 71,104);
+		pandaHorizontal[1] = new TextureRegion(pandaTexture, 298, 104, 71,105);
+		pandaHorizontal[2] = new TextureRegion(pandaTexture, 3, 215, 64,104);
+		pandaHorizontal[3] = new TextureRegion(pandaTexture, 67, 215, 64,104);
+		pandaHorizontal[4] = new TextureRegion(pandaTexture, 133, 215, 70,105);
+		pandaHorizontal[5] = new TextureRegion(pandaTexture, 206, 215, 62,105);
+		pandaHorizontal[6] = new TextureRegion(pandaTexture, 270, 214, 63,106);
+		pandaHorizontal[7] = new TextureRegion(pandaTexture, 335, 215, 72,106);
 		
+	
 	}
 	
 }

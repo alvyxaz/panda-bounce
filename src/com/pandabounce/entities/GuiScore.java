@@ -30,7 +30,7 @@ public class GuiScore {
 	
 	public void draw(SpriteBatch spriteBatch, float deltaTime){
 		multiplierTime -= deltaTime;
-		System.out.println("timeleft: " + multiplierTime);
+		
 		if(multiplierTime < 0){
 		    multiplier = 1;
 		    multiplierTime = 0;
@@ -72,8 +72,6 @@ public class GuiScore {
 			multiplierTime = 5;
 			multiplier++;
 		}
-		
-		System.out.println(starsInSingleSlide + "");
 
 	}
 	

@@ -43,7 +43,7 @@ public class Level1 extends GameScreen {
 		for(int i = 0; i < people.length; i++)
 			people[i].draw(spriteBatch, deltaTime);
 				
-		panda.draw(spriteBatch);
+		panda.draw(spriteBatch, deltaTime);
 		
 		Art.fontDefault.draw(spriteBatch, this.fpsText, 0, 20);
 		score.draw(spriteBatch, deltaTime);

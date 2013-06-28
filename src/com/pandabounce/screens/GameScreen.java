@@ -132,8 +132,8 @@ public abstract class GameScreen extends BaseScreen {
 					 * Collision with Wall
 					 */
 					if(bA.getUserData().equals("wall") || bB.getUserData().equals("wall")){
+						panda.refreshAnimation = true;
 						
-
 						dust.startCloud(5, 
 								contact.getWorldManifold().getPoints()[0].x * Game.BOX_TO_WORLD, 
 								contact.getWorldManifold().getPoints()[0].y * Game.BOX_TO_WORLD);
@@ -176,7 +176,10 @@ public abstract class GameScreen extends BaseScreen {
 
 			@Override
 			public void endContact(Contact contact) {
-				
+				if(panda.refreshAnimation){
+					panda.refreshAnimation = false;
+					panda.refreshAnimation();
+				}
 			}
 
 			@Override
@@ -187,7 +190,7 @@ public abstract class GameScreen extends BaseScreen {
 
 			@Override
 			public void postSolve(Contact contact, ContactImpulse impulse) {
-
+				
 			}
 			
 		});
@@ -247,7 +250,7 @@ public abstract class GameScreen extends BaseScreen {
 				break;
 		}
 		spriteBatch.end();
-		debugRenderer.render(world, debugMatrix);
+		//debugRenderer.render(world, debugMatrix);
 	}
 	
 	public abstract void drawLevel(float deltaTime);
