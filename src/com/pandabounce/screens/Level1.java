@@ -1,5 +1,6 @@
 package com.pandabounce.screens;
 
+import com.badlogic.gdx.Gdx;
 import com.pandabounce.Game;
 import com.pandabounce.entities.Hedgehog;
 import com.pandabounce.entities.Star;
@@ -61,5 +62,10 @@ public class Level1 extends GameScreen {
 	@Override
 	public void updateLevel(float deltaTime) {
 		panda.update(deltaTime);
+	}
+
+	@Override
+	public void prepare() {
+		Gdx.graphics.getGLCommon().glClearColor(0.39f, 0.56f, 0.11f, 1);
 	}
 }

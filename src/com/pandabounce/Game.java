@@ -11,10 +11,10 @@ import com.pandabounce.resources.*;
 import com.pandabounce.screens.*;
 
 public class Game implements ApplicationListener {
-	public static int SCREEN_WIDTH = 540;
-	public static int SCREEN_HEIGHT = 960;
-	public static int SCREEN_HALF_WIDTH = 270;
-	public static int SCREEN_HALF_HEIGHT = 480;
+	public static int SCREEN_WIDTH = 480;
+	public static int SCREEN_HEIGHT = 800;
+	public static int SCREEN_HALF_WIDTH = 240;
+	public static int SCREEN_HALF_HEIGHT = 400;
 	public BaseScreen screen;
 	public static Rectangle SCREEN_RECTANGLE;
 	public static boolean isAndroid;
@@ -37,7 +37,7 @@ public class Game implements ApplicationListener {
 		Art.loadTextures();
 		
 		// Setting first screen to render
-		setScreen(new Level1(this));
+		setScreen(new BrandScreen(this));
     }
 
     public void render () {

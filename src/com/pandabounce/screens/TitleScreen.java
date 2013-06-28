@@ -76,4 +76,10 @@ public class TitleScreen extends BaseScreen {
 		return false;
 	}
 
+	@Override
+	public void prepare() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

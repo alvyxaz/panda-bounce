@@ -112,7 +112,7 @@ public abstract class GameScreen extends BaseScreen {
 	
 	public void shakeScreen(int strength){
 		screenShakeTimer = 0.3f;
-		screenShakeStrength = Math.max(1, Math.min(strength/5, 10));
+		screenShakeStrength = Math.max(1, Math.min(strength/4, 15));
 	}
 	
 	private void createContactListener(){
@@ -258,7 +258,7 @@ public abstract class GameScreen extends BaseScreen {
 				break;
 		}
 		spriteBatch.end();
-		debugRenderer.render(world, debugMatrix);
+//		debugRenderer.render(world, debugMatrix);
 	}
 	
 	public abstract void drawLevel(float deltaTime);
@@ -303,7 +303,9 @@ public abstract class GameScreen extends BaseScreen {
 	}
 	
 	public void drawBackground(SpriteBatch spriteBatch){
+		spriteBatch.disableBlending();
 		spriteBatch.draw(Art.background, 0, 0);
+		spriteBatch.enableBlending();
 	}
 	
 	@Override

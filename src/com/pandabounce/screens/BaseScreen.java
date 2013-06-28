@@ -22,9 +22,7 @@ public abstract class BaseScreen implements Screen {
 		this.game = game;
 		spriteBatch = new SpriteBatch(300);
 		fpsText = new StringBuilder();
-		
-		Gdx.graphics.getGLCommon().glClearColor(0.39f, 0.56f, 0.11f, 1);
-		
+
 		// Setting up GUI camera so that bottom left corner is 0 0
 		guiCam = new OrthographicCamera(Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
 		guiCam.translate(Game.SCREEN_WIDTH/2, Game.SCREEN_HEIGHT/2);
@@ -36,6 +34,8 @@ public abstract class BaseScreen implements Screen {
 	public abstract void draw(float deltaTime);
 	
 	public abstract void update(float deltaTime);
+	
+	public abstract void prepare();
 	
 	/**
 	 * Get's called every time before switching to another screen.
@@ -76,6 +76,7 @@ public abstract class BaseScreen implements Screen {
 		if(screenToSwitchTo != null){
 			if(beforeScreenSwitch(Gdx.graphics.getDeltaTime())){
 				game.setScreen(screenToSwitchTo);
+				screenToSwitchTo.prepare();
 				screenToSwitchTo = null;
 			}
 		}

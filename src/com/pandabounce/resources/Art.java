@@ -16,7 +16,8 @@ public class Art {
 	public static TextureRegion [] pandaIdle;
 	public static TextureRegion [] pandaHorizontal;
 	public static TextureRegion [] pandaVertical;
-	
+
+	public static Texture friendlyBlob;
 	
 	private static Texture otherTexture;
 	public static TextureRegion targetArrow;
@@ -29,6 +30,9 @@ public class Art {
 	private static Texture guiTexture;
 	public static TextureRegion logo;
 	public static TextureRegion [] scoreNumbers;
+	public static TextureRegion guiPlay;
+	public static TextureRegion guiHighscores;
+	public static TextureRegion guiExit;
 	
 	private static Pixmap bgPixmap;
 	public static TextureRegion background;
@@ -38,12 +42,28 @@ public class Art {
 	
 	public static void loadTextures() {
 		px = new Texture(Gdx.files.internal("assets/textures/1px.png"));
+		friendlyBlob = new Texture(Gdx.files.internal("assets/textures/friendlyBlob.png"));
 		
 		loadPandaTextures();
 		loadBackgroundTextures();
 		loadOtherTextures();
 		loadFonts();
+		loadGUI();
 		
+	}
+	
+	private static void loadGUI(){
+		guiTexture = new Texture(Gdx.files.internal("assets/textures/gui.png"));
+		logo = new TextureRegion(guiTexture, 0, 36, 297, 164);
+		
+		scoreNumbers = new TextureRegion[10];
+		for(int i = 0; i < scoreNumbers.length; i++){
+			scoreNumbers[i] = new TextureRegion(guiTexture, 0 + i*26 + i, 0, 26, 35 );
+		}
+		
+		guiPlay = new TextureRegion(guiTexture, 326, 0, 142, 77);
+		guiExit = new TextureRegion(guiTexture, 298, 77, 139, 77);	
+		guiHighscores = new TextureRegion(guiTexture, 0, 200, 261, 77);
 	}
 	
 	private static void loadBackgroundTextures(){
@@ -86,13 +106,6 @@ public class Art {
 		hedgehog = new TextureRegion(otherTexture, 146 , 0, 51, 78);
 		healthBar = new TextureRegion(otherTexture, 197, 0, 1, 21);
 		dustCloud = new TextureRegion(otherTexture, 199, 0, 52, 52);
-		
-		guiTexture = new Texture(Gdx.files.internal("assets/textures/gui.png"));
-		logo = new TextureRegion(guiTexture, 0, 0, 231, 86);
-		scoreNumbers = new TextureRegion[10];
-		for(int i = 0; i < scoreNumbers.length; i++){
-			scoreNumbers[i] = new TextureRegion(guiTexture, 0 + i*26 + i, 0, 26, 35 );
-		}
 		
 	}
 	
