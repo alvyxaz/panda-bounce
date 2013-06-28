@@ -54,7 +54,7 @@ public class GuiScore {
 			spriteBatch.draw(Art.scoreNumbers[0], position, initialY, digitWidth * scaleMultiplier, digitHeight * scaleMultiplier);
 		}
 		
-		Art.fontDefault.draw(spriteBatch, "+" + multiplier, 15, 25);
+		Art.fontDefault.draw(spriteBatch, "+" + multiplier, 15, 50);
 		
 		// Reduce scale multiplier if it's not normal
 		if(scaleMultiplier > 1){

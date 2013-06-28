@@ -53,7 +53,7 @@ public abstract class GameScreen extends BaseScreen {
 	 * Data
 	 */
 	protected Star [] stars;	// Star entities
-	protected Hedgehog [] people;
+	protected Hedgehog [] hedgehogs;
 	
 	protected GuiLiveNotification [] notifications;
 	
@@ -93,7 +93,6 @@ public abstract class GameScreen extends BaseScreen {
 		// Entities
 		panda = new Panda(200, Game.SCREEN_HALF_WIDTH, world);
 		stars = new Star[3];
-		people = new Hedgehog[3];
 
 		// GUI
 		score = new GuiScore();
@@ -250,7 +249,7 @@ public abstract class GameScreen extends BaseScreen {
 				break;
 		}
 		spriteBatch.end();
-		//debugRenderer.render(world, debugMatrix);
+		debugRenderer.render(world, debugMatrix);
 	}
 	
 	public abstract void drawLevel(float deltaTime);
@@ -274,11 +273,10 @@ public abstract class GameScreen extends BaseScreen {
 					panda.slide(Input.touch[0].highestDx, Input.touch[0].highestDy);
 					score.starsInSingleSlide = 0;
 				}
-				
 				break;
 		}
 	}
-
+	
 	public void drawBackground(SpriteBatch spriteBatch){
 		spriteBatch.draw(Art.background, 0, 0);
 	}

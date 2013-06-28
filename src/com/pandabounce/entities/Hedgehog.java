@@ -18,20 +18,21 @@ public class Hedgehog {
 	public Rectangle hitBox;
 	
 	// movement related vars
-	private int moveSpeed = 60;
+	private int moveSpeed = 200; // Pixels per second
 	private int restlessness = 3;
 	private float moveAngle;
-	
+	private float dontRegenerateFor = 0;
+		
 	private Body body;
 	
-	public Hedgehog(int x, int y, World world){
-		hitBox = new Rectangle(x, y, Art.hedgehog.getRegionWidth(), Art.hedgehog.getRegionHeight());
+	public Hedgehog( World world){
+		hitBox = new Rectangle(0, 0, Art.hedgehog.getRegionWidth(), Art.hedgehog.getRegionHeight());
 		moveAngle = (float) (Math.random() * Math.PI);
 		
 		// Creating body definition
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyType.DynamicBody;
-		bodyDef.position.set(new Vector2((x+  hitBox.width/2)*Game.WORLD_TO_BOX , (y+ hitBox.height/2)*Game.WORLD_TO_BOX ));
+		bodyDef.type = BodyType.KinematicBody;
+		bodyDef.position.set(new Vector2((0+  hitBox.width/2)*Game.WORLD_TO_BOX , (0+ hitBox.height/2)*Game.WORLD_TO_BOX ));
 		bodyDef.angle = moveAngle;
 
 		// Creating body
@@ -48,16 +49,19 @@ public class Hedgehog {
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
 		fixtureDef.restitution = 1f; // Maximum bounce ratio
+		fixtureDef.isSensor = true;
 		
 		body.createFixture(fixtureDef);
 		body.setUserData("hedgehog");
+		
+		body.setLinearVelocity(1.8f, 1.8f);
 		
 		// Cleaning up
 		shape.dispose();
 	}
 	
 	public void draw(SpriteBatch spriteBatch, float deltaTime){
-		/*****************************************************
+		/*----------------------------------------------------------------
 		 * DRAWING
 		 */
 		spriteBatch.draw(Art.hedgehog, 
@@ -71,13 +75,67 @@ public class Hedgehog {
 				1f,	// ScaleY
 				(float)Math.toDegrees(body.getAngle())); // Rotation
 		
-		/*****************************************************
+		/*---------------------------------------------------------------
 		 * UPDATING
 		 */
-		// Velocity
-//		float newVelocityX = (float)Math.cos(body.getAngle())* moveSpeed * deltaTime ;
-//		float newVelocityY = (float)Math.sin(body.getAngle())* moveSpeed * deltaTime ;
-//		body.setLinearVelocity(newVelocityX, newVelocityY);
+		
+		hitBox.x = body.getPosition().x*Game.BOX_TO_WORLD;
+		hitBox.y = body.getPosition().y * Game.BOX_TO_WORLD;
+		dontRegenerateFor -= deltaTime;
+		
+		if(dontRegenerateFor < 0) {
+			// Checking if hedgehog is out of the screen
+			if(!Game.SCREEN_RECTANGLE.contains(hitBox)){
+				if(dontRegenerateFor < 0)
+					regenerate();
+
+			}
+		}
+	}
+	
+	public void regenerate(){
+		int x = 0, y = 0;
+		float angle = 0;
+		dontRegenerateFor = 3f; // Don't regenerate for 3 seconds
+		
+		int wall = Game.random.nextInt(3);
+		
+		// Checking where it will come from
+		switch(wall){
+		case 0: // Top
+			x = Game.random.nextInt(Game.SCREEN_WIDTH);
+			y = Game.SCREEN_HEIGHT;
+			angle = (float) Math.atan2(
+					Game.SCREEN_HEIGHT/2 - y , 
+					Game.SCREEN_WIDTH/2 - x + Game.SCREEN_WIDTH/4 - Game.random.nextInt(Game.SCREEN_WIDTH/2));
+			break;
+		case 1: // Right
+			x = Game.SCREEN_WIDTH;
+			y = Game.random.nextInt(Game.SCREEN_HEIGHT);
+			angle = (float) Math.atan2(
+					Game.SCREEN_HEIGHT/2 - y + Game.SCREEN_HEIGHT/4 - Game.random.nextInt(Game.SCREEN_HEIGHT/2), 
+					Game.SCREEN_WIDTH/2 - x);
+			break;
+		case 2: // Bottom
+			x = Game.random.nextInt(Game.SCREEN_WIDTH);
+			y = (int)(- hitBox.height*2);
+			angle = (float) Math.atan2(
+					Game.SCREEN_HEIGHT/2 - y , 
+					Game.SCREEN_WIDTH/2 - x + Game.SCREEN_WIDTH/4 - Game.random.nextInt(Game.SCREEN_WIDTH/2));
+			break;
+		case 3: // Left
+			x = (int)(- hitBox.width*2);
+			y = Game.random.nextInt(Game.SCREEN_HEIGHT);
+			angle = (float) Math.atan2(
+					Game.SCREEN_HEIGHT/2 - y + Game.SCREEN_HEIGHT/4 - Game.random.nextInt(Game.SCREEN_HEIGHT/2), 
+					Game.SCREEN_WIDTH/2 - x);
+			break;
+		}
+		
+		float newVelocityX = (float)Math.cos(angle)* moveSpeed * Game.WORLD_TO_BOX ;
+		float newVelocityY = (float)Math.sin(angle)* moveSpeed * Game.WORLD_TO_BOX ;
+		body.setTransform(x * Game.WORLD_TO_BOX, y * Game.WORLD_TO_BOX, angle - (float)Math.PI/2);
+		body.setLinearVelocity(newVelocityX, newVelocityY);
 		
 	}
 }

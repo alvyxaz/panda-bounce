@@ -5,6 +5,7 @@ import java.util.Random;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.math.Rectangle;
 import com.pandabounce.controls.Input;
 import com.pandabounce.resources.*;
 import com.pandabounce.screens.*;
@@ -15,6 +16,7 @@ public class Game implements ApplicationListener {
 	public static int SCREEN_HALF_WIDTH = 270;
 	public static int SCREEN_HALF_HEIGHT = 480;
 	public BaseScreen screen;
+	public static Rectangle SCREEN_RECTANGLE;
 	public static boolean isAndroid;
 	public static Random random;
 	
@@ -56,6 +58,8 @@ public class Game implements ApplicationListener {
 		
 		SCREEN_HALF_WIDTH = SCREEN_WIDTH/2;
 		SCREEN_HALF_HEIGHT = SCREEN_HEIGHT/2;
+		
+		SCREEN_RECTANGLE = new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
     
     public void setScreen(BaseScreen newScreen){
