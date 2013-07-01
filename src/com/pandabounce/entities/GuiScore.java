@@ -31,9 +31,13 @@ public class GuiScore {
 	public void draw(SpriteBatch spriteBatch, float deltaTime){
 		multiplierTime -= deltaTime;
 		
-		if(multiplierTime < 0){
-		    multiplier = 1;
-		    multiplierTime = 0;
+		if(multiplierTime < 0 && multiplier > 1){
+		    multiplier /= 2;
+		    multiplierTime = 5;
+		    
+		    if (multiplier == 1) {
+		    	multiplierTime = 0;
+		    }
 		}
 		
 		int tempScore = score;
