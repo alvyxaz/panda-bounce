@@ -28,6 +28,7 @@ import com.pandabounce.entities.Panda;
 import com.pandabounce.entities.Hedgehog;
 import com.pandabounce.entities.Star;
 import com.pandabounce.entities.GuiScore;
+import com.pandabounce.entities.SurpriseBox;
 import com.pandabounce.resources.Art;
 
 /*
@@ -54,6 +55,7 @@ public abstract class GameScreen extends BaseScreen {
 	 */
 	protected Star [] stars;	// Star entities
 	protected Hedgehog [] hedgehogs;
+	protected SurpriseBox box;
 	
 	protected GuiLiveNotification [] notifications;
 	
@@ -177,6 +179,20 @@ public abstract class GameScreen extends BaseScreen {
 						
 						score.onStarPickedUp();
 					}
+					
+					if(box.regenerationTimer < 0 && (bA.getUserData().equals("surprise_box") || bB.getUserData().equals("surprise_box"))){						
+						if(bA.getUserData().equals("surprise_box")){
+							panda.effectType = ((SurpriseBox) contact.getFixtureA().getUserData()).type;
+							panda.effectTimer = ((SurpriseBox) contact.getFixtureA().getUserData()).effectTime;
+							((SurpriseBox) contact.getFixtureA().getUserData()).regenerate = true;
+						}
+						
+						if(bB.getUserData().equals("surprise_box")){
+							panda.effectType = ((SurpriseBox) contact.getFixtureB().getUserData()).type;
+							panda.effectTimer = ((SurpriseBox) contact.getFixtureB().getUserData()).effectTime;
+							((SurpriseBox) contact.getFixtureB().getUserData()).regenerate = true;
+						}
+					}
 				}				
 				
 			}
@@ -275,12 +291,37 @@ public abstract class GameScreen extends BaseScreen {
 				}
 				break;
 			case LIVE:
-				updateLevel(deltaTime);
-				world.step(deltaTime, 6, 2);
+				switch (panda.effectType) {
+					case 2:
+						updateLevel(deltaTime/2);
+						world.step(deltaTime/2, 6, 2);
+						break;
+					case 4:
+						updateLevel(deltaTime*2);
+						world.step(deltaTime*2, 6, 2);
+						break;
+					default:
+						updateLevel(deltaTime);
+						world.step(deltaTime, 6, 2);
+				}
+
 				
 				// Checking input
 				if(Input.isReleasing()){
-					panda.slide(Input.touch[0].highestDx, Input.touch[0].highestDy);
+				    switch (panda.effectType) {
+					    case 1:
+							panda.slide(-Input.touch[0].highestDx, -Input.touch[0].highestDy);
+					    	break;
+					    case 3:
+							panda.slide(Input.touch[0].highestDx/2, Input.touch[0].highestDy/2);
+							break;
+					    case 5:
+							panda.slide(Input.touch[0].highestDx*2, Input.touch[0].highestDy*2);
+					    	break;
+				    	default:
+							panda.slide(Input.touch[0].highestDx, Input.touch[0].highestDy);
+				    }
+				    
 					score.starsInSingleSlide = 0;
 				}
 				

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.pandabounce.Game;
 import com.pandabounce.entities.Hedgehog;
 import com.pandabounce.entities.Star;
+import com.pandabounce.entities.SurpriseBox;
 import com.pandabounce.resources.Art;
 
 public class Level1 extends GameScreen {
@@ -22,6 +23,8 @@ public class Level1 extends GameScreen {
 			hedgehogs[i] = new Hedgehog(world);
 			hedgehogs[i].regenerate();
 		}
+		
+		box = new SurpriseBox(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
 	}
 
 	@Override
@@ -35,10 +38,17 @@ public class Level1 extends GameScreen {
 			}
 		}
 		
+		if (box.regenerate) {
+			box.regenerate(Game.random.nextInt((int) (Game.SCREEN_WIDTH - box.hitBox.width)), Game.random.nextInt((int) (Game.SCREEN_HEIGHT - box.hitBox.height)));
+		}
+
+		
 		for(int i = 0; i < stars.length; i++)
 			stars[i].draw(spriteBatch, deltaTime);
 		
 		dust.draw(spriteBatch, deltaTime);
+		
+		box.draw(spriteBatch, deltaTime);
 		
 		// Drawing people
 		for(int i = 0; i < hedgehogs.length; i++)

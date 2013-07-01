@@ -46,6 +46,10 @@ public class Panda {
 	private float dustTimer;
 	private float dustDelay = 0.05f;
 	
+	// Effects
+	public int effectType = 0;
+	public float effectTimer;
+	
 	public boolean touched = false;
 	
 	private Body body;
@@ -107,6 +111,15 @@ public class Panda {
 	}
 	
 	public void update(float deltaTime){
+		// Effect
+	    if (effectType != 0) {
+			effectTimer -= deltaTime;
+			if (effectTimer < 0) {
+				effectType = 0;
+			}
+	    }
+		
+
 		/*----------------------------------------
 		 * ANIMATION
 		 */
