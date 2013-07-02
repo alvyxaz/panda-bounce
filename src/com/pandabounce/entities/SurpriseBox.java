@@ -38,7 +38,7 @@ public class SurpriseBox {
 	
 	public SurpriseBox(int x, int y, World world){
 
-		hitBox = new Rectangle(x, y, 40, 50);
+		hitBox = new Rectangle(x, y, Art.box.getRegionWidth(), Art.box.getRegionHeight());
 		type = Game.random.nextInt(5) + 1;
 		
 		// Creating body definition
@@ -75,7 +75,7 @@ public class SurpriseBox {
 		if (regenerationTimer < 0) {
 			// Drawing
 			spriteBatch.setColor(1, 1, 1, opacity);
-			spriteBatch.draw(Art.px, hitBox.x, hitBox.y, hitBox.width, hitBox.height);
+			spriteBatch.draw(Art.box, hitBox.x, hitBox.y);
 			spriteBatch.setColor(Color.WHITE);
 			
 			// Fade in effect

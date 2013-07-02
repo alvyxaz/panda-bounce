@@ -26,6 +26,7 @@ public class Art {
 	public static TextureRegion hedgehog;
 	public static TextureRegion healthBar;
 	public static TextureRegion dustCloud;
+	public static TextureRegion box;
 	
 	private static Texture guiTexture;
 	public static TextureRegion logo;
@@ -106,6 +107,7 @@ public class Art {
 		hedgehog = new TextureRegion(otherTexture, 146 , 0, 51, 78);
 		healthBar = new TextureRegion(otherTexture, 197, 0, 1, 21);
 		dustCloud = new TextureRegion(otherTexture, 199, 0, 52, 52);
+		box = new TextureRegion(otherTexture, 251, 0, 77, 83);
 		
 	}
 	
