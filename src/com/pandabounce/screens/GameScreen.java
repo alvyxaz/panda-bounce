@@ -23,6 +23,7 @@ import com.pandabounce.Game;
 import com.pandabounce.controls.Input;
 import com.pandabounce.entities.Dust;
 import com.pandabounce.entities.GuiHealthBar;
+import com.pandabounce.entities.GuiLargeNotifications;
 import com.pandabounce.entities.GuiLiveNotification;
 import com.pandabounce.entities.Panda;
 import com.pandabounce.entities.Hedgehog;
@@ -58,6 +59,7 @@ public abstract class GameScreen extends BaseScreen {
 	protected SurpriseBox box;
 	
 	protected GuiLiveNotification [] notifications;
+	protected GuiLargeNotifications largeNotifications;
 	
 	/*-------------------------------------
 	 * GUI elements
@@ -97,8 +99,9 @@ public abstract class GameScreen extends BaseScreen {
 		stars = new Star[3];
 
 		// GUI
-		score = new GuiScore();
 		healthBar = new GuiHealthBar(panda);
+		largeNotifications = new GuiLargeNotifications();
+		score = new GuiScore(largeNotifications);
 		
 		notifications = new GuiLiveNotification [10];
 		for(int i = 0; i < notifications.length; i++){
@@ -192,6 +195,24 @@ public abstract class GameScreen extends BaseScreen {
 							panda.effectTimer = ((SurpriseBox) contact.getFixtureB().getUserData()).effectTime;
 							((SurpriseBox) contact.getFixtureB().getUserData()).regenerate = true;
 						}
+						
+						switch (panda.effectType) {
+						    case 1:
+								largeNotifications.add(Art.textConfused);
+						    	break;
+						    case 2:
+						    	largeNotifications.add(Art.textSlowerWorld);
+						    	break;
+						    case 3:
+						    	largeNotifications.add(Art.textLazy);
+						    	break;
+						    case 4:
+						    	largeNotifications.add(Art.textFasterWorld);
+						    	break;
+						    case 5:
+						    	largeNotifications.add(Art.textFastPaced);
+						    	break;
+					    }
 					}
 				}				
 				

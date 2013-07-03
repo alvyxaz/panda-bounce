@@ -27,6 +27,14 @@ public class Art {
 	public static TextureRegion healthBar;
 	public static TextureRegion dustCloud;
 	public static TextureRegion box;
+	public static TextureRegion textComboStarted;
+	public static TextureRegion textComboOver;
+	public static TextureRegion textFastPaced;
+	public static TextureRegion textLazy;
+	public static TextureRegion textConfused;
+	public static TextureRegion textFasterWorld;
+	public static TextureRegion textSlowerWorld;
+	
 	
 	private static Texture guiTexture;
 	public static TextureRegion logo;
@@ -109,6 +117,13 @@ public class Art {
 		dustCloud = new TextureRegion(otherTexture, 199, 0, 52, 52);
 		box = new TextureRegion(otherTexture, 251, 0, 77, 83);
 		
+		textComboStarted = new TextureRegion(otherTexture, 0, 83, 261, 37);
+		textComboOver = new TextureRegion(otherTexture, 263, 83, 208, 37);
+		textFastPaced = new TextureRegion(otherTexture, 328, 0, 184, 36);
+		textConfused = new TextureRegion(otherTexture, 328, 37, 168, 37);
+		textFasterWorld = new TextureRegion(otherTexture, 0, 120, 240, 37);
+		textSlowerWorld = new TextureRegion(otherTexture, 240, 120, 256, 37);
+		textLazy= new TextureRegion(otherTexture, 0, 157, 84, 37);
 	}
 	
 	private static void loadPandaTextures(){

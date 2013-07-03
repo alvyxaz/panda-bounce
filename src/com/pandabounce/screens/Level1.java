@@ -67,6 +67,8 @@ public class Level1 extends GameScreen {
 				notifications[i].draw(spriteBatch, deltaTime);
 			}
 		}
+		
+		largeNotifications.draw(spriteBatch, deltaTime);
 	}
 	
 	@Override

@@ -20,12 +20,16 @@ public class GuiScore {
 	
 	private float scaleMultiplier = 1f;
 	
-	public GuiScore() {
+	private GuiLargeNotifications largeNotifications;
+	
+	public GuiScore(GuiLargeNotifications notifications) {
 		digitWidth = Art.scoreNumbers[0].getRegionWidth();
 		digitHeight = Art.scoreNumbers[1].getRegionHeight();
 		
 		initialY = Game.SCREEN_HEIGHT - digitHeight - 10;
 		initialX = (digitWidth + 2) * maxDigits + 10;
+		
+		largeNotifications = notifications;
 	}
 	
 	public void draw(SpriteBatch spriteBatch, float deltaTime){
@@ -73,7 +77,10 @@ public class GuiScore {
 		starsInSingleSlide++;
 		
 		if (starsInSingleSlide > 1 || multiplierTime > 0) {
-			multiplierTime = 5;
+			if(multiplier == 1 && starsInSingleSlide == 2){
+				largeNotifications.add(Art.textComboStarted);
+			}
+			multiplierTime = 3;
 			multiplier++;
 		}
 
