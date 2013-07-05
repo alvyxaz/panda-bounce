@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -50,6 +51,10 @@ public class Panda {
 	public int effectType = 0;
 	public float effectTimer;
 	
+	// Damage indication
+	public boolean damaged = false;
+	private float damageTimer;
+	
 	public boolean touched = false;
 	
 	private Body body;
@@ -74,13 +79,15 @@ public class Panda {
 		
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(Art.pandaIdle[0].getRegionWidth()/2*Game.WORLD_TO_BOX, Art.pandaIdle[0].getRegionHeight()/2*Game.WORLD_TO_BOX);
+		shape.setAsBox(Art.pandaIdle[0].getRegionWidth()/2*Game.WORLD_TO_BOX, Art.pandaIdle[0].getRegionWidth()/2*Game.WORLD_TO_BOX);
 		
 		// Creating fixture 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
 		fixtureDef.density = 1f;
 		fixtureDef.restitution = 1f; // Maximum bounce ratio
+		fixtureDef.filter.categoryBits = PhysicsFilter.CATEGORY_PLAYER;
+		
 		body.createFixture(fixtureDef);
 		body.setUserData("panda");
 		
@@ -98,16 +105,18 @@ public class Panda {
 		
 		dust.draw(spriteBatch, deltaTime);
 		
-		spriteBatch.draw(animation[currentFrame], 
-				body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2, 	// x
-				body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2, // y
-				hitBox.width/2,	// OriginX
-				hitBox.height/2,	// OriginY
-				hitBox.width, 	// Width
-				hitBox.height,	// Height
-				1f,	// ScaleX
-				1f,	// ScaleY
-				(float)Math.toDegrees(slideAngle + angleOffset)); // Rotation
+		if((damageTimer * 14)%2 < 1 ){
+			spriteBatch.draw(animation[currentFrame], 
+					body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2, 	// x
+					body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2, // y
+					hitBox.width/2,	// OriginX
+					hitBox.height/2,	// OriginY
+					hitBox.width, 	// Width
+					hitBox.height,	// Height
+					1f,	// ScaleX
+					1f,	// ScaleY
+					(float)Math.toDegrees(slideAngle + angleOffset)); // Rotation
+		}
 	}
 	
 	public void update(float deltaTime){
@@ -153,6 +162,19 @@ public class Panda {
 		}
 		
 		timePerFrame = Math.min(1/(strength*3), 0.07f);
+		
+		// Damage indication
+		if(damaged){
+			damageTimer += deltaTime;
+			if(damageTimer > 2f){
+				damageTimer = 0;
+				damaged = false;
+				
+				Filter filter = body.getFixtureList().get(0).getFilterData();
+				filter.maskBits = ~0x0000;
+				body.getFixtureList().get(0).setFilterData(filter);
+			}
+		}
 		
 		/*----------------------------------------
 		 * PHYSICS
@@ -225,6 +247,14 @@ public class Panda {
 		speedCoef = 1;
 		
 		refreshAnimation();
+	}
+	
+	public void damage(){
+		this.damaged = true;
+		this.damageTimer = 0;
+		Filter filter = body.getFixtureList().get(0).getFilterData();
+		filter.maskBits = PhysicsFilter.MASK_HEDGEHOG;
+		body.getFixtureList().get(0).setFilterData(filter);
 	}
 	
 }

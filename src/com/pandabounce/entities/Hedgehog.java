@@ -19,7 +19,7 @@ public class Hedgehog {
 	
 	// movement related vars
 	private int moveSpeed = 200; // Pixels per second
-	private int restlessness = 3;
+	private int restlessness = 2;
 	private float moveAngle;
 	private float dontRegenerateFor = 0;
 		
@@ -31,10 +31,11 @@ public class Hedgehog {
 		
 		// Creating body definition
 		BodyDef bodyDef = new BodyDef();
-		bodyDef.type = BodyType.KinematicBody;
+		bodyDef.type = BodyType.DynamicBody;
 		bodyDef.position.set(new Vector2((0+  hitBox.width/2)*Game.WORLD_TO_BOX , (0+ hitBox.height/2)*Game.WORLD_TO_BOX ));
 		bodyDef.angle = moveAngle;
-
+		bodyDef.fixedRotation = true;
+		
 		// Creating body
 		body = world.createBody(bodyDef);
 		body.setLinearDamping(0);
@@ -42,14 +43,15 @@ public class Hedgehog {
 
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(hitBox.width/2*Game.WORLD_TO_BOX, hitBox.height/2*Game.WORLD_TO_BOX);
+		shape.setAsBox(hitBox.width/2*Game.WORLD_TO_BOX, hitBox.width/2*Game.WORLD_TO_BOX);
 		
 		// Creating fixture 
 		FixtureDef fixtureDef = new FixtureDef();
 		fixtureDef.shape = shape;
-		fixtureDef.density = 1f;
+		fixtureDef.density = 40f;
 		fixtureDef.restitution = 1f; // Maximum bounce ratio
-		fixtureDef.isSensor = true;
+		fixtureDef.filter.categoryBits = PhysicsFilter.CATEGORY_HEDGEHOG;
+		fixtureDef.filter.maskBits = PhysicsFilter.MASK_HEDGEHOG;
 		
 		body.createFixture(fixtureDef);
 		body.setUserData("hedgehog");

@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
@@ -27,6 +28,7 @@ import com.pandabounce.entities.GuiLargeNotifications;
 import com.pandabounce.entities.GuiLiveNotification;
 import com.pandabounce.entities.Panda;
 import com.pandabounce.entities.Hedgehog;
+import com.pandabounce.entities.PhysicsFilter;
 import com.pandabounce.entities.Star;
 import com.pandabounce.entities.GuiScore;
 import com.pandabounce.entities.SurpriseBox;
@@ -133,8 +135,10 @@ public abstract class GameScreen extends BaseScreen {
 					/*
 					 * Collision with Hedgehog
 					 */
-					if(bA.getUserData().equals("hedgehog") || bB.getUserData().equals("hedgehog")){
+					if(!panda.damaged && (bA.getUserData().equals("hedgehog") || bB.getUserData().equals("hedgehog"))){
 						panda.health -= 5;
+						panda.damage();
+						
 						if(panda.health < 0){
 							panda.health = 100;
 						}
@@ -202,7 +206,7 @@ public abstract class GameScreen extends BaseScreen {
 						    	break;
 						    case 2:
 						    	largeNotifications.add(Art.textSlowerWorld);
-						    	break;
+						    	 break;
 						    case 3:
 						    	largeNotifications.add(Art.textLazy);
 						    	break;
@@ -268,6 +272,15 @@ public abstract class GameScreen extends BaseScreen {
 		wallBodies[1].createFixture(verticalBox, 0);
 		wallBodies[2].createFixture(horizontalBox, 0);
 		wallBodies[3].createFixture(horizontalBox, 0);
+		
+		Filter filter = wallBodies[0].getFixtureList().get(0).getFilterData();
+		filter.categoryBits = PhysicsFilter.CATEGORY_WALL;
+		filter.maskBits = PhysicsFilter.MASK_HEDGEHOG;
+		
+		wallBodies[0].getFixtureList().get(0).setFilterData(filter);
+		wallBodies[1].getFixtureList().get(0).setFilterData(filter);
+		wallBodies[2].getFixtureList().get(0).setFilterData(filter);
+		wallBodies[3].getFixtureList().get(0).setFilterData(filter);
 		
 		// Cleaning up
 		horizontalBox.dispose();

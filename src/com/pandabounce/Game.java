@@ -37,7 +37,7 @@ public class Game implements ApplicationListener {
 		Art.loadTextures();
 		
 		// Setting first screen to render
-		setScreen(new BrandScreen(this));
+		setScreen(new Level1(this));
     }
 
     public void render () {
