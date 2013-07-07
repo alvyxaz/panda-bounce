@@ -23,8 +23,8 @@ public class Panda {
 	
 	// Basic states
 	public int state = 0;
-	private int STATE_WAITING = 0;
-	private int STATE_SLIDING = 1;
+	public int STATE_WAITING = 0;
+	public int STATE_SLIDING = 1;
 	
 	// Slide related
 	private float speedCoef = 1;
@@ -105,6 +105,10 @@ public class Panda {
 		
 		dust.draw(spriteBatch, deltaTime);
 		
+		if(damageTimer > 0 && damageTimer < 0.2f){
+			spriteBatch.setColor(Color.RED);
+		}
+		
 		if((damageTimer * 14)%2 < 1 ){
 			spriteBatch.draw(animation[currentFrame], 
 					body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2, 	// x
@@ -117,6 +121,8 @@ public class Panda {
 					1f,	// ScaleY
 					(float)Math.toDegrees(slideAngle + angleOffset)); // Rotation
 		}
+		
+		spriteBatch.setColor(Color.WHITE);
 	}
 	
 	public void update(float deltaTime){
@@ -249,12 +255,28 @@ public class Panda {
 		refreshAnimation();
 	}
 	
-	public void damage(){
+	public void continueSlide(){
+		state = STATE_SLIDING;
+		speedCoef = 1;
+	}
+	
+	public void damage(int damage){
 		this.damaged = true;
 		this.damageTimer = 0;
+		
+		// Temporary invincible
 		Filter filter = body.getFixtureList().get(0).getFilterData();
 		filter.maskBits = PhysicsFilter.MASK_HEDGEHOG;
 		body.getFixtureList().get(0).setFilterData(filter);
+	
+		health -= damage;
+		if(health < 0){
+			health = 100;
+		}
+	}
+	
+	public Vector2 getPosition(){
+		return body.getPosition();
 	}
 	
 }

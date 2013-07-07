@@ -34,6 +34,8 @@ public class Art {
 	public static TextureRegion textConfused;
 	public static TextureRegion textFasterWorld;
 	public static TextureRegion textSlowerWorld;
+	public static TextureRegion [] bee;
+	public static TextureRegion exclamation;
 	
 	
 	private static Texture guiTexture;
@@ -124,6 +126,14 @@ public class Art {
 		textFasterWorld = new TextureRegion(otherTexture, 0, 120, 240, 37);
 		textSlowerWorld = new TextureRegion(otherTexture, 240, 120, 256, 37);
 		textLazy= new TextureRegion(otherTexture, 0, 157, 84, 37);
+		
+		bee = new TextureRegion[2];
+		bee[0] = new TextureRegion(otherTexture, 84, 157, 68, 47);
+		bee[1] = new TextureRegion(otherTexture, 152, 157, 72, 47);
+		
+		exclamation = new TextureRegion(otherTexture, 0, 0, 14, 49);
+		
+		
 	}
 	
 	private static void loadPandaTextures(){

@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pandabounce.Game;
 import com.pandabounce.controls.Input;
+import com.pandabounce.entities.Bee;
 import com.pandabounce.entities.Dust;
 import com.pandabounce.entities.GuiHealthBar;
 import com.pandabounce.entities.GuiLargeNotifications;
@@ -58,6 +59,7 @@ public abstract class GameScreen extends BaseScreen {
 	 */
 	protected Star [] stars;	// Star entities
 	protected Hedgehog [] hedgehogs;
+	protected Bee [] bees;
 	protected SurpriseBox box;
 	
 	protected GuiLiveNotification [] notifications;
@@ -135,13 +137,16 @@ public abstract class GameScreen extends BaseScreen {
 					/*
 					 * Collision with Hedgehog
 					 */
+					if(!panda.damaged && (bA.getUserData().equals("bee") || bB.getUserData().equals("bee"))){
+						panda.damage(10);
+					}
+					
+					/*
+					 * Collision with Hedgehog
+					 */
 					if(!panda.damaged && (bA.getUserData().equals("hedgehog") || bB.getUserData().equals("hedgehog"))){
-						panda.health -= 5;
-						panda.damage();
-						
-						if(panda.health < 0){
-							panda.health = 100;
-						}
+						panda.damage(5);
+						panda.continueSlide();
 					}
 					
 					/*

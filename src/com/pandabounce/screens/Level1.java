@@ -2,6 +2,7 @@ package com.pandabounce.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.pandabounce.Game;
+import com.pandabounce.entities.Bee;
 import com.pandabounce.entities.Hedgehog;
 import com.pandabounce.entities.Star;
 import com.pandabounce.entities.SurpriseBox;
@@ -22,6 +23,12 @@ public class Level1 extends GameScreen {
 		for(int i = 0; i < hedgehogs.length; i++ ){
 			hedgehogs[i] = new Hedgehog(world);
 			hedgehogs[i].regenerate();
+		}
+		
+		bees = new Bee[1];
+		for(int i = 0; i < bees.length; i++){
+			bees[i] = new Bee(world, panda.getPosition());
+			bees[i].regenerate();
 		}
 		
 		box = new SurpriseBox(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
@@ -50,10 +57,14 @@ public class Level1 extends GameScreen {
 		
 		box.draw(spriteBatch, deltaTime);
 		
-		// Drawing people
+		// Drawing Hedgehogs
 		for(int i = 0; i < hedgehogs.length; i++)
 			hedgehogs[i].draw(spriteBatch, deltaTime);
 				
+		// Drawing bees
+		for(int i = 0; i < bees.length; i++)
+			bees[i].draw(spriteBatch, deltaTime);
+		
 		panda.draw(spriteBatch, deltaTime);
 		
 		Art.fontDefault.draw(spriteBatch, this.fpsText, 0, 20);
