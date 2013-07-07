@@ -27,7 +27,7 @@ public class MyTextInputListener implements TextInputListener {
 	   public void input (String text) {
 		    // Create a new HttpClient and Post Header
 		    HttpClient httpclient = new DefaultHttpClient();
-		    HttpPost httppost = new HttpPost("http://localhost/panda-scores/");
+		    HttpPost httppost = new HttpPost("http://158.129.18.103/panda-scores/");
 
 		    try {
 		        // Add your data

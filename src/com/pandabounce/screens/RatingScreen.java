@@ -19,7 +19,7 @@ import com.pandabounce.resources.Art;
 
 public class RatingScreen extends BaseScreen {
 	
-	private String scoresUrl = "http://localhost/panda-scores";
+	private String scoresUrl = "http://158.129.18.103/panda-scores";
 	
 	private String [][] scores;
 	
