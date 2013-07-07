@@ -6,7 +6,7 @@ import com.pandabounce.resources.Art;
 
 public class GuiScore {
 
-	private int score = 0;
+	public int score = 0;
 	private int maxDigits = 9;
 	public int multiplier = 1;
 	public int starsInSingleSlide = 0;

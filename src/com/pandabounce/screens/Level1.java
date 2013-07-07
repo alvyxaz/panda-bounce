@@ -85,6 +85,7 @@ public class Level1 extends GameScreen {
 	@Override
 	public void updateLevel(float deltaTime) {
 		panda.update(deltaTime);
+
 	}
 
 	@Override

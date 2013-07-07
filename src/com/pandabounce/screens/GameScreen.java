@@ -145,8 +145,13 @@ public abstract class GameScreen extends BaseScreen {
 					 * Collision with Hedgehog
 					 */
 					if(!panda.damaged && (bA.getUserData().equals("hedgehog") || bB.getUserData().equals("hedgehog"))){
+
 						panda.damage(5);
 						panda.continueSlide();
+						
+						if(panda.health < 0){
+							screenToSwitchTo = new RatingScreen(game, score.score);
+						}
 					}
 					
 					/*
