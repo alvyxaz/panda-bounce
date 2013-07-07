@@ -270,9 +270,6 @@ public class Panda {
 		body.getFixtureList().get(0).setFilterData(filter);
 	
 		health -= damage;
-		if(health < 0){
-			health = 100;
-		}
 	}
 	
 	public Vector2 getPosition(){
