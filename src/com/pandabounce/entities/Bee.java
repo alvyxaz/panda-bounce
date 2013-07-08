@@ -122,7 +122,10 @@ public class Bee {
 				float newVelocityY = (float)Math.sin(moveAngle)* moveSpeed * 2 * Game.WORLD_TO_BOX ;
 				body.setLinearVelocity(newVelocityX, newVelocityY);
 				body.setTransform(body.getPosition().x, body.getPosition().y, moveAngle - (float)Math.PI/2);
-			
+				
+				Filter filter = body.getFixtureList().get(0).getFilterData();
+				filter.maskBits = ~PhysicsFilter.MASK_PLAYER;
+				body.getFixtureList().get(0).setFilterData(filter);
 			}
 			break;
 		case ATTACKING:
@@ -194,6 +197,10 @@ public class Bee {
 		float newVelocityY = (float)Math.sin(angle)* moveSpeed * Game.WORLD_TO_BOX ;
 		body.setTransform(x * Game.WORLD_TO_BOX, y * Game.WORLD_TO_BOX, angle - (float)Math.PI/2);
 		body.setLinearVelocity(newVelocityX, newVelocityY);
+		
+		Filter filter = body.getFixtureList().get(0).getFilterData();
+		filter.maskBits = PhysicsFilter.MASK_PLAYER;
+		body.getFixtureList().get(0).setFilterData(filter);
 		
 	}
 	
