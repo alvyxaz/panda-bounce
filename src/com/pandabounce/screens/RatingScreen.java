@@ -51,7 +51,7 @@ public class RatingScreen extends BaseScreen {
 				        scoresLoaded = true;
 				    }
 				    
-				    if (scores[9][0] == null || score > Integer.parseInt(scores[9][1])) {
+				    if (scores[scores.length-1][0] == null || score > Integer.parseInt(scores[scores.length-1][1])) {
 				    	MyTextInputListener listener = new MyTextInputListener(score);
 				    	Gdx.input.getTextInput(listener, "New highscore", "Player");
 				    }

@@ -139,24 +139,15 @@ public abstract class GameScreen extends BaseScreen {
 					 */
 					if(!panda.damaged && (bA.getUserData().equals("bee") || bB.getUserData().equals("bee"))){
 						panda.damage(10);
-						if(panda.health <= 0){
-							screenToSwitchTo = new RatingScreen(game, score.score);
-							return;
-						}
+
 					}
 					
 					/*
 					 * Collision with Hedgehog
 					 */
 					if(!panda.damaged && (bA.getUserData().equals("hedgehog") || bB.getUserData().equals("hedgehog"))){
-
 						panda.damage(5);
 						panda.continueSlide();
-						
-						if(panda.health <= 0){
-							screenToSwitchTo = new RatingScreen(game, score.score);
-							return;
-						}
 					}
 					
 					/*
@@ -239,6 +230,11 @@ public abstract class GameScreen extends BaseScreen {
 
 			@Override
 			public void endContact(Contact contact) {
+				if(panda.health <= 0){
+					screenToSwitchTo = new RatingScreen(game, score.score);
+					return;
+				}
+				
 				if(panda.refreshAnimation){
 					panda.refreshAnimation = false;
 					panda.refreshAnimation();
