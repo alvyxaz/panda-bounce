@@ -25,35 +25,45 @@ public class RatingScreen extends BaseScreen {
 	
 	private boolean scoresLoaded = false;
 	
-	public RatingScreen(Game game, int score) {
+	public RatingScreen(Game game,final int score) {
 		super(game);
 		
 		scores = new String[10][2];
 
-		try {
-		    HttpClient client = new DefaultHttpClient();  
-		    HttpGet get = new HttpGet(scoresUrl);
-		    BasicHttpResponse responseGet = (BasicHttpResponse) client.execute(get);  
-		    HttpEntity resEntityGet = ((org.apache.http.HttpResponse) responseGet).getEntity();  
-		    if (resEntityGet != null) {  
-		        String response = EntityUtils.toString(resEntityGet);
-		        JSONArray jArray = new JSONArray(response);
-		        for (int i = 0; i < jArray.length(); i++) {
-		        	JSONArray obj = jArray.getJSONArray(i);
-		        	scores[i][0] = obj.getString(0);
-		        	scores[i][1] = obj.getString(1);
-		        }
-		        scoresLoaded = true;
-		    }
-		    
-		    if (scores[9][0] == null || score > Integer.parseInt(scores[9][1])) {
-		    	MyTextInputListener listener = new MyTextInputListener(score);
-		    	Gdx.input.getTextInput(listener, "New highscore", "Player");
-		    }
-		    
-		} catch (Exception e) {
-		    e.printStackTrace();
-		}
+		new Thread(new Runnable(){
+
+			@Override
+			public void run() {
+				try {
+					
+				    HttpClient client = new DefaultHttpClient();  
+				    HttpGet get = new HttpGet(scoresUrl);
+				    BasicHttpResponse responseGet = (BasicHttpResponse) client.execute(get);  
+				    HttpEntity resEntityGet = ((org.apache.http.HttpResponse) responseGet).getEntity();  
+				    if (resEntityGet != null) {  
+				        String response = EntityUtils.toString(resEntityGet);
+				        JSONArray jArray = new JSONArray(response);
+				        for (int i = 0; i < jArray.length(); i++) {
+				        	JSONArray obj = jArray.getJSONArray(i);
+				        	scores[i][0] = obj.getString(0);
+				        	scores[i][1] = obj.getString(1);
+				        }
+				        scoresLoaded = true;
+				    }
+				    
+				    if (scores[9][0] == null || score > Integer.parseInt(scores[9][1])) {
+				    	MyTextInputListener listener = new MyTextInputListener(score);
+				    	Gdx.input.getTextInput(listener, "New highscore", "Player");
+				    }
+				    
+				} catch (Exception e) {
+				    e.printStackTrace();
+				}
+				
+			}
+
+		}).start();
+
 	}
 
 	@Override
@@ -91,5 +101,4 @@ public class RatingScreen extends BaseScreen {
 		// TODO Auto-generated method stub
 		return true;
 	}
-
 }

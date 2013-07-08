@@ -19,7 +19,7 @@ public class Panda {
 	public Rectangle hitBox;
 	public float hitBoxCenterX;	// Relative Y center of the hitBox
 	
-	public float health = 100; // Percentage
+	public float health = 5; // Percentage
 	
 	// Basic states
 	public int state = 0;

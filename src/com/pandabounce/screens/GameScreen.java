@@ -139,6 +139,10 @@ public abstract class GameScreen extends BaseScreen {
 					 */
 					if(!panda.damaged && (bA.getUserData().equals("bee") || bB.getUserData().equals("bee"))){
 						panda.damage(10);
+						if(panda.health <= 0){
+							screenToSwitchTo = new RatingScreen(game, score.score);
+							return;
+						}
 					}
 					
 					/*
@@ -149,8 +153,9 @@ public abstract class GameScreen extends BaseScreen {
 						panda.damage(5);
 						panda.continueSlide();
 						
-						if(panda.health < 0){
+						if(panda.health <= 0){
 							screenToSwitchTo = new RatingScreen(game, score.score);
+							return;
 						}
 					}
 					
