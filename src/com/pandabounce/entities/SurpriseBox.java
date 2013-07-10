@@ -71,13 +71,19 @@ public class SurpriseBox {
 		shape.dispose();
 	}
 	
-	public void draw(SpriteBatch spriteBatch, float deltaTime){
+	public void draw(SpriteBatch spriteBatch){
 		if (regenerationTimer < 0) {
 			// Drawing
 			spriteBatch.setColor(1, 1, 1, opacity);
 			spriteBatch.draw(Art.box, hitBox.x, hitBox.y);
 			spriteBatch.setColor(Color.WHITE);
-			
+
+		}
+		
+	}
+	
+	public void update(float deltaTime){
+		if (regenerationTimer < 0) {
 			// Fade in effect
 			if(opacity < 1){
 				opacity += deltaTime;
@@ -88,7 +94,6 @@ public class SurpriseBox {
 		}
 		
 		regenerationTimer -= deltaTime;
-			
 	}
 	
 	public void regenerate(int x, int y)

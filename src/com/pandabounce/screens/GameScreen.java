@@ -24,6 +24,7 @@ import com.pandabounce.Game;
 import com.pandabounce.controls.Input;
 import com.pandabounce.entities.Bee;
 import com.pandabounce.entities.Dust;
+import com.pandabounce.entities.GuiEndWindow;
 import com.pandabounce.entities.GuiHealthBar;
 import com.pandabounce.entities.GuiLargeNotifications;
 import com.pandabounce.entities.GuiLiveNotification;
@@ -46,13 +47,17 @@ public abstract class GameScreen extends BaseScreen {
 	protected float targetAngle;
 	
 	/*-------------------------------------
-	 * Transitions
+	 * States
 	 */
-	private int transitionState = 0;
+	private int state = 0;
+	private int targetState = -1;
 	private static final int FADE_IN = 0;
-	private static final int LIVE = 1;
+	private static final int READY = 3;
+	private static final int PLAYING = 1;
+	private static final int PAUSE = 4;
+	private static final int END = 5;
 	private static final int FADE_OUT = 2;
-	private float opacity = 1f;
+	private float transitionOpacity = 1f;
 	
 	/*-------------------------------------
 	 * Data
@@ -64,12 +69,14 @@ public abstract class GameScreen extends BaseScreen {
 	
 	protected GuiLiveNotification [] notifications;
 	protected GuiLargeNotifications largeNotifications;
+	protected GuiEndWindow endWindow;
 	
 	/*-------------------------------------
 	 * GUI elements
 	 */
 	protected GuiScore score;
 	protected GuiHealthBar healthBar;
+	protected Rectangle pauseButton;
 	
 	private boolean movementRegistered = false;
 	
@@ -89,6 +96,11 @@ public abstract class GameScreen extends BaseScreen {
 	
 	public GameScreen(Game game) {
 		super(game);
+		
+		pauseButton = new Rectangle(10, 10, 20, 20);
+		targetState = READY;
+		
+		endWindow = new GuiEndWindow();
 		
 		// Box2D
 		world = new World(new Vector2(0, 0), true);
@@ -231,8 +243,8 @@ public abstract class GameScreen extends BaseScreen {
 			@Override
 			public void endContact(Contact contact) {
 				if(panda.health <= 0){
-					screenToSwitchTo = new RatingScreen(game, score.score);
-					return;
+					state = END;
+					transitionOpacity = 0.5f;
 				}
 				
 				if(panda.refreshAnimation){
@@ -304,20 +316,41 @@ public abstract class GameScreen extends BaseScreen {
 		spriteBatch.begin();
 		spriteBatch.setProjectionMatrix(guiCam.combined);
 		drawLevel(deltaTime);
-		switch(transitionState){
+		spriteBatch.draw(Art.px, pauseButton.x, pauseButton.y, pauseButton.width, pauseButton.height);
+		switch(state){
 			case FADE_IN:
-				spriteBatch.setColor(0, 0, 0, opacity);
+				spriteBatch.setColor(0, 0, 0, transitionOpacity);
 				spriteBatch.draw(Art.px, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
 				spriteBatch.setColor(Color.WHITE);
 				break;
-			case LIVE:
+			case READY:
+				spriteBatch.setColor(0, 0, 0, transitionOpacity);
+				spriteBatch.draw(Art.px, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
+				spriteBatch.setColor(Color.WHITE);
+				Art.fontDefault.draw(spriteBatch, "Ready?",	Game.SCREEN_HALF_WIDTH, Game.SCREEN_HALF_HEIGHT);
+				break;
+			case PAUSE:
+				spriteBatch.setColor(0, 0, 0, transitionOpacity);
+				spriteBatch.draw(Art.px, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
+				spriteBatch.setColor(Color.WHITE);
+				Art.fontDefault.draw(spriteBatch, "Paused",	Game.SCREEN_HALF_WIDTH, Game.SCREEN_HALF_HEIGHT);
+				Art.fontDefault.draw(spriteBatch, "Touch to continue",	Game.SCREEN_HALF_WIDTH-30, Game.SCREEN_HALF_HEIGHT-50);
+				break;
+			case PLAYING:
+				break;
+			case END:
+				spriteBatch.setColor(0, 0, 0, transitionOpacity);
+				spriteBatch.draw(Art.px, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
+				spriteBatch.setColor(Color.WHITE);
+				endWindow.draw(spriteBatch, deltaTime);
 				break;
 			case FADE_OUT:
-				spriteBatch.setColor(0, 0, 0, opacity);
+				spriteBatch.setColor(0, 0, 0, transitionOpacity);
 				spriteBatch.draw(Art.px, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
 				spriteBatch.setColor(Color.WHITE);
 				break;
 		}
+		
 		spriteBatch.end();
 //		debugRenderer.render(world, debugMatrix);
 	}
@@ -327,15 +360,53 @@ public abstract class GameScreen extends BaseScreen {
 	
 	@Override
 	public void update(float deltaTime) {
-		switch(transitionState){
+		switch(state){
 			case FADE_IN:
-				opacity -= deltaTime * 2;
-				if(opacity < 0){
-					opacity = 0;
-					transitionState = LIVE;
+				transitionOpacity -= deltaTime * 2;
+				if(targetState == READY && transitionOpacity < 0.5f){
+					transitionOpacity = 0.5f;
+					state = READY;
+					targetState = -1;
+				} else if (targetState == PLAYING && transitionOpacity < 0){
+					transitionOpacity = 0;
+					state = PLAYING;
+					targetState = -1;
 				}
 				break;
-			case LIVE:
+			case READY:
+				if(Gdx.input.justTouched()){
+					targetState = PLAYING;
+					state = FADE_IN;
+				}
+				break;
+			case PAUSE:
+				if(Gdx.input.justTouched()){
+					targetState = PLAYING;
+					state = FADE_IN;
+				}
+				break;
+			case END:
+				if(Input.isTouching(endWindow.playAgain)){
+					state = FADE_OUT;
+					targetState = READY;
+				} else if(Input.isTouching(endWindow.submitScore)){
+					state = FADE_OUT;
+					this.screenToSwitchTo = new RatingScreen(this.game, score.score);
+				}
+				break;
+			case FADE_OUT:
+				if(targetState != -1){
+					transitionOpacity += deltaTime * 2;
+					if(transitionOpacity > 1){
+						transitionOpacity = 1;
+						if(targetState == READY){
+							restartGame();
+						}
+						state = FADE_IN;
+					}
+				}
+				break;
+			case PLAYING:
 				switch (panda.effectType) {
 					case 2:
 						updateLevel(deltaTime/2);
@@ -350,6 +421,21 @@ public abstract class GameScreen extends BaseScreen {
 						world.step(deltaTime, 6, 2);
 				}
 
+				if(Input.isTouching(pauseButton)){
+					state = PAUSE;
+					transitionOpacity = 0.5f;
+				}
+				
+				panda.update(deltaTime);
+
+				// Bees
+				for(int i = 0; i < bees.length; i++)
+					bees[i].update(deltaTime);
+				
+				// Hedgehogs
+				for(int i = 0; i < hedgehogs.length; i++)
+					hedgehogs[i].update(deltaTime);
+				
 				
 				// Checking input
 				if(Input.isReleasing()){
@@ -388,6 +474,22 @@ public abstract class GameScreen extends BaseScreen {
 		}
 	}
 	
+	public void restartGame(){
+		score.score = 0;
+		
+		for(int i = 0; i < hedgehogs.length; i++ ){
+			hedgehogs[i].regenerate();
+		}
+		
+		for(int i = 0; i < bees.length; i++){
+			bees[i].regenerate();
+		}
+		
+		box.regenerationTimer = 10f;
+		
+		score.multiplier = 1;
+	}
+	
 	public void drawBackground(SpriteBatch spriteBatch){
 		spriteBatch.disableBlending();
 		spriteBatch.draw(Art.background, 0, 0);
@@ -396,8 +498,8 @@ public abstract class GameScreen extends BaseScreen {
 	
 	@Override
 	public boolean beforeScreenSwitch(float deltaTime) {
-		opacity += deltaTime * 2;
-		if(opacity > 1){
+		transitionOpacity += deltaTime * 2;
+		if(transitionOpacity > 1){
 			return true;
 		}
 		return false;

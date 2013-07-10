@@ -23,7 +23,10 @@ public class TitleScreen extends BaseScreen {
 		logo = new Rectangle(Game.SCREEN_HALF_WIDTH - Art.logo.getRegionWidth()/2, height,
 				Art.logo.getRegionWidth(), Art.logo.getRegionHeight());
 		
-		textPlay = new Rectangle(Game.SCREEN_HALF_WIDTH  - 100, height - 100, 200, 50);
+		height -= Art.guiPlay.getRegionHeight() + 20;
+		
+		textPlay = new Rectangle(Game.SCREEN_HALF_WIDTH  - Art.guiPlay.getRegionWidth()/2, height,
+				Art.guiPlay.getRegionWidth(), Art.guiExit.getRegionHeight());
 		
 	}
 
@@ -31,11 +34,13 @@ public class TitleScreen extends BaseScreen {
 	public void draw(float deltaTime) {
 		spriteBatch.begin();
 
+		spriteBatch.disableBlending();
+		spriteBatch.draw(Art.background, 0, 0);
+		spriteBatch.enableBlending();
+		
 		spriteBatch.draw(Art.logo, logo.x, logo.y);
 		
-		spriteBatch.setColor(Color.MAGENTA);
-		spriteBatch.draw(Art.px, textPlay.x, textPlay.y, textPlay.width, textPlay.height);
-		spriteBatch.setColor(Color.WHITE);
+		spriteBatch.draw(Art.guiPlay, textPlay.x, textPlay.y, textPlay.width, textPlay.height);
 		
 		spriteBatch.end();
 	}

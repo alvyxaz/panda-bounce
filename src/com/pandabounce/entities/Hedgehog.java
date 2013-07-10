@@ -62,7 +62,7 @@ public class Hedgehog {
 		shape.dispose();
 	}
 	
-	public void draw(SpriteBatch spriteBatch, float deltaTime){
+	public void draw(SpriteBatch spriteBatch){
 		/*----------------------------------------------------------------
 		 * DRAWING
 		 */
@@ -76,11 +76,9 @@ public class Hedgehog {
 				1f,	// ScaleX
 				1f,	// ScaleY
 				(float)Math.toDegrees(body.getAngle())); // Rotation
-		
-		/*---------------------------------------------------------------
-		 * UPDATING
-		 */
-		
+	}
+	
+	public void update(float deltaTime) {
 		hitBox.x = body.getPosition().x*Game.BOX_TO_WORLD;
 		hitBox.y = body.getPosition().y * Game.BOX_TO_WORLD;
 		dontRegenerateFor -= deltaTime;

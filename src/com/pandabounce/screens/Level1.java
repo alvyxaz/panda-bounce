@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.pandabounce.Game;
 import com.pandabounce.entities.Bee;
 import com.pandabounce.entities.Hedgehog;
+import com.pandabounce.entities.Panda;
 import com.pandabounce.entities.Star;
 import com.pandabounce.entities.SurpriseBox;
 import com.pandabounce.resources.Art;
@@ -35,6 +36,14 @@ public class Level1 extends GameScreen {
 	}
 
 	@Override
+	public void restartGame() {
+		super.restartGame();
+		
+		// TODO: Regenerate instead of recreating
+		panda.regenerate();
+	}
+	
+	@Override
 	public void drawLevel(float deltaTime) {
 		drawBackground(spriteBatch);
 		
@@ -55,15 +64,15 @@ public class Level1 extends GameScreen {
 		
 		dust.draw(spriteBatch, deltaTime);
 		
-		box.draw(spriteBatch, deltaTime);
+		box.draw(spriteBatch);
 		
 		// Drawing Hedgehogs
 		for(int i = 0; i < hedgehogs.length; i++)
-			hedgehogs[i].draw(spriteBatch, deltaTime);
+			hedgehogs[i].draw(spriteBatch);
 				
 		// Drawing bees
 		for(int i = 0; i < bees.length; i++)
-			bees[i].draw(spriteBatch, deltaTime);
+			bees[i].draw(spriteBatch);
 		
 		panda.draw(spriteBatch, deltaTime);
 		
@@ -84,8 +93,7 @@ public class Level1 extends GameScreen {
 	
 	@Override
 	public void updateLevel(float deltaTime) {
-		panda.update(deltaTime);
-
+		box.update(deltaTime);
 	}
 
 	@Override

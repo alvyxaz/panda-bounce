@@ -78,11 +78,24 @@ public class Bee {
 		shape.dispose();
 	}
 	
-	public void draw(SpriteBatch spriteBatch, float deltaTime){
+	public void draw(SpriteBatch spriteBatch){
+		spriteBatch.draw(Art.bee[frame], 
+				body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2, 	// x
+				body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2, // y
+				hitBox.width/2,	// OriginX
+				hitBox.height/2,	// OriginY
+				hitBox.width, 	// Width
+				hitBox.height,	// Height
+				1f,	// ScaleX
+				1f,	// ScaleY
+				(float)Math.toDegrees(body.getAngle())); // Rotation
+		
+		if(state == WAITING && timer < 1){
+			spriteBatch.draw(Art.exclamation, hitBox.x, hitBox.y);
+		}
+	}
 	
-		/*---------------------------------------------------------------
-		 * UPDATING
-		 */
+	public void update(float deltaTime) {
 		frameTimer += deltaTime;
 		if(frameTimer > 0.02f){
 			frameTimer = 0;
@@ -134,24 +147,6 @@ public class Bee {
 				dontRegenerateFor = 2 + Game.random.nextInt(5);
 			}
 			break;
-		}
-		
-		/*----------------------------------------------------------------
-		 * DRAWING
-		 */
-		spriteBatch.draw(Art.bee[frame], 
-				body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2, 	// x
-				body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2, // y
-				hitBox.width/2,	// OriginX
-				hitBox.height/2,	// OriginY
-				hitBox.width, 	// Width
-				hitBox.height,	// Height
-				1f,	// ScaleX
-				1f,	// ScaleY
-				(float)Math.toDegrees(body.getAngle())); // Rotation
-		
-		if(state == WAITING && timer < 1){
-			spriteBatch.draw(Art.exclamation, hitBox.x, hitBox.y);
 		}
 	}
 	

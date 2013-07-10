@@ -19,7 +19,7 @@ public class Panda {
 	public Rectangle hitBox;
 	public float hitBoxCenterX;	// Relative Y center of the hitBox
 	
-	public float health = 5; // Percentage
+	public float health = 20; // Percentage
 	
 	// Basic states
 	public int state = 0;
@@ -59,7 +59,12 @@ public class Panda {
 	
 	private Body body;
 	
+	private int startX;
+	private int startY;
+	
 	public Panda(int x, int y, World world) {
+		startX = x;
+		startY = y;
 		hitBox = new Rectangle(x, y, Art.pandaIdle[0].getRegionWidth(), Art.pandaIdle[0].getRegionHeight());
 		hitBoxCenterX = hitBox.width/2;
 		animation = Art.pandaIdle;
@@ -94,6 +99,26 @@ public class Panda {
 		// Cleaning up
 		shape.dispose();
 		
+	}
+	
+	public void regenerate(){
+		body.setTransform(startX*Game.WORLD_TO_BOX, startY*Game.WORLD_TO_BOX, -(float)Math.PI/2);
+		health = 20;
+		effectType = 0;
+		
+		// Stop being invincible
+		damageTimer = 0;
+		damaged = false;
+		
+		Filter filter = body.getFixtureList().get(0).getFilterData();
+		filter.maskBits = ~0x0000;
+		body.getFixtureList().get(0).setFilterData(filter);
+		
+		// Physics
+		slideAngle = 0;
+		startIdle();
+		body.setLinearVelocity(0, 0);
+		state = STATE_WAITING;
 	}
 	
 	public void draw(SpriteBatch spriteBatch, float deltaTime){
