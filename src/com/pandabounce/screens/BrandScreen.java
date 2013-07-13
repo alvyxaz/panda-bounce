@@ -60,11 +60,11 @@ public class BrandScreen extends BaseScreen {
 				
 				autoFadeOutIn -= deltaTime;
 				if(autoFadeOutIn < 0){
-					this.screenToSwitchTo = new Level1(this.game);
+					this.screenToSwitchTo = new TitleScreen(this.game);
 					transitionState = FADE_OUT;
 				} else {
 					if(Gdx.input.isTouched()){
-						this.screenToSwitchTo = new Level1(this.game);
+						this.screenToSwitchTo = new TitleScreen(this.game);
 						transitionState = FADE_OUT;
 					}
 				}

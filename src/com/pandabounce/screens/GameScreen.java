@@ -28,6 +28,7 @@ import com.pandabounce.entities.GuiEndWindow;
 import com.pandabounce.entities.GuiHealthBar;
 import com.pandabounce.entities.GuiLargeNotifications;
 import com.pandabounce.entities.GuiLiveNotification;
+import com.pandabounce.entities.GuiTimer;
 import com.pandabounce.entities.Panda;
 import com.pandabounce.entities.Hedgehog;
 import com.pandabounce.entities.PhysicsFilter;
@@ -77,6 +78,7 @@ public abstract class GameScreen extends BaseScreen {
 	protected GuiScore score;
 	protected GuiHealthBar healthBar;
 	protected Rectangle pauseButton;
+	protected GuiTimer timer;
 	
 	private boolean movementRegistered = false;
 	
@@ -96,6 +98,8 @@ public abstract class GameScreen extends BaseScreen {
 	
 	public GameScreen(Game game) {
 		super(game);
+		
+		timer = new GuiTimer(50, 50);
 		
 		pauseButton = new Rectangle(10, 10, 20, 20);
 		targetState = READY;
@@ -205,7 +209,7 @@ public abstract class GameScreen extends BaseScreen {
 						score.onStarPickedUp();
 					}
 					
-					if(box.regenerationTimer < 0 && (bA.getUserData().equals("surprise_box") || bB.getUserData().equals("surprise_box"))){						
+					if(box != null && box.regenerationTimer < 0 && (bA.getUserData().equals("surprise_box") || bB.getUserData().equals("surprise_box"))){						
 						if(bA.getUserData().equals("surprise_box")){
 							panda.effectType = ((SurpriseBox) contact.getFixtureA().getUserData()).type;
 							panda.effectTimer = ((SurpriseBox) contact.getFixtureA().getUserData()).effectTime;
@@ -360,6 +364,7 @@ public abstract class GameScreen extends BaseScreen {
 	
 	@Override
 	public void update(float deltaTime) {
+		float originalDeltaTime = deltaTime;
 		switch(state){
 			case FADE_IN:
 				transitionOpacity -= deltaTime * 2;
@@ -407,6 +412,7 @@ public abstract class GameScreen extends BaseScreen {
 				}
 				break;
 			case PLAYING:
+				
 				switch (panda.effectType) {
 					case 2:
 						updateLevel(deltaTime/2);
@@ -424,6 +430,14 @@ public abstract class GameScreen extends BaseScreen {
 				if(Input.isTouching(pauseButton)){
 					state = PAUSE;
 					transitionOpacity = 0.5f;
+				}
+				
+				if(timer.enabled){
+					timer.time -= originalDeltaTime;
+					if (timer.time < 0){
+						state = END;
+						transitionOpacity = 0.5f;
+					}
 				}
 				
 				panda.update(deltaTime);
@@ -475,6 +489,7 @@ public abstract class GameScreen extends BaseScreen {
 	}
 	
 	public void restartGame(){
+		panda.regenerate();
 		score.score = 0;
 		
 		for(int i = 0; i < hedgehogs.length; i++ ){
@@ -485,6 +500,7 @@ public abstract class GameScreen extends BaseScreen {
 			bees[i].regenerate();
 		}
 		
+		if(box != null)
 		box.regenerationTimer = 10f;
 		
 		score.multiplier = 1;

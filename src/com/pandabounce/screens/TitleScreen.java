@@ -60,7 +60,7 @@ public class TitleScreen extends BaseScreen {
 			case STATE_LIVE:
 				
 				if(Input.isTouching(textPlay)){
-					this.screenToSwitchTo = new Level1(this.game);
+					this.screenToSwitchTo = new ModeFreestyle(this.game);
 				}
 				
 				break;
