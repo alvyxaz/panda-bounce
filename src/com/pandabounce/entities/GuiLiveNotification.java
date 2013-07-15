@@ -15,7 +15,7 @@ public class GuiLiveNotification {
 	public float timeToLive = 0; // In seconds
 	
 	public void draw(SpriteBatch spriteBatch, float deltaTime) {
-		Art.fontDefault.draw(spriteBatch, notification, x, y);
+		Art.fontKomika24Gold.draw(spriteBatch, notification, x, y);
 		
 		timeToLive -= deltaTime;
 		

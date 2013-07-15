@@ -7,27 +7,28 @@ import com.pandabounce.resources.Art;
 public class GuiScore {
 
 	public int score = 0;
-	private int maxDigits = 9;
+	public String scoreText = String.format("%09d", score);
 	public int multiplier = 1;
+	public String multiplierText = "1";
 	public int starsInSingleSlide = 0;
 	private float multiplierTime;
 	
-	private int digitWidth;
-	private int digitHeight;
+	private int x;
+	private int y;
 	
-	private int initialY;
-	private int initialX;
+	private int multiplierX;
+	private int multiplierY;
 	
 	private float scaleMultiplier = 1f;
 	
 	private GuiLargeNotifications largeNotifications;
 	
 	public GuiScore(GuiLargeNotifications notifications) {
-		digitWidth = Art.scoreNumbers[0].getRegionWidth();
-		digitHeight = Art.scoreNumbers[1].getRegionHeight();
+		x = 10;
+		y = Game.SCREEN_HEIGHT - Art.guiScoreBar.getRegionHeight()-10;
 		
-		initialY = Game.SCREEN_HEIGHT - digitHeight - 10;
-		initialX = (digitWidth + 2) * maxDigits + 10;
+		multiplierX = 10;
+		multiplierY = 10;
 		
 		largeNotifications = notifications;
 	}
@@ -44,25 +45,19 @@ public class GuiScore {
 		    }
 		}
 		
-		int tempScore = score;
-		int number;
-		int position = initialX;
-		
-		while(tempScore > 0){
-			number = tempScore % 10;
-			tempScore /= 10;
-			position -= digitWidth +2;
-			spriteBatch.draw(Art.scoreNumbers[number], position, initialY, digitWidth * scaleMultiplier, digitHeight * scaleMultiplier);
-		}
-
-		int padding = maxDigits - numDigits(score);
-		while(padding > 0){
-			padding -= 1;
-			position -= digitWidth +2;
-			spriteBatch.draw(Art.scoreNumbers[0], position, initialY, digitWidth * scaleMultiplier, digitHeight * scaleMultiplier);
+		spriteBatch.draw(Art.guiScoreBar, x, y);
+		if(scaleMultiplier != 1){
+			Art.fontKomika24Gold.setScale(scaleMultiplier);
+			Art.fontKomika24Gold.draw(spriteBatch, scoreText, x + 56, y + 41 );
+			Art.fontKomika24Gold.setScale(1);
+		} else {
+			Art.fontKomika24Gold.draw(spriteBatch, scoreText, x + 56, y + 41);
 		}
 		
-		Art.fontDefault.draw(spriteBatch, "+" + multiplier, 15, 50);
+		// Draw multiplier
+		spriteBatch.draw(Art.guiMultiplierBar, multiplierX, multiplierY);
+		
+		Art.fontKomika24Gold.draw(spriteBatch, multiplierText, multiplierX + 50, multiplierY + 40);
 		
 		// Reduce scale multiplier if it's not normal
 		if(scaleMultiplier > 1){
@@ -82,6 +77,7 @@ public class GuiScore {
 			}
 			multiplierTime = 3;
 			multiplier++;
+			multiplierText = multiplier+"";
 		}
 
 	}
@@ -92,8 +88,21 @@ public class GuiScore {
 	
 	public void add(int x){
 		score += multiplier * x;
-		scaleMultiplier = 1.3f;
+		scoreText = String.format("%09d", score);
+		scaleMultiplier = 1.2f;
 	}
+	
+	public void set(int score){
+		this.score = score;
+		this.scoreText = String.format("%09d", score);
+	}
+	
+	public void reset(){
+		this.set(0);
+		this.multiplier = 1;
+	}
+	
+	
 	
 	int numDigits(int x){
 		return (x == 0 ? 0 : 

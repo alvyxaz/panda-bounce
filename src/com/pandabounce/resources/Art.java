@@ -44,12 +44,20 @@ public class Art {
 	public static TextureRegion guiPlay;
 	public static TextureRegion guiHighscores;
 	public static TextureRegion guiExit;
+	public static TextureRegion guiScoreBar;
+	public static TextureRegion guiHealthBar;
+	public static TextureRegion guiHealth;
+	public static TextureRegion guiMultiplierBar;
+	public static TextureRegion guiStatusBar;
+	
 	
 	private static Pixmap bgPixmap;
 	public static TextureRegion background;
 	
 	// Fonts
 	public static BitmapFont fontDefault;
+	public static BitmapFont fontKomika24Gold;
+	public static BitmapFont fontKomika24;
 	
 	public static void loadTextures() {
 		px = new Texture(Gdx.files.internal("assets/textures/1px.png"));
@@ -63,6 +71,7 @@ public class Art {
 		
 	}
 	
+	
 	private static void loadGUI(){
 		guiTexture = new Texture(Gdx.files.internal("assets/textures/gui.png"));
 		logo = new TextureRegion(guiTexture, 0, 36, 297, 164);
@@ -75,6 +84,14 @@ public class Art {
 		guiPlay = new TextureRegion(guiTexture, 326, 0, 142, 77);
 		guiExit = new TextureRegion(guiTexture, 298, 77, 139, 77);	
 		guiHighscores = new TextureRegion(guiTexture, 0, 200, 261, 77);
+
+		guiScoreBar = new TextureRegion(guiTexture, 261, 154, 232, 53);
+		guiHealthBar = new TextureRegion(guiTexture, 261, 206, 193, 51);
+		guiHealth = new TextureRegion(guiTexture, 324, 0, 1, 23);
+		guiMultiplierBar = new TextureRegion(guiTexture, 261, 258, 90, 45);
+		guiStatusBar = new TextureRegion(guiTexture, 0, 277, 254, 38);
+		
+		
 	}
 	
 	private static void loadBackgroundTextures(){
@@ -107,13 +124,16 @@ public class Art {
 	
 	private static void loadFonts() {
 		fontDefault = new BitmapFont();
+		fontKomika24Gold = new BitmapFont(Gdx.files.internal("assets/fonts/komika-24-gold.fnt"), 
+				Gdx.files.internal("assets/fonts/komika-24-gold.png"), false);
+		fontKomika24 = new BitmapFont(Gdx.files.internal("assets/fonts/komika-24.fnt"), 
+				Gdx.files.internal("assets/fonts/komika-24.png"), false);
 	}
 	
 	private static void loadOtherTextures() {
 		otherTexture = new Texture(Gdx.files.internal("assets/textures/other.png"));
 		targetArrow = new TextureRegion(otherTexture, 0, 0, 44, 119);
-		star = new TextureRegion(otherTexture, 44, 0, 51, 48);
-		starEmpty = new TextureRegion(otherTexture, 95, 0, 51, 48);
+		star = new TextureRegion(otherTexture, 14, 0, 53, 50);
 		hedgehog = new TextureRegion(otherTexture, 146 , 0, 51, 78);
 		healthBar = new TextureRegion(otherTexture, 197, 0, 1, 21);
 		dustCloud = new TextureRegion(otherTexture, 199, 0, 52, 52);

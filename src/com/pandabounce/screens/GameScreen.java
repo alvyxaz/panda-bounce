@@ -99,7 +99,7 @@ public abstract class GameScreen extends BaseScreen {
 	public GameScreen(Game game) {
 		super(game);
 		
-		timer = new GuiTimer(50, 50);
+		timer = new GuiTimer(Game.SCREEN_WIDTH-100, 30);
 		
 		pauseButton = new Rectangle(10, 10, 20, 20);
 		targetState = READY;
@@ -182,18 +182,6 @@ public abstract class GameScreen extends BaseScreen {
 					 */
 					if(bA.getUserData().equals("star") || bB.getUserData().equals("star")){
 
-						// Pushing a notification to the buffer, where there's open space
-						for(int z = 0; z < notifications.length; z++){
-							if(!notifications[z].display){
-								notifications[z].generate("+" + (10 * score.getMultiplier()), 
-										(int) (panda.hitBox.x + panda.hitBoxCenterX) , 
-										(int) (panda.hitBox.y + panda.hitBox.height/2));
-								break;
-							}
-						}
-						
-						score.add(10);
-						
 						int newX = Game.random.nextInt(Game.SCREEN_WIDTH-(int)stars[0].hitBox.width);
 						int newY = Game.random.nextInt(Game.SCREEN_HEIGHT-(int)stars[0].hitBox.height);
 						
@@ -207,6 +195,17 @@ public abstract class GameScreen extends BaseScreen {
 						}
 						
 						score.onStarPickedUp();
+						score.add(10);
+						
+						// Pushing a notification to the buffer, where there's open space
+						for(int z = 0; z < notifications.length; z++){
+							if(!notifications[z].display){
+								notifications[z].generate("+" + (10 * score.getMultiplier()), 
+										(int) (panda.hitBox.x + panda.hitBoxCenterX) , 
+										(int) (panda.hitBox.y + panda.hitBox.height/2));
+								break;
+							}
+						}
 					}
 					
 					if(box != null && box.regenerationTimer < 0 && (bA.getUserData().equals("surprise_box") || bB.getUserData().equals("surprise_box"))){						
@@ -320,7 +319,7 @@ public abstract class GameScreen extends BaseScreen {
 		spriteBatch.begin();
 		spriteBatch.setProjectionMatrix(guiCam.combined);
 		drawLevel(deltaTime);
-		spriteBatch.draw(Art.px, pauseButton.x, pauseButton.y, pauseButton.width, pauseButton.height);
+		//spriteBatch.draw(Art.px, pauseButton.x, pauseButton.y, pauseButton.width, pauseButton.height);
 		switch(state){
 			case FADE_IN:
 				spriteBatch.setColor(0, 0, 0, transitionOpacity);
@@ -331,7 +330,7 @@ public abstract class GameScreen extends BaseScreen {
 				spriteBatch.setColor(0, 0, 0, transitionOpacity);
 				spriteBatch.draw(Art.px, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
 				spriteBatch.setColor(Color.WHITE);
-				Art.fontDefault.draw(spriteBatch, "Ready?",	Game.SCREEN_HALF_WIDTH, Game.SCREEN_HALF_HEIGHT);
+				Art.fontKomika24Gold.draw(spriteBatch, "Ready?",Game.SCREEN_HALF_WIDTH - 50, Game.SCREEN_HALF_HEIGHT);
 				break;
 			case PAUSE:
 				spriteBatch.setColor(0, 0, 0, transitionOpacity);
@@ -433,8 +432,8 @@ public abstract class GameScreen extends BaseScreen {
 				}
 				
 				if(timer.enabled){
-					timer.time -= originalDeltaTime;
-					if (timer.time < 0){
+					timer.update(originalDeltaTime);
+					if (timer.time < 0 && !timer.ascending){
 						state = END;
 						transitionOpacity = 0.5f;
 					}
@@ -490,7 +489,8 @@ public abstract class GameScreen extends BaseScreen {
 	
 	public void restartGame(){
 		panda.regenerate();
-		score.score = 0;
+		score.reset();
+		timer.reset();
 		
 		for(int i = 0; i < hedgehogs.length; i++ ){
 			hedgehogs[i].regenerate();
@@ -503,7 +503,6 @@ public abstract class GameScreen extends BaseScreen {
 		if(box != null)
 		box.regenerationTimer = 10f;
 		
-		score.multiplier = 1;
 	}
 	
 	public void drawBackground(SpriteBatch spriteBatch){

@@ -9,35 +9,48 @@ import com.pandabounce.entities.SurpriseBox;
 import com.pandabounce.resources.Art;
 
 /*
- * As many stars in 1 minute as possible
+ * New enemy every 20 sec
  */
-public class ModeFreestyle extends GameScreen {
+public class ModeSurvival extends GameScreen {
 	
-	protected int timeGiven = 5;
-	
-	public ModeFreestyle(Game game) {
+	public ModeSurvival(Game game) {
 		super(game);
 
 		timer.enabled = true;
-		timer.setMaxTime(20);
-		
+		timer.ascending = true;
 		
 		// Planting stars
 		stars[0] = new Star(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
 		stars[1] = new Star(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
 		stars[2] = new Star(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
-	
-		bees = new Bee[0];
-		hedgehogs = new Hedgehog[0];
+		
+		// Making hedgehogs
+		hedgehogs = new Hedgehog[3];
+		for(int i = 0; i < hedgehogs.length; i++ ){
+			hedgehogs[i] = new Hedgehog(world);
+			hedgehogs[i].regenerate();
+		}
+		
+		bees = new Bee[1];
+		for(int i = 0; i < bees.length; i++){
+			bees[i] = new Bee(world, panda.getPosition());
+			bees[i].regenerate();
+		}
+		
+		box = new SurpriseBox(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
 	}
 
 	@Override
 	public void restartGame() {
 		super.restartGame();
-		timer.reset();
 	}
 	
-	@Override 
+	@Override
+	public void updateLevel(float deltaTime) {
+		box.update(deltaTime);
+	}
+	
+	@Override
 	public void drawLevel(float deltaTime) {
 		drawBackground(spriteBatch);
 		
@@ -48,17 +61,29 @@ public class ModeFreestyle extends GameScreen {
 			}
 		}
 		
+		if (box.regenerate) {
+			box.regenerate(Game.random.nextInt((int) (Game.SCREEN_WIDTH - box.hitBox.width)), Game.random.nextInt((int) (Game.SCREEN_HEIGHT - box.hitBox.height)));
+		}
+
+		
 		for(int i = 0; i < stars.length; i++)
 			stars[i].draw(spriteBatch, deltaTime);
 		
 		dust.draw(spriteBatch, deltaTime);
 		
+		box.draw(spriteBatch);
+		
+		// Drawing Hedgehogs
+		for(int i = 0; i < hedgehogs.length; i++)
+			hedgehogs[i].draw(spriteBatch);
+				
+		// Drawing bees
+		for(int i = 0; i < bees.length; i++)
+			bees[i].draw(spriteBatch);
+		
 		panda.draw(spriteBatch, deltaTime);
 		
-		Art.fontDefault.draw(spriteBatch, this.fpsText, 0, 20);
 		score.draw(spriteBatch, deltaTime);
-		
-		timer.draw(spriteBatch);
 		
 		healthBar.draw(spriteBatch, deltaTime);
 		
@@ -70,11 +95,8 @@ public class ModeFreestyle extends GameScreen {
 		}
 		
 		largeNotifications.draw(spriteBatch, deltaTime);
-	}
-	
-	@Override
-	public void updateLevel(float deltaTime) {
-		timer.update(deltaTime);
+		Art.fontDefault.draw(spriteBatch, this.fpsText, 0, 50);
+		timer.draw(spriteBatch);
 	}
 
 	@Override

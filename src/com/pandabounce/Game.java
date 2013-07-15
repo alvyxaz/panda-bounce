@@ -37,7 +37,7 @@ public class Game implements ApplicationListener {
 		Art.loadTextures();
 		
 		// Setting first screen to render
-		setScreen(new ModeFreestyle(this));
+		setScreen(new ModeSurvival(this));
     }
 
     public void render () {
