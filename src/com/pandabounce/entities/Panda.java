@@ -84,7 +84,7 @@ public class Panda {
 		
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(Art.pandaIdle[0].getRegionWidth()/2*Game.WORLD_TO_BOX, Art.pandaIdle[0].getRegionWidth()/2*Game.WORLD_TO_BOX);
+		shape.setAsBox(Art.pandaIdle[0].getRegionWidth()/3*Game.WORLD_TO_BOX, Art.pandaIdle[0].getRegionWidth()/3*Game.WORLD_TO_BOX);
 		
 		// Creating fixture 
 		FixtureDef fixtureDef = new FixtureDef();

@@ -43,7 +43,7 @@ public class Hedgehog {
 
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(hitBox.width/2*Game.WORLD_TO_BOX, hitBox.width/2*Game.WORLD_TO_BOX);
+		shape.setAsBox(hitBox.width/2.4f*Game.WORLD_TO_BOX, hitBox.height/2.8f*Game.WORLD_TO_BOX);
 		
 		// Creating fixture 
 		FixtureDef fixtureDef = new FixtureDef();

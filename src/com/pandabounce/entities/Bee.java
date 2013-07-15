@@ -58,7 +58,7 @@ public class Bee {
 
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(hitBox.width/2*Game.WORLD_TO_BOX, hitBox.width/2*Game.WORLD_TO_BOX);
+		shape.setAsBox(hitBox.width/7*Game.WORLD_TO_BOX, hitBox.width/2.8f*Game.WORLD_TO_BOX);
 		
 		// Creating fixture 
 		FixtureDef fixtureDef = new FixtureDef();
