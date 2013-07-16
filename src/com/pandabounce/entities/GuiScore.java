@@ -100,9 +100,9 @@ public class GuiScore {
 	public void reset(){
 		this.set(0);
 		this.multiplier = 1;
+		this.multiplierTime = 0;
+		this.multiplierText = "1";
 	}
-	
-	
 	
 	int numDigits(int x){
 		return (x == 0 ? 0 : 

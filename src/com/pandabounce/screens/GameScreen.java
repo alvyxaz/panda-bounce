@@ -247,6 +247,7 @@ public abstract class GameScreen extends BaseScreen {
 			public void endContact(Contact contact) {
 				if(panda.health <= 0){
 					state = END;
+					endWindow.show(score.score);
 					transitionOpacity = 0.5f;
 				}
 				
@@ -355,7 +356,7 @@ public abstract class GameScreen extends BaseScreen {
 		}
 		
 		spriteBatch.end();
-		debugRenderer.render(world, debugMatrix);
+//		debugRenderer.render(world, debugMatrix);
 	}
 	
 	public abstract void drawLevel(float deltaTime);
@@ -390,12 +391,14 @@ public abstract class GameScreen extends BaseScreen {
 				}
 				break;
 			case END:
-				if(Input.isTouching(endWindow.playAgain)){
-					state = FADE_OUT;
-					targetState = READY;
-				} else if(Input.isTouching(endWindow.submitScore)){
-					state = FADE_OUT;
-					this.screenToSwitchTo = new RatingScreen(this.game, score.score);
+				if(endWindow.isWaitingForInput()){
+					if(Input.isTouching(endWindow.playAgain)){
+						state = FADE_OUT;
+						targetState = READY;
+					} else if(Input.isTouching(endWindow.submitScore)){
+						state = FADE_OUT;
+						this.screenToSwitchTo = new RatingScreen(this.game, score.score);
+					}
 				}
 				break;
 			case FADE_OUT:
@@ -435,6 +438,7 @@ public abstract class GameScreen extends BaseScreen {
 					timer.update(originalDeltaTime);
 					if (timer.time < 0 && !timer.ascending){
 						state = END;
+						endWindow.show(score.score);
 						transitionOpacity = 0.5f;
 					}
 				}

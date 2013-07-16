@@ -5,6 +5,7 @@ import java.util.Random;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Rectangle;
 import com.pandabounce.controls.Input;
 import com.pandabounce.resources.*;
@@ -23,7 +24,11 @@ public class Game implements ApplicationListener {
 	public static float BOX_TO_WORLD = 100f;
 	public static float WORLD_TO_BOX = 0.01f;
 	
+	public static Preferences preferences;
+	
     public void create () {
+    	preferences = Gdx.app.getPreferences("prefs");
+    	
     	// Preparing OpenGL viewport
     	calculateScreenSize();
 		Gdx.graphics.getGLCommon().glViewport(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

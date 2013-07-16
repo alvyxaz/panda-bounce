@@ -50,6 +50,10 @@ public class Art {
 	public static TextureRegion guiMultiplierBar;
 	public static TextureRegion guiStatusBar;
 	
+	private static Texture guiOtherTexture;
+	public static TextureRegion guiEndWindow;
+	public static TextureRegion guiPlayAgainButton;
+	public static TextureRegion guiSubmitScoreButton;
 	
 	private static Pixmap bgPixmap;
 	public static TextureRegion background;
@@ -68,7 +72,15 @@ public class Art {
 		loadOtherTextures();
 		loadFonts();
 		loadGUI();
+		loadOtherGUI();
 		
+	}
+	
+	private static void loadOtherGUI() {
+		guiOtherTexture = new Texture(Gdx.files.internal("assets/textures/guiOther.png"));
+		guiEndWindow = new TextureRegion(guiOtherTexture, 0, 0, 364, 267);
+		guiPlayAgainButton = new TextureRegion(guiOtherTexture, 364, 88, 137, 88);
+		guiSubmitScoreButton = new TextureRegion(guiOtherTexture, 364, 0, 146, 88);
 	}
 	
 	

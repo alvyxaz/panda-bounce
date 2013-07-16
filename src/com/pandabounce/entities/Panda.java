@@ -19,7 +19,8 @@ public class Panda {
 	public Rectangle hitBox;
 	public float hitBoxCenterX;	// Relative Y center of the hitBox
 	
-	public float health = 20; // Percentage
+	public float health; // Percentage
+	public float maxHealth = 10;
 	
 	// Basic states
 	public int state = 0;
@@ -63,6 +64,8 @@ public class Panda {
 	private int startY;
 	
 	public Panda(int x, int y, World world) {
+		health = maxHealth ;
+		
 		startX = x;
 		startY = y;
 		hitBox = new Rectangle(x, y, Art.pandaIdle[0].getRegionWidth(), Art.pandaIdle[0].getRegionHeight());
@@ -103,7 +106,7 @@ public class Panda {
 	
 	public void regenerate(){
 		body.setTransform(startX*Game.WORLD_TO_BOX, startY*Game.WORLD_TO_BOX, -(float)Math.PI/2);
-		health = 20;
+		health = maxHealth;
 		effectType = 0;
 		
 		// Stop being invincible
