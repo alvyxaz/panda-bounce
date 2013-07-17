@@ -19,7 +19,7 @@ import com.pandabounce.resources.Art;
 
 public class RatingScreen extends BaseScreen {
 	
-	private String scoresUrl = "http://158.129.18.103/panda-scores";
+	public static final String SCORES_URL = "http://158.129.18.103/panda-scores/";
 	
 	private String [][] scores;
 	
@@ -37,7 +37,7 @@ public class RatingScreen extends BaseScreen {
 				try {
 					
 				    HttpClient client = new DefaultHttpClient();  
-				    HttpGet get = new HttpGet(scoresUrl);
+				    HttpGet get = new HttpGet(SCORES_URL);
 				    BasicHttpResponse responseGet = (BasicHttpResponse) client.execute(get);  
 				    HttpEntity resEntityGet = ((org.apache.http.HttpResponse) responseGet).getEntity();  
 				    if (resEntityGet != null) {  
