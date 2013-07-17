@@ -36,6 +36,7 @@ import com.pandabounce.entities.Star;
 import com.pandabounce.entities.GuiScore;
 import com.pandabounce.entities.SurpriseBox;
 import com.pandabounce.resources.Art;
+import com.pandabounce.resources.Sounds;
 
 /*
  * TODO: Should work as a base for level objects (screens).
@@ -137,7 +138,7 @@ public abstract class GameScreen extends BaseScreen {
 	
 	public void shakeScreen(int strength){
 		screenShakeTimer = 0.3f;
-		screenShakeStrength = Math.max(1, Math.min(strength/4, 15));
+		screenShakeStrength = Math.max(1, Math.min(strength/2, 15));
 	}
 	
 	private void createContactListener(){
@@ -170,6 +171,10 @@ public abstract class GameScreen extends BaseScreen {
 					 * Collision with Wall
 					 */
 					if(bA.getUserData().equals("wall") || bB.getUserData().equals("wall")){
+						
+						// TODO: sound volume
+						Sounds.wallHit.play(1.0f);
+						
 						panda.refreshAnimation = true;
 						shakeScreen(score.multiplier);
 						dust.startCloud(5, 
@@ -184,6 +189,9 @@ public abstract class GameScreen extends BaseScreen {
 
 						int newX = Game.random.nextInt(Game.SCREEN_WIDTH-(int)stars[0].hitBox.width);
 						int newY = Game.random.nextInt(Game.SCREEN_HEIGHT-(int)stars[0].hitBox.height);
+						
+						// TODO: sound volume
+						Sounds.starPickedUp.play(1.0f);
 						
 						// TODO: Regenerate a star in a given position
 						if(bB.getUserData().equals("star")){
@@ -367,6 +375,9 @@ public abstract class GameScreen extends BaseScreen {
 		float originalDeltaTime = deltaTime;
 		switch(state){
 			case FADE_IN:
+				if(!Sounds.music.isPlaying()){
+					Sounds.music.play();
+				}
 				transitionOpacity -= deltaTime * 2;
 				if(targetState == READY && transitionOpacity < 0.5f){
 					transitionOpacity = 0.5f;

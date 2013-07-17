@@ -40,6 +40,7 @@ public class Game implements ApplicationListener {
 		
 		// Loading resources
 		Art.loadTextures();
+		Sounds.loadSounds();
 		
 		// Setting first screen to render
 		setScreen(new ModeSurvival(this));
@@ -81,6 +82,8 @@ public class Game implements ApplicationListener {
     public void resume () {
     }
 
+    // TODO : Dispose all resources
     public void dispose () {
+    	Sounds.dispose();
     }
 }

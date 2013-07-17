@@ -192,8 +192,6 @@ public class Art {
 		pandaHorizontal[5] = new TextureRegion(pandaTexture, 206, 215, 62,105);
 		pandaHorizontal[6] = new TextureRegion(pandaTexture, 270, 214, 63,106);
 		pandaHorizontal[7] = new TextureRegion(pandaTexture, 335, 215, 72,106);
-		
-	
 	}
 	
 }
