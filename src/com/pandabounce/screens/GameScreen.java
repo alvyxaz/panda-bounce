@@ -155,17 +155,43 @@ public abstract class GameScreen extends BaseScreen {
 					 * Collision with Hedgehog
 					 */
 					if(!panda.damaged && (bA.getUserData().equals("bee") || bB.getUserData().equals("bee"))){
-						panda.damage(10);
-						score.resetMultiplier();
+						switch (panda.effectType) {
+							case 6:
+								panda.damage(2*10);
+								score.resetMultiplier();
+								break;
+							case 7:
+							case 8:
+								// TODO: Berserk
+								// doesn't take any damage
+								break;
+							default:
+								panda.damage(10);
+								score.resetMultiplier();
+						}
 					}
 					
 					/*
 					 * Collision with Hedgehog
 					 */
 					if(!panda.damaged && (bA.getUserData().equals("hedgehog") || bB.getUserData().equals("hedgehog"))){
-						panda.damage(5);
-						panda.continueSlide();
-						score.resetMultiplier();
+						switch (panda.effectType) {
+							case 6:
+								panda.damage(2*5);
+								panda.continueSlide();
+								score.resetMultiplier();
+								break;
+							case 7:
+							case 8:
+								// TODO: Berserk
+								// doesn't take any damage
+								break;
+							default:
+								panda.damage(5);
+								panda.continueSlide();
+								score.resetMultiplier();
+						}
+
 					}
 					
 					/*
@@ -204,14 +230,30 @@ public abstract class GameScreen extends BaseScreen {
 						}
 						
 						score.onStarPickedUp();
-						score.add(10);
+						switch (panda.effectType) {
+							case 6:
+								score.add(2*10);
+								break;
+							default:
+								score.add(10);	
+						}
+
 						
 						// Pushing a notification to the buffer, where there's open space
 						for(int z = 0; z < notifications.length; z++){
 							if(!notifications[z].display){
-								notifications[z].generate("+" + (10 * score.getMultiplier()), 
-										(int) (panda.hitBox.x + panda.hitBoxCenterX) , 
-										(int) (panda.hitBox.y + panda.hitBox.height/2));
+								switch (panda.effectType) {
+									case 6:
+										notifications[z].generate("+" + (2*10 * score.getMultiplier()), 
+												(int) (panda.hitBox.x + panda.hitBoxCenterX) , 
+												(int) (panda.hitBox.y + panda.hitBox.height/2));
+										break;
+									default:
+										notifications[z].generate("+" + (10 * score.getMultiplier()), 
+												(int) (panda.hitBox.x + panda.hitBoxCenterX) , 
+												(int) (panda.hitBox.y + panda.hitBox.height/2));	
+								}
+								
 								break;
 							}
 						}
@@ -246,7 +288,18 @@ public abstract class GameScreen extends BaseScreen {
 						    case 5:
 						    	largeNotifications.add(Art.textFastPaced);
 						    	break;
+						    case 6:
+						    	// TODO: text 2x dmg 2xpts
+						    	break;
+						    case 7:
+						    	// TODO: Berserk
+						    	break;
+						    case 8:
+						    	// TODO: Invincibility
+						    	break;
 					    }
+						
+						System.out.println(panda.effectType);
 					}
 				}				
 				

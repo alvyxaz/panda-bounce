@@ -20,7 +20,7 @@ public class Panda {
 	public float hitBoxCenterX;	// Relative Y center of the hitBox
 	
 	public float health; // Percentage
-	public float maxHealth = 10;
+	public float maxHealth = 50;
 	
 	// Basic states
 	public int state = 0;

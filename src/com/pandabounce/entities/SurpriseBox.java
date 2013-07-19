@@ -23,6 +23,9 @@ public class SurpriseBox {
 	 * 3 - decrease panda speed
 	 * 4 - increase pace of the game (everything)
 	 * 5 - increase panda speed
+	 * 6 - 2x points - 2x dmg
+	 * 7 - Berserk
+	 * 8 - Invincibility
 	 */
 	public int type;
 	public float effectTime = 5f;
@@ -39,7 +42,7 @@ public class SurpriseBox {
 	public SurpriseBox(int x, int y, World world){
 
 		hitBox = new Rectangle(x, y, Art.box.getRegionWidth(), Art.box.getRegionHeight());
-		type = Game.random.nextInt(5) + 1;
+		type = Game.random.nextInt(8) + 1;
 		
 		// Creating body definition
 		BodyDef bodyDef = new BodyDef();
@@ -99,7 +102,7 @@ public class SurpriseBox {
 	public void regenerate(int x, int y)
 	{
 		regenerationTimer = Game.random.nextFloat() * 25;
-		type = Game.random.nextInt(5) + 1;
+		type = Game.random.nextInt(8) + 1;
 		
 		hitBox.x = x;
 		hitBox.y = y;
