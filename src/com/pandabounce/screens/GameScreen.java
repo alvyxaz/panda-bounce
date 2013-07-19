@@ -222,11 +222,11 @@ public abstract class GameScreen extends BaseScreen {
 						
 						// TODO: Regenerate a star in a given position
 						if(bB.getUserData().equals("star")){
-							((Star) contact.getFixtureB().getUserData()).regenerate = true;
+							((Star) contact.getFixtureB().getUserData()).pickedUp = true;
 						}
 						
 						if(bA.getUserData().equals("star")){
-							((Star) contact.getFixtureA().getUserData()).regenerate = true;
+							((Star) contact.getFixtureA().getUserData()).pickedUp = true;
 						}
 						
 						score.onStarPickedUp();
@@ -429,7 +429,7 @@ public abstract class GameScreen extends BaseScreen {
 		float originalDeltaTime = deltaTime;
 		switch(state){
 			case FADE_IN:
-				if(!Sounds.music.isPlaying()){
+				if(!Game.mute && !Sounds.music.isPlaying()){
 					Sounds.music.play();
 				}
 				transitionOpacity -= deltaTime * 2;

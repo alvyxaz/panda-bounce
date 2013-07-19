@@ -26,6 +26,8 @@ public class Game implements ApplicationListener {
 	
 	public static Preferences preferences;
 	
+	public static boolean mute = true;
+	
     public void create () {
     	preferences = Gdx.app.getPreferences("prefs");
     	

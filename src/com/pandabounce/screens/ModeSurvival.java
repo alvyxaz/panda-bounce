@@ -54,21 +54,10 @@ public class ModeSurvival extends GameScreen {
 	public void drawLevel(float deltaTime) {
 		drawBackground(spriteBatch);
 		
-		// Drawing stars 
-		for(int i = 0; i < stars.length; i++) {
-			if (stars[i].regenerate) {
-				stars[i].regenerate(Game.random.nextInt((int) (Game.SCREEN_WIDTH - stars[i].hitBox.width)), Game.random.nextInt((int) (Game.SCREEN_HEIGHT - stars[i].hitBox.height)));
-			}
-		}
-		
 		if (box.regenerate) {
 			box.regenerate(Game.random.nextInt((int) (Game.SCREEN_WIDTH - box.hitBox.width)), Game.random.nextInt((int) (Game.SCREEN_HEIGHT - box.hitBox.height)));
 		}
 
-		
-		for(int i = 0; i < stars.length; i++)
-			stars[i].draw(spriteBatch, deltaTime);
-		
 		dust.draw(spriteBatch, deltaTime);
 		
 		box.draw(spriteBatch);
@@ -82,6 +71,13 @@ public class ModeSurvival extends GameScreen {
 			bees[i].draw(spriteBatch);
 		
 		panda.draw(spriteBatch, deltaTime);
+		
+		for(int i = 0; i < stars.length; i++){
+			if (stars[i].pickedUp) {
+				stars[i].onPickedUp();
+			}
+			stars[i].draw(spriteBatch, deltaTime);
+		}
 		
 		score.draw(spriteBatch, deltaTime);
 		

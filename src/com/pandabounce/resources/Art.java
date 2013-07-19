@@ -22,7 +22,7 @@ public class Art {
 	private static Texture otherTexture;
 	public static TextureRegion targetArrow;
 	public static TextureRegion star;
-	public static TextureRegion starEmpty;
+	public static TextureRegion starParticle;
 	public static TextureRegion hedgehog;
 	public static TextureRegion healthBar;
 	public static TextureRegion dustCloud;
@@ -146,6 +146,7 @@ public class Art {
 		otherTexture = new Texture(Gdx.files.internal("assets/textures/other.png"));
 		targetArrow = new TextureRegion(otherTexture, 0, 0, 44, 119);
 		star = new TextureRegion(otherTexture, 14, 0, 53, 50);
+		starParticle = new TextureRegion(otherTexture, 227, 159, 48, 48);
 		hedgehog = new TextureRegion(otherTexture, 146 , 0, 51, 78);
 		healthBar = new TextureRegion(otherTexture, 197, 0, 1, 21);
 		dustCloud = new TextureRegion(otherTexture, 199, 0, 52, 52);
