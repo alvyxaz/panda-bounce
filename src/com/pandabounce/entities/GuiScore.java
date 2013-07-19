@@ -99,6 +99,10 @@ public class GuiScore {
 	
 	public void reset(){
 		this.set(0);
+		resetMultiplier();
+	}
+	
+	public void resetMultiplier() {
 		this.multiplier = 1;
 		this.multiplierTime = 0;
 		this.multiplierText = "1";

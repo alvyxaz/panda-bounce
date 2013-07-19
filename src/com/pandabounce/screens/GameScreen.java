@@ -156,7 +156,7 @@ public abstract class GameScreen extends BaseScreen {
 					 */
 					if(!panda.damaged && (bA.getUserData().equals("bee") || bB.getUserData().equals("bee"))){
 						panda.damage(10);
-
+						score.resetMultiplier();
 					}
 					
 					/*
@@ -165,6 +165,7 @@ public abstract class GameScreen extends BaseScreen {
 					if(!panda.damaged && (bA.getUserData().equals("hedgehog") || bB.getUserData().equals("hedgehog"))){
 						panda.damage(5);
 						panda.continueSlide();
+						score.resetMultiplier();
 					}
 					
 					/*
