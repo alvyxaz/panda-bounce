@@ -152,61 +152,19 @@ public abstract class GameScreen extends BaseScreen {
 				if(bA.getUserData().equals("panda") || bB.getUserData().equals("panda") ){
 					
 					/*
-					 * Collision with Hedgehog
-					 */
-					if(!panda.damaged && (bA.getUserData().equals("bee") || bB.getUserData().equals("bee"))){
-						switch (panda.effectType) {
-							case 6:
-								panda.damage(2*10);
-								score.resetMultiplier();
-								break;
-							case 7:
-							case 8:
-								// TODO: Berserk
-								// doesn't take any damage
-								break;
-							default:
-								panda.damage(10);
-								score.resetMultiplier();
-						}
-					}
-					
-					/*
-					 * Collision with Hedgehog
-					 */
-					if(!panda.damaged && (bA.getUserData().equals("hedgehog") || bB.getUserData().equals("hedgehog"))){
-						switch (panda.effectType) {
-							case 6:
-								panda.damage(2*5);
-								panda.continueSlide();
-								score.resetMultiplier();
-								break;
-							case 7:
-							case 8:
-								// TODO: Berserk
-								// doesn't take any damage
-								break;
-							default:
-								panda.damage(5);
-								panda.continueSlide();
-								score.resetMultiplier();
-						}
-
-					}
-					
-					/*
 					 * Collision with Wall
 					 */
 					if(bA.getUserData().equals("wall") || bB.getUserData().equals("wall")){
 						
 						// TODO: sound volume
-						Sounds.wallHit.play(1.0f);
+						Sounds.playSound(Sounds.wallHit, false);
 						
 						panda.refreshAnimation = true;
 						shakeScreen(score.multiplier);
 						dust.startCloud(5, 
 								contact.getWorldManifold().getPoints()[0].x * Game.BOX_TO_WORLD, 
 								contact.getWorldManifold().getPoints()[0].y * Game.BOX_TO_WORLD);
+						return;
 					}
 					
 					/*
@@ -217,8 +175,7 @@ public abstract class GameScreen extends BaseScreen {
 						int newX = Game.random.nextInt(Game.SCREEN_WIDTH-(int)stars[0].hitBox.width);
 						int newY = Game.random.nextInt(Game.SCREEN_HEIGHT-(int)stars[0].hitBox.height);
 						
-						// TODO: sound volume
-						Sounds.starPickedUp.play(1.0f);
+						Sounds.playSound(Sounds.starPickedUp, false);
 						
 						// TODO: Regenerate a star in a given position
 						if(bB.getUserData().equals("star")){
@@ -259,7 +216,53 @@ public abstract class GameScreen extends BaseScreen {
 						}
 					}
 					
+					/*
+					 * Collision with Hedgehog
+					 */
+					if(!panda.damaged && (bA.getUserData().equals("hedgehog") || bB.getUserData().equals("hedgehog"))){
+						switch (panda.effectType) {
+							case 6:
+								panda.damage(2*5);
+								panda.continueSlide();
+								score.resetMultiplier();
+								break;
+							case 7:
+							case 8:
+								// TODO: Berserk
+								// doesn't take any damage
+								break;
+							default:
+								panda.damage(5);
+								panda.continueSlide();
+								score.resetMultiplier();
+						}
+						return;
+					}
+					
+					/*
+					 * Collision with Bee
+					 */
+					if(!panda.damaged && (bA.getUserData().equals("bee") || bB.getUserData().equals("bee"))){
+						switch (panda.effectType) {
+							case 6:
+								panda.damage(2*10);
+								score.resetMultiplier();
+								break;
+							case 7:
+							case 8:
+								// TODO: Berserk
+								// doesn't take any damage
+								break;
+							default:
+								panda.damage(10);
+								score.resetMultiplier();
+						}
+						return;
+					}
+					
 					if(box != null && box.regenerationTimer < 0 && (bA.getUserData().equals("surprise_box") || bB.getUserData().equals("surprise_box"))){						
+						Sounds.playSound(Sounds.box, true);
+						
 						if(bA.getUserData().equals("surprise_box")){
 							panda.effectType = ((SurpriseBox) contact.getFixtureA().getUserData()).type;
 							panda.effectTimer = ((SurpriseBox) contact.getFixtureA().getUserData()).effectTime;
@@ -299,7 +302,7 @@ public abstract class GameScreen extends BaseScreen {
 						    	break;
 					    }
 						
-						System.out.println(panda.effectType);
+						return;
 					}
 				}				
 				
@@ -534,7 +537,8 @@ public abstract class GameScreen extends BaseScreen {
 				    	default:
 							panda.slide(Input.touch[0].highestDx, Input.touch[0].highestDy);
 				    }
-				    
+				    Sounds.whoosh.stop();
+				    Sounds.whoosh.play();
 					score.starsInSingleSlide = 0;
 				}
 				

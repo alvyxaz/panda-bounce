@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pandabounce.Game;
 import com.pandabounce.resources.Art;
+import com.pandabounce.resources.Sounds;
 
 public class Panda {
 	public Rectangle hitBox;
@@ -289,6 +290,7 @@ public class Panda {
 	}
 	
 	public void damage(int damage){
+		Sounds.playSound(Sounds.damage, false);
 		this.damaged = true;
 		this.damageTimer = 0;
 		
