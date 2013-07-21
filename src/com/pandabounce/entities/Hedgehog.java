@@ -22,6 +22,7 @@ public class Hedgehog {
 	private int restlessness = 2;
 	private float moveAngle;
 	private float dontRegenerateFor = 0;
+	private boolean seen = false;
 		
 	private Body body;
 	
@@ -66,30 +67,55 @@ public class Hedgehog {
 		/*----------------------------------------------------------------
 		 * DRAWING
 		 */
-		spriteBatch.draw(Art.hedgehog, 
-				body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2, 	// x
-				body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2, // y
-				hitBox.width/2,	// OriginX
-				hitBox.height/2,	// OriginY
-				hitBox.width, 	// Width
-				hitBox.height,	// Height
-				1f,	// ScaleX
-				1f,	// ScaleY
-				(float)Math.toDegrees(body.getAngle())); // Rotation
+		if (!seen) {
+			// left
+			if (hitBox.x <= 0) {
+				spriteBatch.draw(Art.exclamation, 0, hitBox.y);
+			}
+			// bottom
+			if (hitBox.y <= 0) {
+				spriteBatch.draw(Art.exclamation, hitBox.x, 0);
+			}
+			
+			// right
+			if (hitBox.x >= Game.SCREEN_WIDTH) {
+				spriteBatch.draw(Art.exclamation, Game.SCREEN_WIDTH - Art.exclamation.getRegionWidth(), hitBox.y);
+			}
+			
+			// top
+			if (hitBox.y >= Game.SCREEN_HEIGHT) {
+				spriteBatch.draw(Art.exclamation, hitBox.x, Game.SCREEN_HEIGHT - Art.exclamation.getRegionHeight());
+			}
+		} else {
+			spriteBatch.draw(Art.hedgehog, 
+					body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2, 	// x
+					body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2, // y
+					hitBox.width/2,	// OriginX
+					hitBox.height/2,	// OriginY
+					hitBox.width, 	// Width
+					hitBox.height,	// Height
+					1f,	// ScaleX
+					1f,	// ScaleY
+					(float)Math.toDegrees(body.getAngle())); // Rotation
+			
+		}
+
 	}
 	
 	public void update(float deltaTime) {
-		hitBox.x = body.getPosition().x*Game.BOX_TO_WORLD;
-		hitBox.y = body.getPosition().y * Game.BOX_TO_WORLD;
+		hitBox.x = body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2;
+		hitBox.y = body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2;
 		dontRegenerateFor -= deltaTime;
 		
 		if(dontRegenerateFor < 0) {
 			// Checking if hedgehog is out of the screen
 			if(!Game.SCREEN_RECTANGLE.contains(hitBox)){
-				if(dontRegenerateFor < 0)
-					regenerate();
-
-			}
+				regenerate();
+			} 
+		}
+	
+		if (Game.SCREEN_RECTANGLE.contains(hitBox)) {
+			seen = true;
 		}
 	}
 	
@@ -97,20 +123,20 @@ public class Hedgehog {
 		int x = 0, y = 0;
 		float angle = 0;
 		dontRegenerateFor = 3f; // Don't regenerate for 3 seconds
-		
-		int wall = Game.random.nextInt(3);
+		seen = false;
+		int wall = Game.random.nextInt(4);
 		
 		// Checking where it will come from
 		switch(wall){
 		case 0: // Top
 			x = Game.random.nextInt(Game.SCREEN_WIDTH);
-			y = Game.SCREEN_HEIGHT;
+			y = Game.SCREEN_HEIGHT + 250;
 			angle = (float) Math.atan2(
 					Game.SCREEN_HEIGHT/2 - y , 
 					Game.SCREEN_WIDTH/2 - x + Game.SCREEN_WIDTH/4 - Game.random.nextInt(Game.SCREEN_WIDTH/2));
 			break;
 		case 1: // Right
-			x = Game.SCREEN_WIDTH;
+			x = Game.SCREEN_WIDTH + 250;
 			y = Game.random.nextInt(Game.SCREEN_HEIGHT);
 			angle = (float) Math.atan2(
 					Game.SCREEN_HEIGHT/2 - y + Game.SCREEN_HEIGHT/4 - Game.random.nextInt(Game.SCREEN_HEIGHT/2), 
@@ -118,13 +144,13 @@ public class Hedgehog {
 			break;
 		case 2: // Bottom
 			x = Game.random.nextInt(Game.SCREEN_WIDTH);
-			y = (int)(- hitBox.height*2);
+			y = (int)(- hitBox.height*2) - 250;
 			angle = (float) Math.atan2(
 					Game.SCREEN_HEIGHT/2 - y , 
 					Game.SCREEN_WIDTH/2 - x + Game.SCREEN_WIDTH/4 - Game.random.nextInt(Game.SCREEN_WIDTH/2));
 			break;
 		case 3: // Left
-			x = (int)(- hitBox.width*2);
+			x = (int)(- hitBox.width*2) - 250;
 			y = Game.random.nextInt(Game.SCREEN_HEIGHT);
 			angle = (float) Math.atan2(
 					Game.SCREEN_HEIGHT/2 - y + Game.SCREEN_HEIGHT/4 - Game.random.nextInt(Game.SCREEN_HEIGHT/2), 
