@@ -278,33 +278,6 @@ public abstract class GameScreen extends BaseScreen {
 							((SurpriseBox) contact.getFixtureB().getUserData()).regenerate = true;
 						}
 						
-						switch (panda.effectType) {
-						    case 1:
-								largeNotifications.add(Art.textConfused);
-						    	break;
-						    case 2:
-						    	largeNotifications.add(Art.textSlowerWorld);
-						    	 break;
-						    case 3:
-						    	largeNotifications.add(Art.textLazy);
-						    	break;
-						    case 4:
-						    	largeNotifications.add(Art.textFasterWorld);
-						    	break;
-						    case 5:
-						    	largeNotifications.add(Art.textFastPaced);
-						    	break;
-						    case 6:
-						    	// TODO: text 2x dmg 2xpts
-						    	break;
-						    case 7:
-						    	// TODO: Berserk
-						    	break;
-						    case 8:
-						    	// TODO: Invincibility
-						    	break;
-					    }
-						
 						return;
 					}
 				}				
