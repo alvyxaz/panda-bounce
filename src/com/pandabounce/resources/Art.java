@@ -40,15 +40,14 @@ public class Art {
 	
 	private static Texture guiTexture;
 	public static TextureRegion logo;
-	public static TextureRegion [] scoreNumbers;
-	public static TextureRegion guiPlay;
-	public static TextureRegion guiHighscores;
-	public static TextureRegion guiExit;
 	public static TextureRegion guiScoreBar;
 	public static TextureRegion guiHealthBar;
 	public static TextureRegion guiHealth;
 	public static TextureRegion guiMultiplierBar;
-	public static TextureRegion guiStatusBar;
+	public static TextureRegion guiEffectBar;
+	public static TextureRegion guiButtonSmall;
+	public static TextureRegion guiButtonBig;
+	
 	
 	private static Texture guiOtherTexture;
 	public static TextureRegion guiEndWindow;
@@ -83,27 +82,17 @@ public class Art {
 		guiSubmitScoreButton = new TextureRegion(guiOtherTexture, 364, 0, 146, 88);
 	}
 	
-	
 	private static void loadGUI(){
 		guiTexture = new Texture(Gdx.files.internal("assets/textures/gui.png"));
 		logo = new TextureRegion(guiTexture, 0, 36, 297, 164);
 		
-		scoreNumbers = new TextureRegion[10];
-		for(int i = 0; i < scoreNumbers.length; i++){
-			scoreNumbers[i] = new TextureRegion(guiTexture, 0 + i*26 + i, 0, 26, 35 );
-		}
-		
-		guiPlay = new TextureRegion(guiTexture, 326, 0, 142, 77);
-		guiExit = new TextureRegion(guiTexture, 298, 77, 139, 77);	
-		guiHighscores = new TextureRegion(guiTexture, 0, 200, 261, 77);
-
-		guiScoreBar = new TextureRegion(guiTexture, 261, 154, 232, 53);
-		guiHealthBar = new TextureRegion(guiTexture, 261, 206, 193, 51);
+		guiScoreBar = new TextureRegion(guiTexture, 277, 200, 233, 53);
+		guiHealthBar = new TextureRegion(guiTexture, 297, 45, 193, 51);
 		guiHealth = new TextureRegion(guiTexture, 324, 0, 1, 23);
-		guiMultiplierBar = new TextureRegion(guiTexture, 261, 258, 90, 45);
-		guiStatusBar = new TextureRegion(guiTexture, 0, 277, 254, 38);
-		
-		
+		guiMultiplierBar = new TextureRegion(guiTexture, 325, 0, 90, 45);
+		guiEffectBar = new TextureRegion(guiTexture, 0, 277, 254, 38);
+		guiButtonBig = new TextureRegion(guiTexture, 0, 214, 274, 63);
+		guiButtonSmall = new TextureRegion(guiTexture, 0, 315, 147, 63);
 	}
 	
 	private static void loadBackgroundTextures(){

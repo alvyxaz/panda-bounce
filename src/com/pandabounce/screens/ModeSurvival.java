@@ -91,7 +91,9 @@ public class ModeSurvival extends GameScreen {
 		}
 		
 		largeNotifications.draw(spriteBatch, deltaTime);
-		Art.fontDefault.draw(spriteBatch, this.fpsText, 0, 50);
+//		Art.fontDefault.draw(spriteBatch, this.fpsText, 0, 50);
+		
+		effect.draw(spriteBatch);
 		timer.draw(spriteBatch);
 	}
 

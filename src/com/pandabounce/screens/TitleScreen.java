@@ -23,10 +23,10 @@ public class TitleScreen extends BaseScreen {
 		logo = new Rectangle(Game.SCREEN_HALF_WIDTH - Art.logo.getRegionWidth()/2, height,
 				Art.logo.getRegionWidth(), Art.logo.getRegionHeight());
 		
-		height -= Art.guiPlay.getRegionHeight() + 20;
+		height -= Art.guiButtonSmall.getRegionHeight() + 20;
 		
-		textPlay = new Rectangle(Game.SCREEN_HALF_WIDTH  - Art.guiPlay.getRegionWidth()/2, height,
-				Art.guiPlay.getRegionWidth(), Art.guiExit.getRegionHeight());
+		textPlay = new Rectangle(Game.SCREEN_HALF_WIDTH  - Art.guiButtonSmall.getRegionWidth()/2, height,
+				Art.guiButtonSmall.getRegionWidth(), Art.guiButtonSmall.getRegionHeight());
 		
 	}
 
@@ -40,7 +40,6 @@ public class TitleScreen extends BaseScreen {
 		
 		spriteBatch.draw(Art.logo, logo.x, logo.y);
 		
-		spriteBatch.draw(Art.guiPlay, textPlay.x, textPlay.y, textPlay.width, textPlay.height);
 		
 		spriteBatch.end();
 	}
@@ -58,11 +57,9 @@ public class TitleScreen extends BaseScreen {
 				}
 				break;
 			case STATE_LIVE:
-				
 				if(Input.isTouching(textPlay)){
 					this.screenToSwitchTo = new ModeSurvival(this.game);
 				}
-				
 				break;
 		}
 		

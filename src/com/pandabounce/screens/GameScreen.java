@@ -24,6 +24,7 @@ import com.pandabounce.Game;
 import com.pandabounce.controls.Input;
 import com.pandabounce.entities.Bee;
 import com.pandabounce.entities.Dust;
+import com.pandabounce.entities.GuiEffect;
 import com.pandabounce.entities.GuiEndWindow;
 import com.pandabounce.entities.GuiHealthBar;
 import com.pandabounce.entities.GuiLargeNotifications;
@@ -80,6 +81,7 @@ public abstract class GameScreen extends BaseScreen {
 	protected GuiHealthBar healthBar;
 	protected Rectangle pauseButton;
 	protected GuiTimer timer;
+	protected GuiEffect effect;
 	
 	private boolean movementRegistered = false;
 	
@@ -123,6 +125,7 @@ public abstract class GameScreen extends BaseScreen {
 		healthBar = new GuiHealthBar(panda);
 		largeNotifications = new GuiLargeNotifications();
 		score = new GuiScore(largeNotifications);
+		effect = new GuiEffect(panda);
 		
 		notifications = new GuiLiveNotification [10];
 		for(int i = 0; i < notifications.length; i++){
@@ -537,8 +540,12 @@ public abstract class GameScreen extends BaseScreen {
 				    	default:
 							panda.slide(Input.touch[0].highestDx, Input.touch[0].highestDy);
 				    }
-				    Sounds.whoosh.stop();
-				    Sounds.whoosh.play();
+				    
+				    if(!Game.mute){
+				    	Sounds.whoosh.stop();
+					    Sounds.whoosh.play();
+				    }
+				    
 					score.starsInSingleSlide = 0;
 				}
 				
