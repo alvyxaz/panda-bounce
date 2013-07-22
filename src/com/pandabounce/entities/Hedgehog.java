@@ -106,16 +106,20 @@ public class Hedgehog {
 		hitBox.x = body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2;
 		hitBox.y = body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2;
 		dontRegenerateFor -= deltaTime;
+
+	
+		if (!seen) {
+			if (Game.SCREEN_RECTANGLE.contains(hitBox)) {
+				seen = true;
+			}
+		}
 		
 		if(dontRegenerateFor < 0) {
 			// Checking if hedgehog is out of the screen
 			if(!Game.SCREEN_RECTANGLE.contains(hitBox)){
 				regenerate();
+				seen = false;
 			} 
-		}
-	
-		if (Game.SCREEN_RECTANGLE.contains(hitBox)) {
-			seen = true;
 		}
 	}
 	
@@ -123,7 +127,6 @@ public class Hedgehog {
 		int x = 0, y = 0;
 		float angle = 0;
 		dontRegenerateFor = 3f; // Don't regenerate for 3 seconds
-		seen = false;
 		int wall = Game.random.nextInt(4);
 		
 		// Checking where it will come from
@@ -163,5 +166,7 @@ public class Hedgehog {
 		body.setTransform(x * Game.WORLD_TO_BOX, y * Game.WORLD_TO_BOX, angle - (float)Math.PI/2);
 		body.setLinearVelocity(newVelocityX, newVelocityY);
 		
+		hitBox.x = body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2;
+		hitBox.y = body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2;
 	}
 }
