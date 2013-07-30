@@ -461,9 +461,8 @@ public abstract class GameScreen extends BaseScreen {
 					if(Input.isTouching(endWindow.playAgain)){
 						state = FADE_OUT;
 						targetState = READY;
-					} else if(Input.isTouching(endWindow.submitScore)){
-						state = FADE_OUT;
-						this.screenToSwitchTo = new RatingScreen(this.game, score.score);
+					} else if(Input.isReleasing(endWindow.submitScore)){
+						Game.google.submitScore(score.score);
 					}
 				}
 				break;

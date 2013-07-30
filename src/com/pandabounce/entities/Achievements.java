@@ -81,4 +81,16 @@ public class Achievements {
 		}
 		prefs.flush();
 	}
+	
+	public static void pushOnline(){
+		Preferences prefs = Gdx.app.getPreferences("achievements");
+		for(int i = 0; i < count; i++){
+			if(achievements[i]  == UNLOCKED_OFFLINE){
+				Game.google.unlockAchievement(achievementTitles[i]);
+				achievements[i] = UNLOCKED_ONLINE;
+				prefs.putInteger(Integer.toString(i), UNLOCKED_ONLINE);
+			}
+		}
+	}
+	
 }

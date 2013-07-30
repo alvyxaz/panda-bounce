@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.math.Rectangle;
 import com.pandabounce.Game;
+import com.pandabounce.controls.Input;
 import com.pandabounce.resources.Art;
 
 public class GuiEndWindow {
