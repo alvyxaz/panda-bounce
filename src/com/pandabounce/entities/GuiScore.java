@@ -12,6 +12,7 @@ public class GuiScore {
 	public String multiplierText = "1";
 	public int starsInSingleSlide = 0;
 	private float multiplierTime;
+	public int starsPickedUp = 0;
 	
 	private int x;
 	private int y;
@@ -69,15 +70,35 @@ public class GuiScore {
 	}
 	
 	public void onStarPickedUp() {
+		starsPickedUp++;
+		if(starsPickedUp == 50){
+			/*
+			 * ACHIEVEMENT: Touch the sky
+			 */
+			Achievements.unlockAchievement(Achievements.touchTheSky);
+		}
+		
 		starsInSingleSlide++;
 		
 		if (starsInSingleSlide > 1 || multiplierTime > 0) {
 			if(multiplier == 1 && starsInSingleSlide == 2){
 				largeNotifications.add(Art.textComboStarted);
+				
+				/*
+				 * ACHIEVEMENT: C-C-C-Combo
+				 */
+				Achievements.unlockAchievement(Achievements.ccombo);
 			}
 			multiplierTime = 3;
 			multiplier++;
 			multiplierText = multiplier+"";
+			
+			if(multiplier == 15){
+				/*
+				 * ACHIEVEMENT: C-C-C-Combo
+				 */
+				Achievements.unlockAchievement(Achievements.ccombo);
+			}
 		}
 
 	}
@@ -90,6 +111,12 @@ public class GuiScore {
 		score += multiplier * x;
 		scoreText = String.format("%09d", score);
 		scaleMultiplier = 1.2f;
+		if(score > 10000){
+			/*
+			 * ACHIEVEMENT: Allmost a millionaire
+			 */
+			Achievements.unlockAchievement(Achievements.almostAMillionaire);
+		}
 	}
 	
 	public void set(int score){
@@ -99,6 +126,7 @@ public class GuiScore {
 	
 	public void reset(){
 		this.set(0);
+		starsPickedUp = 0;
 		resetMultiplier();
 	}
 	

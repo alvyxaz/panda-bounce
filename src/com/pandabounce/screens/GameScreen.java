@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pandabounce.Game;
 import com.pandabounce.controls.Input;
+import com.pandabounce.entities.Achievements;
 import com.pandabounce.entities.Bee;
 import com.pandabounce.entities.Dust;
 import com.pandabounce.entities.GuiEffect;
@@ -180,6 +181,7 @@ public abstract class GameScreen extends BaseScreen {
 						
 						Sounds.playSound(Sounds.starPickedUp, false);
 						
+						
 						// TODO: Regenerate a star in a given position
 						if(bB.getUserData().equals("star")){
 							((Star) contact.getFixtureB().getUserData()).pickedUp = true;
@@ -259,12 +261,19 @@ public abstract class GameScreen extends BaseScreen {
 							default:
 								panda.damage(10);
 								score.resetMultiplier();
+								if(panda.health <= 0){
+									/*
+									 * ACHIEVEMENT: Allergic to bees
+									 */
+									Achievements.unlockAchievement(Achievements.allergicToBees);
+								}
 						}
 						return;
 					}
 					
 					if(box != null && box.regenerationTimer < 0 && (bA.getUserData().equals("surprise_box") || bB.getUserData().equals("surprise_box"))){						
 						Sounds.playSound(Sounds.box, true);
+						
 						
 						if(bA.getUserData().equals("surprise_box")){
 							panda.effectType = ((SurpriseBox) contact.getFixtureA().getUserData()).type;
@@ -276,6 +285,19 @@ public abstract class GameScreen extends BaseScreen {
 							panda.effectType = ((SurpriseBox) contact.getFixtureB().getUserData()).type;
 							panda.effectTimer = ((SurpriseBox) contact.getFixtureB().getUserData()).effectTime;
 							((SurpriseBox) contact.getFixtureB().getUserData()).regenerate = true;
+						}
+						
+						/*
+						 * ACHIEVEMENT: Risk taker
+						 */
+						Achievements.unlockAchievement(Achievements.riskTaker);
+						
+						
+						/*
+						 * ACHIEVEMENT: Double the fun
+						 */
+						if(panda.effectType == 6){
+							Achievements.unlockAchievement(Achievements.doubleTheFun);
 						}
 						
 						return;
@@ -555,6 +577,13 @@ public abstract class GameScreen extends BaseScreen {
 		
 		if(box != null)
 		box.regenerationTimer = 10f;
+		
+		if(Game.preferences.getInteger("games played") == 1){
+			/*
+			 * ACHIEVEMENT: I've been expecting you
+			 */
+			Achievements.unlockAchievement(Achievements.iveBeenExpectingYou);
+		}
 		
 	}
 	

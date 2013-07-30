@@ -46,6 +46,12 @@ public class GuiTimer {
 		// If timer view needs to be updated
 		if(previousSecond != digits[3]){
 			timeString = String.format("%02d:%02d", (int)(time/60), (int)(time % 60));
+			if((int)(time/60) == 6){
+				/*
+				 * ACHIEVEMENT: The survivor
+				 */
+				Achievements.unlockAchievement(Achievements.theSurvivor);
+			}
 		}
 	}
 	

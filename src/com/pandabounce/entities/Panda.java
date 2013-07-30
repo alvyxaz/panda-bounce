@@ -300,6 +300,11 @@ public class Panda {
 		body.getFixtureList().get(0).setFilterData(filter);
 	
 		health -= damage;
+		
+		/*
+		 * ACHIEVEMENT: First Blood
+		 */
+		Achievements.unlockAchievement(Achievements.firstBlood);
 	}
 	
 	public Vector2 getPosition(){

@@ -111,6 +111,11 @@ public class Hedgehog {
 		if (!seen) {
 			if (Game.SCREEN_RECTANGLE.contains(hitBox)) {
 				seen = true;
+				
+				/*
+				 * ACHIEVEMENT: Hedgehog encounter
+				 */
+				Achievements.unlockAchievement(Achievements.hedgehogEncounter);
 			}
 		}
 		

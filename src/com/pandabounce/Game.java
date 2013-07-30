@@ -8,6 +8,7 @@ import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Rectangle;
 import com.pandabounce.controls.Input;
+import com.pandabounce.entities.Achievements;
 import com.pandabounce.resources.*;
 import com.pandabounce.screens.*;
 
@@ -28,8 +29,16 @@ public class Game implements ApplicationListener {
 	
 	public static boolean mute = true;
 	
+	public static GoogleInterface google;
+	
+	public Game(GoogleInterface google) {
+		this.google = google;
+	}
+	
     public void create () {
     	preferences = Gdx.app.getPreferences("prefs");
+    	
+    	Achievements.loadData();
     	
     	// Preparing OpenGL viewport
     	calculateScreenSize();

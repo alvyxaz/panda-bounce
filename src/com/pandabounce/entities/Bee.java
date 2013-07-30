@@ -139,6 +139,11 @@ public class Bee {
 				Filter filter = body.getFixtureList().get(0).getFilterData();
 				filter.maskBits = ~PhysicsFilter.MASK_PLAYER;
 				body.getFixtureList().get(0).setFilterData(filter);
+				
+				/*
+				 * ACHIEVEMENT: Wasp encounter
+				 */
+				Achievements.unlockAchievement(Achievements.waspEncounter);
 			}
 			break;
 		case ATTACKING:

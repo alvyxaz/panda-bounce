@@ -58,6 +58,7 @@ public class GuiEndWindow {
 	}
 	
 	public void show(int score){
+		
 		state = FLYING_IN;
 		this.score = score;
 		this.scoreText = ""+ score;
@@ -83,6 +84,14 @@ public class GuiEndWindow {
 			bestText = ""+oldBest;
 		}
 		
+		/*
+		 * ACHIEVEMENT: Panda's first steps
+		 */
+		Achievements.unlockAchievement(Achievements.pandasFirstSteps);
+		
+		// Increment games played
+		int gamesPlayed = Game.preferences.getInteger("games played", 0) + 1;
+		Game.preferences.putInteger("games played", gamesPlayed);
 	}
 	
 	public void draw(SpriteBatch spriteBatch, float deltaTime){

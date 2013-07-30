@@ -15,5 +15,7 @@
 	<classpathentry kind="lib" path="libs/httpcore-4.2.4.jar"/>
 	<classpathentry kind="lib" path="libs/httpmime-4.2.5.jar"/>
 	<classpathentry kind="lib" path="libs/java-json.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BaseGameUtils"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/google-play-services_lib"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
