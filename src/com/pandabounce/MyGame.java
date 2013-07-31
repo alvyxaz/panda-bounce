@@ -3,6 +3,7 @@ package com.pandabounce;
 import java.util.Random;
 
 import com.badlogic.gdx.ApplicationListener;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Application.ApplicationType;
 import com.badlogic.gdx.Preferences;
@@ -12,12 +13,11 @@ import com.pandabounce.entities.Achievements;
 import com.pandabounce.resources.*;
 import com.pandabounce.screens.*;
 
-public class Game implements ApplicationListener {
+public class MyGame extends Game implements ApplicationListener {
 	public static int SCREEN_WIDTH = 480;
 	public static int SCREEN_HEIGHT = 800;
 	public static int SCREEN_HALF_WIDTH = 240;
 	public static int SCREEN_HALF_HEIGHT = 400;
-	public BaseScreen screen;
 	public static Rectangle SCREEN_RECTANGLE;
 	public static boolean isAndroid;
 	public static Random random;
@@ -27,16 +27,20 @@ public class Game implements ApplicationListener {
 	
 	public static Preferences preferences;
 	
-	public static boolean mute = true;
+	public static boolean mute;
 	
 	public static GoogleInterface google;
 	
-	public Game(GoogleInterface google) {
+	public TitleScreen screenTitle;
+	public ModeSurvival screenSurvival;
+	
+	public MyGame(GoogleInterface google){
 		this.google = google;
 	}
 	
     public void create () {
     	preferences = Gdx.app.getPreferences("prefs");
+    	mute = preferences.getBoolean("mute", false);
     	
     	Achievements.loadData();
     	
@@ -53,14 +57,17 @@ public class Game implements ApplicationListener {
 		Art.loadTextures();
 		Sounds.loadSounds();
 		
+		// Initializing screens
+		screenTitle = new TitleScreen(this);
+		screenSurvival = new ModeSurvival(this);
+		
 		// Setting first screen to render
-		setScreen(new TitleScreen(this));
+		setScreen(screenTitle);
     }
 
     public void render () {
     	Input.update();
-		if(screen != null)
-			screen.render(Gdx.graphics.getDeltaTime());
+		getScreen().render(Gdx.graphics.getDeltaTime());
     }
     
     /*
@@ -77,11 +84,6 @@ public class Game implements ApplicationListener {
 		SCREEN_HALF_HEIGHT = SCREEN_HEIGHT/2;
 		
 		SCREEN_RECTANGLE = new Rectangle(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-	}
-    
-    public void setScreen(BaseScreen newScreen){
-		if(screen != null) screen.dispose();
-		screen = newScreen;
 	}
 
     public void resize (int width, int height) {

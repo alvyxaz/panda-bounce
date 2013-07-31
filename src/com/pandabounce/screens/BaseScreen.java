@@ -8,24 +8,25 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.pandabounce.*;
 
 public abstract class BaseScreen implements Screen {
-	Game game;
+	MyGame game;
 	SpriteBatch spriteBatch;
 	
 	int firstFramesToSkip = 5;
 	
 	protected StringBuilder fpsText;
-	public BaseScreen screenToSwitchTo;
+	private BaseScreen screenToSwitchTo;
+	public boolean isSwitchInProgress = false;;
 	
 	public OrthographicCamera guiCam;
 	
-	public BaseScreen(Game game){
+	public BaseScreen(MyGame game){
 		this.game = game;
 		spriteBatch = new SpriteBatch(300);
 		fpsText = new StringBuilder();
 
 		// Setting up GUI camera so that bottom left corner is 0 0
-		guiCam = new OrthographicCamera(Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
-		guiCam.translate(Game.SCREEN_WIDTH/2, Game.SCREEN_HEIGHT/2);
+		guiCam = new OrthographicCamera(MyGame.SCREEN_WIDTH, MyGame.SCREEN_HEIGHT);
+		guiCam.translate(MyGame.SCREEN_WIDTH/2, MyGame.SCREEN_HEIGHT/2);
 		guiCam.update();
 		
 		spriteBatch.setProjectionMatrix(guiCam.combined);
@@ -46,6 +47,11 @@ public abstract class BaseScreen implements Screen {
 	 * @return true if screen is ready to be switched
 	 */
 	public abstract boolean beforeScreenSwitch(float deltaTime);
+	
+	public void switchScreenTo(BaseScreen screen){
+		this.screenToSwitchTo = screen;
+		this.isSwitchInProgress = true;
+	}
 	
 	@Override
 	public void render(float deltaTime) {
@@ -73,11 +79,11 @@ public abstract class BaseScreen implements Screen {
 		}
 		
 		// Check whether the screen has to be switched.
-		if(screenToSwitchTo != null){
+		if(isSwitchInProgress){
 			if(beforeScreenSwitch(Gdx.graphics.getDeltaTime())){
 				game.setScreen(screenToSwitchTo);
 				screenToSwitchTo.prepare();
-				screenToSwitchTo = null;
+				isSwitchInProgress = false;
 			}
 		}
 		
@@ -91,8 +97,7 @@ public abstract class BaseScreen implements Screen {
 
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

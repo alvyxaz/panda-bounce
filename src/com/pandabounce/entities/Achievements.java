@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 
 public class Achievements {
 	
@@ -70,8 +70,8 @@ public class Achievements {
 		
 		Preferences prefs = Gdx.app.getPreferences("achievements");
 		
-		if(Game.google.isSignedIn()){
-			Game.google.unlockAchievement(achievementTitles[ach]);
+		if(MyGame.google.isSignedIn()){
+			MyGame.google.unlockAchievement(achievementTitles[ach]);
 			achievements[ach] = UNLOCKED_ONLINE;
 			prefs.putInteger(Integer.toString(ach), UNLOCKED_ONLINE);
 		} else {
@@ -86,7 +86,7 @@ public class Achievements {
 		Preferences prefs = Gdx.app.getPreferences("achievements");
 		for(int i = 0; i < count; i++){
 			if(achievements[i]  == UNLOCKED_OFFLINE){
-				Game.google.unlockAchievement(achievementTitles[i]);
+				MyGame.google.unlockAchievement(achievementTitles[i]);
 				achievements[i] = UNLOCKED_ONLINE;
 				prefs.putInteger(Integer.toString(i), UNLOCKED_ONLINE);
 			}

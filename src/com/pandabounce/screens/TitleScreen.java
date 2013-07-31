@@ -4,9 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.math.Rectangle;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 import com.pandabounce.controls.Input;
 import com.pandabounce.resources.Art;
+import com.pandabounce.resources.Sounds;
 
 public class TitleScreen extends BaseScreen {
 
@@ -22,17 +23,17 @@ public class TitleScreen extends BaseScreen {
 	private static final int STATE_OPENING = 0;
 	private static final int STATE_LIVE = 1;
 	
-	public TitleScreen(Game game) {
+	public TitleScreen(MyGame game) {
 		super(game);
 
 		int height = - Art.logo.getRegionHeight();
 		
-		logo = new Rectangle(Game.SCREEN_HALF_WIDTH - Art.logo.getRegionWidth()/2, height,
+		logo = new Rectangle(MyGame.SCREEN_HALF_WIDTH - Art.logo.getRegionWidth()/2, height,
 				Art.logo.getRegionWidth(), Art.logo.getRegionHeight());
 		
 		height -= Art.guiButtonSmall.getRegionHeight() + 30;
 		
-		buttonPlay = new Rectangle(Game.SCREEN_HALF_WIDTH - Art.guiButtonSmall.getRegionWidth() - 15, height,
+		buttonPlay = new Rectangle(MyGame.SCREEN_HALF_WIDTH - Art.guiButtonSmall.getRegionWidth() - 15, height,
 				Art.guiButtonSmall.getRegionWidth(), Art.guiButtonSmall.getRegionHeight());
 		
 		buttonGuide = new Rectangle(buttonPlay.x + buttonPlay.width + 30, height,
@@ -40,20 +41,20 @@ public class TitleScreen extends BaseScreen {
 		
 		height -= Art.guiButtonSmall.getRegionHeight() + 30;
 		
-		buttonLeaderboard = new Rectangle(Game.SCREEN_HALF_WIDTH - Art.guiButtonBig.getRegionWidth()/2, height,
+		buttonLeaderboard = new Rectangle(MyGame.SCREEN_HALF_WIDTH - Art.guiButtonBig.getRegionWidth()/2, height,
 				Art.guiButtonBig.getRegionWidth(), Art.guiButtonBig.getRegionHeight());
 		
 		height -= Art.guiButtonSmall.getRegionHeight() + 30;
 		
-		buttonQuit = new Rectangle(Game.SCREEN_HALF_WIDTH - Art.guiButtonSmall.getRegionWidth()/2, height,
+		buttonQuit = new Rectangle(MyGame.SCREEN_HALF_WIDTH - Art.guiButtonSmall.getRegionWidth()/2, height,
 				Art.guiButtonSmall.getRegionWidth(), Art.guiButtonSmall.getRegionHeight());
 		
 		height -= Art.guiButtonSmall.getRegionHeight() + 30;
 		
-		buttonSignIn = new Rectangle(Game.SCREEN_HALF_WIDTH - Art.guiSignIn.getRegionWidth()/2, height,
+		buttonSignIn = new Rectangle(MyGame.SCREEN_HALF_WIDTH - Art.guiSignIn.getRegionWidth()/2, height,
 				Art.guiSignIn.getRegionWidth(), Art.guiSignIn.getRegionHeight());
 		
-		buttonSound = new Rectangle(Game.SCREEN_WIDTH - Art.guiSoundOn.getRegionWidth() - 20, 20,
+		buttonSound = new Rectangle(MyGame.SCREEN_WIDTH - Art.guiSoundOn.getRegionWidth() - 20, 20,
 				Art.guiSoundOn.getRegionWidth(), Art.guiSoundOn.getRegionHeight());
 		
 	}
@@ -84,13 +85,13 @@ public class TitleScreen extends BaseScreen {
 		Art.fontKomika24Gold.drawWrapped(spriteBatch, "Quit", 
 				buttonQuit.x, buttonQuit.y+ buttonQuit.height - 16, buttonQuit.width, HAlignment.CENTER);
 		
-		if(Game.google.isSignedIn()){
+		if(MyGame.google.isSignedIn()){
 			spriteBatch.draw(Art.guiSignOut, buttonSignIn.x, buttonSignIn.y);
 		} else {
 			spriteBatch.draw(Art.guiSignIn, buttonSignIn.x, buttonSignIn.y);
 		}
 		
-		if(Game.mute){
+		if(MyGame.mute){
 			spriteBatch.draw(Art.guiSoundOff, buttonSound.x, buttonSound.y);
 		} else {
 			spriteBatch.draw(Art.guiSoundOn, buttonSound.x, buttonSound.y);
@@ -104,7 +105,7 @@ public class TitleScreen extends BaseScreen {
 		
 		switch(state){
 			case STATE_OPENING:
-				if(logo.y < Game.SCREEN_HEIGHT- Art.logo.getRegionHeight() - 50){
+				if(logo.y < MyGame.SCREEN_HEIGHT- Art.logo.getRegionHeight() - 50){
 					logo.y += 400 * deltaTime;
 					buttonPlay.y += 400 * deltaTime;
 					buttonGuide.y += 400 * deltaTime;
@@ -117,21 +118,27 @@ public class TitleScreen extends BaseScreen {
 				break;
 			case STATE_LIVE:
 				if(Input.isTouching(buttonPlay)){
-					this.screenToSwitchTo = new ModeSurvival(this.game);
+					game.screenSurvival.restartGame();
+					this.switchScreenTo(game.screenSurvival);
 				} else if(Input.isReleasing(buttonLeaderboard)){
-					Game.google.getScores();
+					MyGame.google.getScores();
 				} else if(Input.isReleasing(buttonQuit)){
 					Gdx.app.exit();
 				} else if(Input.isReleasing(buttonSound)){
-					Game.mute = !Game.mute;
+					MyGame.mute = !MyGame.mute;
+					game.preferences.putBoolean("mute", MyGame.mute);
+					game.preferences.flush();
+					if(MyGame.mute){
+						Sounds.stopMusic();
+					}
 				}
 				
-				if(Input.isReleasing(buttonSignIn) && !Game.google.isSignedIn()){
-					Game.google.Login();
+				if(Input.isReleasing(buttonSignIn) && !MyGame.google.isSignedIn()){
+					MyGame.google.Login();
 				}
 				
-				if(Input.isReleasing(buttonSignIn) && Game.google.isSignedIn()){
-					Game.google.LogOut();
+				if(Input.isReleasing(buttonSignIn) && MyGame.google.isSignedIn()){
+					MyGame.google.LogOut();
 				}
 				break;
 		}
@@ -140,19 +147,7 @@ public class TitleScreen extends BaseScreen {
 
 	@Override
 	public boolean beforeScreenSwitch(float deltaTime) {
-
-		if(buttonPlay.y < Game.SCREEN_HEIGHT){
-			logo.y += 400 * deltaTime;
-			buttonPlay.y += 400 * deltaTime;
-			buttonGuide.y += 400 * deltaTime;
-			buttonLeaderboard.y += 400 * deltaTime;
-			buttonQuit.y += 400 * deltaTime;
-			buttonSignIn.y += 400 * deltaTime;
-		} else {
-			return true;
-		}
-		
-		return false;
+		return true;
 	}
 
 	@Override

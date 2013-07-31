@@ -13,7 +13,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Net.HttpResponse;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 import com.pandabounce.controls.Input;
 import com.pandabounce.resources.Art;
 
@@ -25,7 +25,7 @@ public class RatingScreen extends BaseScreen {
 	
 	private boolean scoresLoaded = false;
 	
-	public RatingScreen(Game game,final int score) {
+	public RatingScreen(MyGame game,final int score) {
 		super(game);
 		
 		scores = new String[10][2];
@@ -73,8 +73,8 @@ public class RatingScreen extends BaseScreen {
 		if (scoresLoaded) {
 	        for (int i = 0; i < scores.length; i++) {
 	        	if (scores[i][0] != null && scores[i][1] != null) {
-		    		Art.fontDefault.draw(spriteBatch, (i+1) + ". " + scores[i][0], 50, Game.SCREEN_HEIGHT - (i+1) * 55);
-		    		Art.fontDefault.draw(spriteBatch, scores[i][1], Game.SCREEN_WIDTH - 110, Game.SCREEN_HEIGHT - (i+1) * 55);	
+		    		Art.fontDefault.draw(spriteBatch, (i+1) + ". " + scores[i][0], 50, MyGame.SCREEN_HEIGHT - (i+1) * 55);
+		    		Art.fontDefault.draw(spriteBatch, scores[i][1], MyGame.SCREEN_WIDTH - 110, MyGame.SCREEN_HEIGHT - (i+1) * 55);	
 	        	}
 	        }	
 		} else {

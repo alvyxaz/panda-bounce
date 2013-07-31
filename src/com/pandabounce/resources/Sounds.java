@@ -3,7 +3,7 @@ package com.pandabounce.resources;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 
 public class Sounds {
 
@@ -37,8 +37,12 @@ public class Sounds {
 		soundTimer = new long [3];
 	}
 	
+	public static void stopMusic(){
+		music.stop();
+	}
+	
 	public static void playSound(Sound sound, boolean important){
-		if(Game.mute) return;
+		if(MyGame.mute) return;
 		
 		long currentTime = System.currentTimeMillis();
 		int newIndex = -1;

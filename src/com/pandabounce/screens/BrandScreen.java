@@ -3,7 +3,7 @@ package com.pandabounce.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Rectangle;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 import com.pandabounce.controls.Input;
 import com.pandabounce.resources.Art;
 
@@ -22,11 +22,11 @@ public class BrandScreen extends BaseScreen {
 	
 	private float autoFadeOutIn;
 	
-	public BrandScreen(Game game) {
+	public BrandScreen(MyGame game) {
 		super(game);
 		logo = new Rectangle(
-				Game.SCREEN_HALF_WIDTH-Art.friendlyBlob.getWidth()/2,
-				Game.SCREEN_HALF_HEIGHT- Art.friendlyBlob.getHeight()/2,
+				MyGame.SCREEN_HALF_WIDTH-Art.friendlyBlob.getWidth()/2,
+				MyGame.SCREEN_HALF_HEIGHT- Art.friendlyBlob.getHeight()/2,
 				Art.friendlyBlob.getWidth(),
 				Art.friendlyBlob.getHeight());
 		Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -40,7 +40,7 @@ public class BrandScreen extends BaseScreen {
 		spriteBatch.draw(Art.friendlyBlob, logo.x, logo.y);
 		
 		spriteBatch.setColor(0, 0, 0, opacity);
-		spriteBatch.draw(Art.px, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
+		spriteBatch.draw(Art.px, 0, 0, MyGame.SCREEN_WIDTH, MyGame.SCREEN_HEIGHT);
 		spriteBatch.setColor(Color.WHITE);
 		
 		spriteBatch.end();
@@ -60,11 +60,11 @@ public class BrandScreen extends BaseScreen {
 				
 				autoFadeOutIn -= deltaTime;
 				if(autoFadeOutIn < 0){
-					this.screenToSwitchTo = new TitleScreen(this.game);
+					this.switchScreenTo(new TitleScreen(this.game));
 					transitionState = FADE_OUT;
 				} else {
 					if(Gdx.input.isTouched()){
-						this.screenToSwitchTo = new TitleScreen(this.game);
+						this.switchScreenTo(new TitleScreen(this.game));
 						transitionState = FADE_OUT;
 					}
 				}

@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 
 public class Art {
 
@@ -101,12 +101,12 @@ public class Art {
 		bgPixmap = new Pixmap(Gdx.files.internal("assets/textures/background.png"));
 		
 		// Calculating new texture size
-		float ratio = (float)Game.SCREEN_WIDTH/(float)Game.SCREEN_HEIGHT;
+		float ratio = (float)MyGame.SCREEN_WIDTH/(float)MyGame.SCREEN_HEIGHT;
 		int sourceWidth, sourceHeight;
 		
 		if(ratio > 1){
 			sourceWidth = bgPixmap.getWidth();
-			sourceHeight = Game.SCREEN_HEIGHT/Game.SCREEN_WIDTH * bgPixmap.getHeight();
+			sourceHeight = MyGame.SCREEN_HEIGHT/MyGame.SCREEN_WIDTH * bgPixmap.getHeight();
 		} else {
 			sourceWidth = (int)(bgPixmap.getWidth() * ratio);
 			sourceHeight = bgPixmap.getHeight();
@@ -114,11 +114,11 @@ public class Art {
 		
 		// Creating a pixmap
 		Pixmap temp = new Pixmap(bgPixmap.getWidth(), bgPixmap.getHeight(), Pixmap.Format.RGBA8888);
-		temp.drawPixmap(bgPixmap, 0, 0, sourceWidth, sourceHeight, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
+		temp.drawPixmap(bgPixmap, 0, 0, sourceWidth, sourceHeight, 0, 0, MyGame.SCREEN_WIDTH, MyGame.SCREEN_HEIGHT);
 	
 		// Creating a texture
 		Texture bgTexture = new Texture(temp);
-		background = new TextureRegion(bgTexture, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
+		background = new TextureRegion(bgTexture, 0, 0, MyGame.SCREEN_WIDTH, MyGame.SCREEN_HEIGHT);
 		
 		// TODO: dispose
 		temp.dispose();

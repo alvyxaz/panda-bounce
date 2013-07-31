@@ -2,7 +2,7 @@ package com.pandabounce.entities;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 import com.pandabounce.resources.Art;
 
 public class GuiHealthBar {
@@ -19,8 +19,8 @@ public class GuiHealthBar {
 	public GuiHealthBar(Panda panda) {
 		this.panda = panda;
 		this.width = maxWidth;
-		this.x = Game.SCREEN_HALF_WIDTH + 40;
-		this.y = Game.SCREEN_HEIGHT - Art.guiHealthBar.getRegionHeight() - 10;
+		this.x = MyGame.SCREEN_HALF_WIDTH + 40;
+		this.y = MyGame.SCREEN_HEIGHT - Art.guiHealthBar.getRegionHeight() - 10;
 		this.height = Art.guiHealth.getRegionHeight();
 	}
 	

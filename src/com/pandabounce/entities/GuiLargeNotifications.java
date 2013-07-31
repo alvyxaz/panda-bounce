@@ -2,7 +2,7 @@ package com.pandabounce.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 
 public class GuiLargeNotifications {
 	
@@ -112,11 +112,11 @@ public class GuiLargeNotifications {
 	private void prepareData(int index){
 		originalWidth = buffer[index].getRegionWidth();
 		originalHeight = buffer[index].getRegionHeight();
-		destinationX = Game.SCREEN_HALF_WIDTH - originalWidth/2;
-		destinationY = Game.SCREEN_HALF_HEIGHT - originalHeight/2;
+		destinationX = MyGame.SCREEN_HALF_WIDTH - originalWidth/2;
+		destinationY = MyGame.SCREEN_HALF_HEIGHT - originalHeight/2;
 		
-		x = Game.SCREEN_WIDTH;
-		y = Game.SCREEN_HALF_HEIGHT - originalHeight/2;
+		x = MyGame.SCREEN_WIDTH;
+		y = MyGame.SCREEN_HALF_HEIGHT - originalHeight/2;
 		width = originalWidth;
 		height = 5;
 	}

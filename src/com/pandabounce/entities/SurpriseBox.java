@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 import com.pandabounce.resources.Art;
 
 public class SurpriseBox {
@@ -42,12 +42,12 @@ public class SurpriseBox {
 	public SurpriseBox(int x, int y, World world){
 
 		hitBox = new Rectangle(x, y, Art.box.getRegionWidth(), Art.box.getRegionHeight());
-		type = Game.random.nextInt(8) + 1;
+		type = MyGame.random.nextInt(8) + 1;
 		
 		// Creating body definition
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
-		bodyDef.position.set(new Vector2((x+  hitBox.width/2)*Game.WORLD_TO_BOX , (y+ hitBox.height/2)*Game.WORLD_TO_BOX ));
+		bodyDef.position.set(new Vector2((x+  hitBox.width/2)*MyGame.WORLD_TO_BOX , (y+ hitBox.height/2)*MyGame.WORLD_TO_BOX ));
 		
 		// Creating body
 		body = world.createBody(bodyDef);
@@ -56,7 +56,7 @@ public class SurpriseBox {
 
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(hitBox.width/2*Game.WORLD_TO_BOX, hitBox.height/2*Game.WORLD_TO_BOX);
+		shape.setAsBox(hitBox.width/2*MyGame.WORLD_TO_BOX, hitBox.height/2*MyGame.WORLD_TO_BOX);
 		
 		// Creating fixture 
 		FixtureDef fixtureDef = new FixtureDef();
@@ -101,14 +101,14 @@ public class SurpriseBox {
 	
 	public void regenerate(int x, int y)
 	{
-		regenerationTimer = Game.random.nextFloat() * 25;
-		type = Game.random.nextInt(8) + 1;
+		regenerationTimer = MyGame.random.nextFloat() * 25;
+		type = MyGame.random.nextInt(8) + 1;
 		
 		hitBox.x = x;
 		hitBox.y = y;
 		opacity = 0;
 		
-		body.setTransform((x+  hitBox.width/2)*Game.WORLD_TO_BOX, (y+  hitBox.height/2)*Game.WORLD_TO_BOX, 0f);
+		body.setTransform((x+  hitBox.width/2)*MyGame.WORLD_TO_BOX, (y+  hitBox.height/2)*MyGame.WORLD_TO_BOX, 0f);
 		regenerate = false;
 	}
 }

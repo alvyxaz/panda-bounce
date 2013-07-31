@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.Filter;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 import com.pandabounce.resources.Art;
 import com.pandabounce.resources.Sounds;
 
@@ -78,7 +78,7 @@ public class Panda {
 		// Creating body definition
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
-		bodyDef.position.set(new Vector2((x+  hitBoxCenterX)*Game.WORLD_TO_BOX , (y+ hitBox.height/2)*Game.WORLD_TO_BOX ));
+		bodyDef.position.set(new Vector2((x+  hitBoxCenterX)*MyGame.WORLD_TO_BOX , (y+ hitBox.height/2)*MyGame.WORLD_TO_BOX ));
 		bodyDef.fixedRotation = true;
 
 		// Creating body
@@ -88,7 +88,7 @@ public class Panda {
 		
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(Art.pandaIdle[0].getRegionWidth()/3*Game.WORLD_TO_BOX, Art.pandaIdle[0].getRegionWidth()/3*Game.WORLD_TO_BOX);
+		shape.setAsBox(Art.pandaIdle[0].getRegionWidth()/3*MyGame.WORLD_TO_BOX, Art.pandaIdle[0].getRegionWidth()/3*MyGame.WORLD_TO_BOX);
 		
 		// Creating fixture 
 		FixtureDef fixtureDef = new FixtureDef();
@@ -106,7 +106,7 @@ public class Panda {
 	}
 	
 	public void regenerate(){
-		body.setTransform(startX*Game.WORLD_TO_BOX, startY*Game.WORLD_TO_BOX, -(float)Math.PI/2);
+		body.setTransform(startX*MyGame.WORLD_TO_BOX, startY*MyGame.WORLD_TO_BOX, -(float)Math.PI/2);
 		health = maxHealth;
 		effectType = 0;
 		
@@ -140,8 +140,8 @@ public class Panda {
 		
 		if((damageTimer * 14)%2 < 1 ){
 			spriteBatch.draw(animation[currentFrame], 
-					body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2, 	// x
-					body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2, // y
+					body.getPosition().x*MyGame.BOX_TO_WORLD - hitBox.width/2, 	// x
+					body.getPosition().y * MyGame.BOX_TO_WORLD - hitBox.height/2, // y
 					hitBox.width/2,	// OriginX
 					hitBox.height/2,	// OriginY
 					hitBox.width, 	// Width
@@ -216,8 +216,8 @@ public class Panda {
 		 */
 		if(state == STATE_SLIDING){
 		
-			hitBox.x = (body.getPosition().x) * Game.BOX_TO_WORLD  - hitBox.width/2;
-			hitBox.y = body.getPosition().y * Game.BOX_TO_WORLD  - hitBox.height/2;
+			hitBox.x = (body.getPosition().x) * MyGame.BOX_TO_WORLD  - hitBox.width/2;
+			hitBox.y = body.getPosition().y * MyGame.BOX_TO_WORLD  - hitBox.height/2;
 			
 			// Updating xVelocity and yVelocity sign,
 			// TODO: Optimize
@@ -276,8 +276,8 @@ public class Panda {
 	
 	public void slide(float dX, float dY){
 		state = STATE_SLIDING; dY *= -1;
-		xVelocity = dX*7*Game.WORLD_TO_BOX;
-		yVelocity = dY*7*Game.WORLD_TO_BOX;
+		xVelocity = dX*7*MyGame.WORLD_TO_BOX;
+		yVelocity = dY*7*MyGame.WORLD_TO_BOX;
 		body.setLinearVelocity(xVelocity, yVelocity);
 		speedCoef = 1;
 		

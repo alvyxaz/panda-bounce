@@ -10,7 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 import com.pandabounce.resources.Art;
 
 public class Hedgehog {
@@ -33,7 +33,7 @@ public class Hedgehog {
 		// Creating body definition
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
-		bodyDef.position.set(new Vector2((0+  hitBox.width/2)*Game.WORLD_TO_BOX , (0+ hitBox.height/2)*Game.WORLD_TO_BOX ));
+		bodyDef.position.set(new Vector2((0+  hitBox.width/2)*MyGame.WORLD_TO_BOX , (0+ hitBox.height/2)*MyGame.WORLD_TO_BOX ));
 		bodyDef.angle = moveAngle;
 		bodyDef.fixedRotation = true;
 		
@@ -44,7 +44,7 @@ public class Hedgehog {
 
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(hitBox.width/2.4f*Game.WORLD_TO_BOX, hitBox.height/2.8f*Game.WORLD_TO_BOX);
+		shape.setAsBox(hitBox.width/2.4f*MyGame.WORLD_TO_BOX, hitBox.height/2.8f*MyGame.WORLD_TO_BOX);
 		
 		// Creating fixture 
 		FixtureDef fixtureDef = new FixtureDef();
@@ -78,18 +78,18 @@ public class Hedgehog {
 			}
 			
 			// right
-			if (hitBox.x >= Game.SCREEN_WIDTH) {
-				spriteBatch.draw(Art.exclamation, Game.SCREEN_WIDTH - Art.exclamation.getRegionWidth(), hitBox.y);
+			if (hitBox.x >= MyGame.SCREEN_WIDTH) {
+				spriteBatch.draw(Art.exclamation, MyGame.SCREEN_WIDTH - Art.exclamation.getRegionWidth(), hitBox.y);
 			}
 			
 			// top
-			if (hitBox.y >= Game.SCREEN_HEIGHT) {
-				spriteBatch.draw(Art.exclamation, hitBox.x, Game.SCREEN_HEIGHT - Art.exclamation.getRegionHeight());
+			if (hitBox.y >= MyGame.SCREEN_HEIGHT) {
+				spriteBatch.draw(Art.exclamation, hitBox.x, MyGame.SCREEN_HEIGHT - Art.exclamation.getRegionHeight());
 			}
 		} else {
 			spriteBatch.draw(Art.hedgehog, 
-					body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2, 	// x
-					body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2, // y
+					body.getPosition().x*MyGame.BOX_TO_WORLD - hitBox.width/2, 	// x
+					body.getPosition().y * MyGame.BOX_TO_WORLD - hitBox.height/2, // y
 					hitBox.width/2,	// OriginX
 					hitBox.height/2,	// OriginY
 					hitBox.width, 	// Width
@@ -103,13 +103,13 @@ public class Hedgehog {
 	}
 	
 	public void update(float deltaTime) {
-		hitBox.x = body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2;
-		hitBox.y = body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2;
+		hitBox.x = body.getPosition().x*MyGame.BOX_TO_WORLD - hitBox.width/2;
+		hitBox.y = body.getPosition().y * MyGame.BOX_TO_WORLD - hitBox.height/2;
 		dontRegenerateFor -= deltaTime;
 
 	
 		if (!seen) {
-			if (Game.SCREEN_RECTANGLE.contains(hitBox)) {
+			if (MyGame.SCREEN_RECTANGLE.contains(hitBox)) {
 				seen = true;
 				
 				/*
@@ -121,7 +121,7 @@ public class Hedgehog {
 		
 		if(dontRegenerateFor < 0) {
 			// Checking if hedgehog is out of the screen
-			if(!Game.SCREEN_RECTANGLE.contains(hitBox)){
+			if(!MyGame.SCREEN_RECTANGLE.contains(hitBox)){
 				regenerate();
 				seen = false;
 			} 
@@ -132,46 +132,46 @@ public class Hedgehog {
 		int x = 0, y = 0;
 		float angle = 0;
 		dontRegenerateFor = 3f; // Don't regenerate for 3 seconds
-		int wall = Game.random.nextInt(4);
+		int wall = MyGame.random.nextInt(4);
 		
 		// Checking where it will come from
 		switch(wall){
 		case 0: // Top
-			x = Game.random.nextInt(Game.SCREEN_WIDTH);
-			y = Game.SCREEN_HEIGHT + 250;
+			x = MyGame.random.nextInt(MyGame.SCREEN_WIDTH);
+			y = MyGame.SCREEN_HEIGHT + 250;
 			angle = (float) Math.atan2(
-					Game.SCREEN_HEIGHT/2 - y , 
-					Game.SCREEN_WIDTH/2 - x + Game.SCREEN_WIDTH/4 - Game.random.nextInt(Game.SCREEN_WIDTH/2));
+					MyGame.SCREEN_HEIGHT/2 - y , 
+					MyGame.SCREEN_WIDTH/2 - x + MyGame.SCREEN_WIDTH/4 - MyGame.random.nextInt(MyGame.SCREEN_WIDTH/2));
 			break;
 		case 1: // Right
-			x = Game.SCREEN_WIDTH + 250;
-			y = Game.random.nextInt(Game.SCREEN_HEIGHT);
+			x = MyGame.SCREEN_WIDTH + 250;
+			y = MyGame.random.nextInt(MyGame.SCREEN_HEIGHT);
 			angle = (float) Math.atan2(
-					Game.SCREEN_HEIGHT/2 - y + Game.SCREEN_HEIGHT/4 - Game.random.nextInt(Game.SCREEN_HEIGHT/2), 
-					Game.SCREEN_WIDTH/2 - x);
+					MyGame.SCREEN_HEIGHT/2 - y + MyGame.SCREEN_HEIGHT/4 - MyGame.random.nextInt(MyGame.SCREEN_HEIGHT/2), 
+					MyGame.SCREEN_WIDTH/2 - x);
 			break;
 		case 2: // Bottom
-			x = Game.random.nextInt(Game.SCREEN_WIDTH);
+			x = MyGame.random.nextInt(MyGame.SCREEN_WIDTH);
 			y = (int)(- hitBox.height*2) - 250;
 			angle = (float) Math.atan2(
-					Game.SCREEN_HEIGHT/2 - y , 
-					Game.SCREEN_WIDTH/2 - x + Game.SCREEN_WIDTH/4 - Game.random.nextInt(Game.SCREEN_WIDTH/2));
+					MyGame.SCREEN_HEIGHT/2 - y , 
+					MyGame.SCREEN_WIDTH/2 - x + MyGame.SCREEN_WIDTH/4 - MyGame.random.nextInt(MyGame.SCREEN_WIDTH/2));
 			break;
 		case 3: // Left
 			x = (int)(- hitBox.width*2) - 250;
-			y = Game.random.nextInt(Game.SCREEN_HEIGHT);
+			y = MyGame.random.nextInt(MyGame.SCREEN_HEIGHT);
 			angle = (float) Math.atan2(
-					Game.SCREEN_HEIGHT/2 - y + Game.SCREEN_HEIGHT/4 - Game.random.nextInt(Game.SCREEN_HEIGHT/2), 
-					Game.SCREEN_WIDTH/2 - x);
+					MyGame.SCREEN_HEIGHT/2 - y + MyGame.SCREEN_HEIGHT/4 - MyGame.random.nextInt(MyGame.SCREEN_HEIGHT/2), 
+					MyGame.SCREEN_WIDTH/2 - x);
 			break;
 		}
 		
-		float newVelocityX = (float)Math.cos(angle)* moveSpeed * Game.WORLD_TO_BOX ;
-		float newVelocityY = (float)Math.sin(angle)* moveSpeed * Game.WORLD_TO_BOX ;
-		body.setTransform(x * Game.WORLD_TO_BOX, y * Game.WORLD_TO_BOX, angle - (float)Math.PI/2);
+		float newVelocityX = (float)Math.cos(angle)* moveSpeed * MyGame.WORLD_TO_BOX ;
+		float newVelocityY = (float)Math.sin(angle)* moveSpeed * MyGame.WORLD_TO_BOX ;
+		body.setTransform(x * MyGame.WORLD_TO_BOX, y * MyGame.WORLD_TO_BOX, angle - (float)Math.PI/2);
 		body.setLinearVelocity(newVelocityX, newVelocityY);
 		
-		hitBox.x = body.getPosition().x*Game.BOX_TO_WORLD - hitBox.width/2;
-		hitBox.y = body.getPosition().y * Game.BOX_TO_WORLD - hitBox.height/2;
+		hitBox.x = body.getPosition().x*MyGame.BOX_TO_WORLD - hitBox.width/2;
+		hitBox.y = body.getPosition().y * MyGame.BOX_TO_WORLD - hitBox.height/2;
 	}
 }

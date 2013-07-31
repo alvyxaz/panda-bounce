@@ -2,7 +2,7 @@ package com.pandabounce.entities;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont.HAlignment;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 import com.pandabounce.resources.Art;
 
 public class GuiEffect {
@@ -16,7 +16,7 @@ public class GuiEffect {
 	
 	public GuiEffect(Panda panda){
 		this.panda = panda;
-		x = Game.SCREEN_HALF_WIDTH - Art.guiEffectBar.getRegionWidth()/2;
+		x = MyGame.SCREEN_HALF_WIDTH - Art.guiEffectBar.getRegionWidth()/2;
 		y = 12;
 		width = Art.guiEffectBar.getRegionWidth();
 		fontY = y+Art.fontKomika24.getLineHeight() - 7;

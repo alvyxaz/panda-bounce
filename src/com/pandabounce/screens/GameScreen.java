@@ -20,7 +20,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 import com.pandabounce.controls.Input;
 import com.pandabounce.entities.Achievements;
 import com.pandabounce.entities.Bee;
@@ -85,7 +85,7 @@ public abstract class GameScreen extends BaseScreen {
 	protected GuiEffect effect;
 	
 	private boolean movementRegistered = false;
-	
+	private Rectangle buttonMainMenu; 
 	/*
 	 * Graphic enhancements
 	 */
@@ -100,10 +100,10 @@ public abstract class GameScreen extends BaseScreen {
 	
 	Body wallBodies[];
 	
-	public GameScreen(Game game) {
+	public GameScreen(MyGame game) {
 		super(game);
 		
-		timer = new GuiTimer(Game.SCREEN_WIDTH-100, 30);
+		timer = new GuiTimer(MyGame.SCREEN_WIDTH-100, 30);
 		
 		pauseButton = new Rectangle(10, 10, 20, 20);
 		targetState = READY;
@@ -114,12 +114,12 @@ public abstract class GameScreen extends BaseScreen {
 		world = new World(new Vector2(0, 0), true);
 		debugRenderer = new Box2DDebugRenderer();
 		debugMatrix = new Matrix4(guiCam.combined);
-		debugMatrix.scale(Game.BOX_TO_WORLD, Game.BOX_TO_WORLD, 1f);
-		createWalls(Game.WORLD_TO_BOX);
+		debugMatrix.scale(MyGame.BOX_TO_WORLD, MyGame.BOX_TO_WORLD, 1f);
+		createWalls(MyGame.WORLD_TO_BOX);
 		createContactListener();
 		
 		// Entities
-		panda = new Panda(Game.SCREEN_HALF_WIDTH, Game.SCREEN_HALF_HEIGHT-100, world);
+		panda = new Panda(MyGame.SCREEN_HALF_WIDTH, MyGame.SCREEN_HALF_HEIGHT-100, world);
 		stars = new Star[3];
 
 		// GUI
@@ -133,6 +133,9 @@ public abstract class GameScreen extends BaseScreen {
 			notifications[i] = new GuiLiveNotification();
 		}
 
+		buttonMainMenu = new Rectangle(MyGame.SCREEN_HALF_WIDTH-Art.guiButtonSmall.getRegionWidth()/2, MyGame.SCREEN_HALF_HEIGHT/2, 
+				Art.guiButtonSmall.getRegionWidth(), Art.guiButtonSmall.getRegionHeight());
+		
 		// Graphic enhancements
 		dust = new Dust();
 	}
@@ -166,8 +169,8 @@ public abstract class GameScreen extends BaseScreen {
 						panda.refreshAnimation = true;
 						shakeScreen(score.multiplier);
 						dust.startCloud(5, 
-								contact.getWorldManifold().getPoints()[0].x * Game.BOX_TO_WORLD, 
-								contact.getWorldManifold().getPoints()[0].y * Game.BOX_TO_WORLD);
+								contact.getWorldManifold().getPoints()[0].x * MyGame.BOX_TO_WORLD, 
+								contact.getWorldManifold().getPoints()[0].y * MyGame.BOX_TO_WORLD);
 						return;
 					}
 					
@@ -176,8 +179,8 @@ public abstract class GameScreen extends BaseScreen {
 					 */
 					if(bA.getUserData().equals("star") || bB.getUserData().equals("star")){
 
-						int newX = Game.random.nextInt(Game.SCREEN_WIDTH-(int)stars[0].hitBox.width);
-						int newY = Game.random.nextInt(Game.SCREEN_HEIGHT-(int)stars[0].hitBox.height);
+						int newX = MyGame.random.nextInt(MyGame.SCREEN_WIDTH-(int)stars[0].hitBox.width);
+						int newY = MyGame.random.nextInt(MyGame.SCREEN_HEIGHT-(int)stars[0].hitBox.height);
 						
 						Sounds.playSound(Sounds.starPickedUp, false);
 						
@@ -342,10 +345,10 @@ public abstract class GameScreen extends BaseScreen {
 			wallBodyDef[i].type = BodyType.StaticBody;
 		}
 		
-		wallBodyDef[0].position.set(new Vector2(0, Game.SCREEN_HALF_HEIGHT*wtb)); // Left wall
-		wallBodyDef[1].position.set(new Vector2(Game.SCREEN_WIDTH*wtb, Game.SCREEN_HALF_HEIGHT*wtb)); // Right wall
-		wallBodyDef[2].position.set(new Vector2(Game.SCREEN_HALF_WIDTH*wtb, Game.SCREEN_HEIGHT*wtb)); // Top wall
-		wallBodyDef[3].position.set(new Vector2(Game.SCREEN_HALF_WIDTH*wtb, 0));  // Bottom wall
+		wallBodyDef[0].position.set(new Vector2(0, MyGame.SCREEN_HALF_HEIGHT*wtb)); // Left wall
+		wallBodyDef[1].position.set(new Vector2(MyGame.SCREEN_WIDTH*wtb, MyGame.SCREEN_HALF_HEIGHT*wtb)); // Right wall
+		wallBodyDef[2].position.set(new Vector2(MyGame.SCREEN_HALF_WIDTH*wtb, MyGame.SCREEN_HEIGHT*wtb)); // Top wall
+		wallBodyDef[3].position.set(new Vector2(MyGame.SCREEN_HALF_WIDTH*wtb, 0));  // Bottom wall
 		
 		for(int i = 0; i < wallBodyDef.length; i++){
 			wallBodies[i] = world.createBody(wallBodyDef[i]);
@@ -353,10 +356,10 @@ public abstract class GameScreen extends BaseScreen {
 		}
 		
 		PolygonShape horizontalBox = new PolygonShape();
-		horizontalBox.setAsBox(Game.SCREEN_HALF_WIDTH*wtb, 5*wtb);
+		horizontalBox.setAsBox(MyGame.SCREEN_HALF_WIDTH*wtb, 5*wtb);
 		
 		PolygonShape verticalBox = new PolygonShape();
-		verticalBox.setAsBox(5*wtb, Game.SCREEN_HALF_HEIGHT*wtb);
+		verticalBox.setAsBox(5*wtb, MyGame.SCREEN_HALF_HEIGHT*wtb);
 		
 		wallBodies[0].createFixture(verticalBox, 0);
 		wallBodies[1].createFixture(verticalBox, 0);
@@ -387,33 +390,36 @@ public abstract class GameScreen extends BaseScreen {
 		switch(state){
 			case FADE_IN:
 				spriteBatch.setColor(0, 0, 0, transitionOpacity);
-				spriteBatch.draw(Art.px, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
+				spriteBatch.draw(Art.px, 0, 0, MyGame.SCREEN_WIDTH, MyGame.SCREEN_HEIGHT);
 				spriteBatch.setColor(Color.WHITE);
 				break;
 			case READY:
 				spriteBatch.setColor(0, 0, 0, transitionOpacity);
-				spriteBatch.draw(Art.px, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
+				spriteBatch.draw(Art.px, 0, 0, MyGame.SCREEN_WIDTH, MyGame.SCREEN_HEIGHT);
 				spriteBatch.setColor(Color.WHITE);
-				Art.fontKomika24Gold.draw(spriteBatch, "Ready?",Game.SCREEN_HALF_WIDTH - 50, Game.SCREEN_HALF_HEIGHT);
+				Art.fontKomika24Gold.draw(spriteBatch, "Ready?",MyGame.SCREEN_HALF_WIDTH - 50, MyGame.SCREEN_HALF_HEIGHT);
 				break;
 			case PAUSE:
 				spriteBatch.setColor(0, 0, 0, transitionOpacity);
-				spriteBatch.draw(Art.px, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
+				spriteBatch.draw(Art.px, 0, 0, MyGame.SCREEN_WIDTH, MyGame.SCREEN_HEIGHT);
 				spriteBatch.setColor(Color.WHITE);
-				Art.fontDefault.draw(spriteBatch, "Paused",	Game.SCREEN_HALF_WIDTH, Game.SCREEN_HALF_HEIGHT);
-				Art.fontDefault.draw(spriteBatch, "Touch to continue",	Game.SCREEN_HALF_WIDTH-30, Game.SCREEN_HALF_HEIGHT-50);
+				Art.fontKomika24Gold.draw(spriteBatch, "Paused",	MyGame.SCREEN_HALF_WIDTH-46, MyGame.SCREEN_HALF_HEIGHT);
+				Art.fontKomika24Gold.draw(spriteBatch, "Touch to continue",	MyGame.SCREEN_HALF_WIDTH-135, MyGame.SCREEN_HALF_HEIGHT-50);
+				
+				spriteBatch.draw(Art.guiButtonSmall, buttonMainMenu.x, buttonMainMenu.y);
+				Art.fontKomika24Gold.draw(spriteBatch, "Main Menu", buttonMainMenu.x, buttonMainMenu.y + buttonMainMenu.height-16);
 				break;
 			case PLAYING:
 				break;
 			case END:
 				spriteBatch.setColor(0, 0, 0, transitionOpacity);
-				spriteBatch.draw(Art.px, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
+				spriteBatch.draw(Art.px, 0, 0, MyGame.SCREEN_WIDTH, MyGame.SCREEN_HEIGHT);
 				spriteBatch.setColor(Color.WHITE);
 				endWindow.draw(spriteBatch, deltaTime);
 				break;
 			case FADE_OUT:
 				spriteBatch.setColor(0, 0, 0, transitionOpacity);
-				spriteBatch.draw(Art.px, 0, 0, Game.SCREEN_WIDTH, Game.SCREEN_HEIGHT);
+				spriteBatch.draw(Art.px, 0, 0, MyGame.SCREEN_WIDTH, MyGame.SCREEN_HEIGHT);
 				spriteBatch.setColor(Color.WHITE);
 				break;
 		}
@@ -430,7 +436,7 @@ public abstract class GameScreen extends BaseScreen {
 		float originalDeltaTime = deltaTime;
 		switch(state){
 			case FADE_IN:
-				if(!Game.mute && !Sounds.music.isPlaying()){
+				if(!MyGame.mute && !Sounds.music.isPlaying()){
 					Sounds.music.play();
 				}
 				transitionOpacity -= deltaTime * 2;
@@ -451,7 +457,10 @@ public abstract class GameScreen extends BaseScreen {
 				}
 				break;
 			case PAUSE:
-				if(Gdx.input.justTouched()){
+				if(Input.isReleasing(buttonMainMenu)){
+					this.switchScreenTo(game.screenTitle);
+					state = FADE_OUT;
+				} else if(Input.isReleasing()){
 					targetState = PLAYING;
 					state = FADE_IN;
 				}
@@ -462,7 +471,7 @@ public abstract class GameScreen extends BaseScreen {
 						state = FADE_OUT;
 						targetState = READY;
 					} else if(Input.isReleasing(endWindow.submitScore)){
-						Game.google.submitScore(score.score);
+						MyGame.google.submitScore(score.score);
 					}
 				}
 				break;
@@ -494,7 +503,7 @@ public abstract class GameScreen extends BaseScreen {
 						world.step(deltaTime, 6, 2);
 				}
 
-				if(Input.isTouching(pauseButton)){
+				if(Input.isReleasing(pauseButton)){
 					state = PAUSE;
 					transitionOpacity = 0.5f;
 				}
@@ -535,7 +544,7 @@ public abstract class GameScreen extends BaseScreen {
 							panda.slide(Input.touch[0].highestDx, Input.touch[0].highestDy);
 				    }
 				    
-				    if(!Game.mute){
+				    if(!MyGame.mute){
 				    	Sounds.whoosh.stop();
 					    Sounds.whoosh.play();
 				    }
@@ -546,12 +555,12 @@ public abstract class GameScreen extends BaseScreen {
 				// Updating screen shake
 				if(screenShakeTimer > 0){
 					screenShakeTimer -= deltaTime;
-					guiCam.position.x = Game.SCREEN_HALF_WIDTH - screenShakeStrength/2 + Game.random.nextInt(screenShakeStrength);
-					guiCam.position.y = Game.SCREEN_HALF_HEIGHT - screenShakeStrength/2 + Game.random.nextInt(screenShakeStrength);
+					guiCam.position.x = MyGame.SCREEN_HALF_WIDTH - screenShakeStrength/2 + MyGame.random.nextInt(screenShakeStrength);
+					guiCam.position.y = MyGame.SCREEN_HALF_HEIGHT - screenShakeStrength/2 + MyGame.random.nextInt(screenShakeStrength);
 					
 					if(screenShakeTimer < 0){
-						guiCam.position.x = Game.SCREEN_HALF_WIDTH;
-						guiCam.position.y = Game.SCREEN_HALF_HEIGHT;
+						guiCam.position.x = MyGame.SCREEN_HALF_WIDTH;
+						guiCam.position.y = MyGame.SCREEN_HALF_HEIGHT;
 					}
 					
 					guiCam.update();
@@ -562,6 +571,9 @@ public abstract class GameScreen extends BaseScreen {
 	}
 	
 	public void restartGame(){
+		state = FADE_OUT;
+		targetState = READY;
+		
 		panda.regenerate();
 		score.reset();
 		timer.reset();
@@ -577,7 +589,7 @@ public abstract class GameScreen extends BaseScreen {
 		if(box != null)
 		box.regenerationTimer = 10f;
 		
-		if(Game.preferences.getInteger("games played") == 1){
+		if(MyGame.preferences.getInteger("games played") == 1){
 			/*
 			 * ACHIEVEMENT: I've been expecting you
 			 */

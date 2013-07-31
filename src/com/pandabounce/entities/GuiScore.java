@@ -1,7 +1,7 @@
 package com.pandabounce.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 import com.pandabounce.resources.Art;
 
 public class GuiScore {
@@ -26,7 +26,7 @@ public class GuiScore {
 	
 	public GuiScore(GuiLargeNotifications notifications) {
 		x = 10;
-		y = Game.SCREEN_HEIGHT - Art.guiScoreBar.getRegionHeight()-10;
+		y = MyGame.SCREEN_HEIGHT - Art.guiScoreBar.getRegionHeight()-10;
 		
 		multiplierX = 10;
 		multiplierY = 10;

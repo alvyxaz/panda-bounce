@@ -3,7 +3,7 @@ package com.pandabounce.controls;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Rectangle;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 
 
 public class Input {
@@ -36,7 +36,7 @@ public class Input {
 			if(Gdx.input.isTouched(i)){
 				touch[i].touched = true;
 				touch[i].x = (int)(Gdx.input.getX(i) * xRatio);
-				touch[i].y = Game.SCREEN_HEIGHT - (int)(Gdx.input.getY(i) * yRatio);
+				touch[i].y = MyGame.SCREEN_HEIGHT - (int)(Gdx.input.getY(i) * yRatio);
 				
 				// Calculating highest movement speed
 				int tempDx = Gdx.input.getDeltaX(i);
@@ -126,7 +126,7 @@ public class Input {
 		for(int i = 0; i < 2; i++){
 			if(!Gdx.input.isTouched(i)) continue;
 			if(rect.x <= touch[i].x && rect.x+rect.width >= touch[i].x){	
-				if(rect.y <= Game.SCREEN_HEIGHT-touch[i].y && rect.y+rect.height >= Game.SCREEN_HEIGHT-touch[i].y)
+				if(rect.y <= MyGame.SCREEN_HEIGHT-touch[i].y && rect.y+rect.height >= MyGame.SCREEN_HEIGHT-touch[i].y)
 					return i;
 			}
 		}
@@ -136,8 +136,8 @@ public class Input {
 	public static void initialize(){
 		touch = new Touch[2];
 		
-		xRatio = Game.SCREEN_WIDTH / (float)Gdx.graphics.getWidth();
-		yRatio = Game.SCREEN_HEIGHT / (float)Gdx.graphics.getHeight();
+		xRatio = MyGame.SCREEN_WIDTH / (float)Gdx.graphics.getWidth();
+		yRatio = MyGame.SCREEN_HEIGHT / (float)Gdx.graphics.getHeight();
 		for(int i= 0; i < touch.length; i++)
 			touch[i] = new Touch();
 		

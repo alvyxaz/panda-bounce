@@ -1,7 +1,7 @@
 package com.pandabounce.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 import com.pandabounce.entities.Bee;
 import com.pandabounce.entities.Hedgehog;
 import com.pandabounce.entities.Star;
@@ -13,16 +13,16 @@ import com.pandabounce.resources.Art;
  */
 public class ModeSurvival extends GameScreen {
 	
-	public ModeSurvival(Game game) {
+	public ModeSurvival(MyGame game) {
 		super(game);
 
 		timer.enabled = true;
 		timer.ascending = true;
 		
 		// Planting stars
-		stars[0] = new Star(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
-		stars[1] = new Star(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
-		stars[2] = new Star(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
+		stars[0] = new Star(MyGame.random.nextInt(MyGame.SCREEN_WIDTH-50), MyGame.random.nextInt(MyGame.SCREEN_HEIGHT-50), world);
+		stars[1] = new Star(MyGame.random.nextInt(MyGame.SCREEN_WIDTH-50), MyGame.random.nextInt(MyGame.SCREEN_HEIGHT-50), world);
+		stars[2] = new Star(MyGame.random.nextInt(MyGame.SCREEN_WIDTH-50), MyGame.random.nextInt(MyGame.SCREEN_HEIGHT-50), world);
 		
 		// Making hedgehogs
 		hedgehogs = new Hedgehog[3];
@@ -37,7 +37,7 @@ public class ModeSurvival extends GameScreen {
 			bees[i].regenerate();
 		}
 		
-		box = new SurpriseBox(Game.random.nextInt(Game.SCREEN_WIDTH-50), Game.random.nextInt(Game.SCREEN_HEIGHT-50), world);
+		box = new SurpriseBox(MyGame.random.nextInt(MyGame.SCREEN_WIDTH-50), MyGame.random.nextInt(MyGame.SCREEN_HEIGHT-50), world);
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class ModeSurvival extends GameScreen {
 		drawBackground(spriteBatch);
 		
 		if (box.regenerate) {
-			box.regenerate(Game.random.nextInt((int) (Game.SCREEN_WIDTH - box.hitBox.width)), Game.random.nextInt((int) (Game.SCREEN_HEIGHT - box.hitBox.height)));
+			box.regenerate(MyGame.random.nextInt((int) (MyGame.SCREEN_WIDTH - box.hitBox.width)), MyGame.random.nextInt((int) (MyGame.SCREEN_HEIGHT - box.hitBox.height)));
 		}
 
 		dust.draw(spriteBatch, deltaTime);

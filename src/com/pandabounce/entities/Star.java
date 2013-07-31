@@ -11,7 +11,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.World;
-import com.pandabounce.Game;
+import com.pandabounce.MyGame;
 import com.pandabounce.resources.Art;
 
 public class Star {
@@ -56,14 +56,14 @@ public class Star {
 		particlesSpeed = new float[nrOfParticles];
 		
 		hitBox = new Rectangle(x, y, Art.star.getRegionWidth(), Art.star.getRegionHeight());
-		angle = Game.random.nextInt(360);
-		levitationCoef = Game.random.nextFloat() * 3.14f;
+		angle = MyGame.random.nextInt(360);
+		levitationCoef = MyGame.random.nextFloat() * 3.14f;
 		originalY = y;
 		
 		// Creating body definition
 		BodyDef bodyDef = new BodyDef();
 		bodyDef.type = BodyType.DynamicBody;
-		bodyDef.position.set(new Vector2((x+  hitBox.width/2)*Game.WORLD_TO_BOX , (y+ hitBox.height/2)*Game.WORLD_TO_BOX ));
+		bodyDef.position.set(new Vector2((x+  hitBox.width/2)*MyGame.WORLD_TO_BOX , (y+ hitBox.height/2)*MyGame.WORLD_TO_BOX ));
 		
 		// Creating body
 		body = world.createBody(bodyDef);
@@ -72,7 +72,7 @@ public class Star {
 
 		// Creating a shape
 		PolygonShape shape = new PolygonShape();
-		shape.setAsBox(hitBox.width/2*Game.WORLD_TO_BOX, hitBox.height/2*Game.WORLD_TO_BOX);
+		shape.setAsBox(hitBox.width/2*MyGame.WORLD_TO_BOX, hitBox.height/2*MyGame.WORLD_TO_BOX);
 		
 		// Creating fixture 
 		FixtureDef fixtureDef = new FixtureDef();
@@ -94,7 +94,7 @@ public class Star {
 		for(int i = 0; i < nrOfParticles; i++){
 			particlesX[i] = hitBox.x + hitBox.width/2;
 			particlesY[i] = hitBox.y + hitBox.height/2;
-			particlesSize[i] = hitBox.width/4 + Game.random.nextFloat()*hitBox.width/2;
+			particlesSize[i] = hitBox.width/4 + MyGame.random.nextFloat()*hitBox.width/2;
 			particlesTimer[i] = particlesSize[i]/hitBox.width * 0.6f;
 			particlesAngle[i] = (float) (Math.PI*2/nrOfParticles)  * i;
 			particlesSpeed[i] = 80 * hitBox.width / particlesSize[i];
@@ -118,8 +118,8 @@ public class Star {
 	 * Regenerate bamboo in a different place
 	 */
 	public void regenerate() {
-		int x = Game.random.nextInt((int) (Game.SCREEN_WIDTH - hitBox.width));
-		int y = Game.random.nextInt((int) (Game.SCREEN_HEIGHT - hitBox.height));
+		int x = MyGame.random.nextInt((int) (MyGame.SCREEN_WIDTH - hitBox.width));
+		int y = MyGame.random.nextInt((int) (MyGame.SCREEN_HEIGHT - hitBox.height));
 		hitBox.x = x;
 		hitBox.y = y;
 		originalY = y;
@@ -130,7 +130,7 @@ public class Star {
 		filter.maskBits = ~PhysicsFilter.MASK_PLAYER;
 		body.getFixtureList().get(0).setFilterData(filter);
 		
-		body.setTransform((x+  hitBox.width/2)*Game.WORLD_TO_BOX, (y+  hitBox.height/2)*Game.WORLD_TO_BOX, 0f);
+		body.setTransform((x+  hitBox.width/2)*MyGame.WORLD_TO_BOX, (y+  hitBox.height/2)*MyGame.WORLD_TO_BOX, 0f);
 	}
 	
 	public void draw(SpriteBatch spriteBatch, float deltaTime){
