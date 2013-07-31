@@ -246,9 +246,7 @@ public abstract class GameScreen extends BaseScreen {
 							panda.continueSlide();
 							score.resetMultiplier();
 							break;
-						case 7:
 						case 8:
-							// TODO: Berserk
 							// doesn't take any damage
 							break;
 						default:
@@ -270,9 +268,7 @@ public abstract class GameScreen extends BaseScreen {
 							panda.damage(2 * 10);
 							score.resetMultiplier();
 							break;
-						case 7:
 						case 8:
-							// TODO: Berserk
 							// doesn't take any damage
 							break;
 						default:
@@ -295,21 +291,40 @@ public abstract class GameScreen extends BaseScreen {
 									.getUserData().equals("surprise_box"))) {
 						Sounds.playSound(Sounds.box, true);
 
+						SurpriseBox tempBox = null;
 						if (bA.getUserData().equals("surprise_box")) {
-							panda.effectType = ((SurpriseBox) contact
-									.getFixtureA().getUserData()).type;
-							panda.effectTimer = ((SurpriseBox) contact
-									.getFixtureA().getUserData()).effectTime;
-							((SurpriseBox) contact.getFixtureA().getUserData()).regenerate = true;
+							tempBox = ((SurpriseBox) contact.getFixtureA()
+									.getUserData());
 						}
 
 						if (bB.getUserData().equals("surprise_box")) {
-							panda.effectType = ((SurpriseBox) contact
-									.getFixtureB().getUserData()).type;
-							panda.effectTimer = ((SurpriseBox) contact
-									.getFixtureB().getUserData()).effectTime;
-							((SurpriseBox) contact.getFixtureB().getUserData()).regenerate = true;
+							tempBox = ((SurpriseBox) contact.getFixtureB()
+									.getUserData());
 						}
+
+						panda.effectType = tempBox.type;
+						// It's your lucky day
+						if (tempBox.type == 7) {
+							panda.effectTimer = 0;
+
+							for (int z = 0; z < notifications.length; z++) {
+								if (!notifications[z].display) {
+									notifications[z]
+											.generate(
+													"+" + 10 + " HP",
+													(int) (panda.hitBox.x + panda.hitBoxCenterX),
+													(int) (panda.hitBox.y + panda.hitBox.height / 2));
+
+									break;
+								}
+							}
+
+							panda.health += 10;
+						} else {
+							panda.effectTimer = tempBox.effectTime;
+						}
+
+						tempBox.regenerate = true;
 
 						/*
 						 * ACHIEVEMENT: Risk taker
