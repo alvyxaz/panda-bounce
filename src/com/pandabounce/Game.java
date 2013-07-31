@@ -54,7 +54,7 @@ public class Game implements ApplicationListener {
 		Sounds.loadSounds();
 		
 		// Setting first screen to render
-		setScreen(new ModeSurvival(this));
+		setScreen(new TitleScreen(this));
     }
 
     public void render () {

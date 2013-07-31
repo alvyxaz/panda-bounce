@@ -119,7 +119,7 @@ public abstract class GameScreen extends BaseScreen {
 		createContactListener();
 		
 		// Entities
-		panda = new Panda(Game.SCREEN_HALF_WIDTH, Game.SCREEN_HALF_WIDTH, world);
+		panda = new Panda(Game.SCREEN_HALF_WIDTH, Game.SCREEN_HALF_HEIGHT-100, world);
 		stars = new Star[3];
 
 		// GUI

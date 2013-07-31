@@ -32,7 +32,6 @@ public class Art {
 	public static TextureRegion [] bee;
 	public static TextureRegion exclamation;
 	
-	
 	private static Texture guiTexture;
 	public static TextureRegion logo;
 	public static TextureRegion guiScoreBar;
@@ -42,7 +41,10 @@ public class Art {
 	public static TextureRegion guiEffectBar;
 	public static TextureRegion guiButtonSmall;
 	public static TextureRegion guiButtonBig;
-	
+	public static TextureRegion guiSignIn;
+	public static TextureRegion guiSignOut;
+	public static TextureRegion guiSoundOn;
+	public static TextureRegion guiSoundOff;
 	
 	private static Texture guiOtherTexture;
 	public static TextureRegion guiEndWindow;
@@ -88,6 +90,11 @@ public class Art {
 		guiEffectBar = new TextureRegion(guiTexture, 0, 277, 254, 38);
 		guiButtonBig = new TextureRegion(guiTexture, 0, 214, 274, 63);
 		guiButtonSmall = new TextureRegion(guiTexture, 0, 315, 147, 63);
+		
+		guiSignIn = new TextureRegion(guiTexture, 275, 254, 203, 55);
+		guiSignOut = new TextureRegion(guiTexture, 311, 309, 201, 57);
+		guiSoundOn = new TextureRegion(guiTexture, 415, 0, 48, 43);
+		guiSoundOff = new TextureRegion(guiTexture, 463, 0, 48, 43);
 	}
 	
 	private static void loadBackgroundTextures(){
@@ -144,7 +151,6 @@ public class Art {
 		bee[1] = new TextureRegion(otherTexture, 152, 157, 72, 47);
 		
 		exclamation = new TextureRegion(otherTexture, 0, 0, 14, 49);
-		
 		
 	}
 	
