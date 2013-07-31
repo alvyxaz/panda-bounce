@@ -72,6 +72,20 @@ public class Art {
 		
 	}
 	
+	public static void dispose(){
+		px.dispose();
+		pandaTexture.dispose();
+		friendlyBlob.dispose();
+		otherTexture.dispose();
+		guiTexture.dispose();
+		guiOtherTexture.dispose();
+		bgPixmap.dispose();
+		
+		fontDefault.dispose();
+		fontKomika24.dispose();
+		fontKomika24Gold.dispose();
+	}
+	
 	private static void loadOtherGUI() {
 		guiOtherTexture = new Texture(Gdx.files.internal("assets/textures/guiOther.png"));
 		guiEndWindow = new TextureRegion(guiOtherTexture, 0, 0, 364, 267);
@@ -122,7 +136,6 @@ public class Art {
 		
 		// TODO: dispose
 		temp.dispose();
-		bgPixmap.dispose();
 	}
 	
 	private static void loadFonts() {

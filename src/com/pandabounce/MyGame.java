@@ -98,5 +98,6 @@ public class MyGame extends Game implements ApplicationListener {
     // TODO : Dispose all resources
     public void dispose () {
     	Sounds.dispose();
+    	Art.dispose();
     }
 }

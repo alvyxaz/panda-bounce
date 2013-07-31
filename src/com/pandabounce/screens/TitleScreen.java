@@ -121,7 +121,12 @@ public class TitleScreen extends BaseScreen {
 					game.screenSurvival.restartGame();
 					this.switchScreenTo(game.screenSurvival);
 				} else if(Input.isReleasing(buttonLeaderboard)){
-					MyGame.google.getScores();
+					if(MyGame.google.isSignedIn()){
+						MyGame.google.getScores();
+					} else {
+						MyGame.google.Login();
+					}
+					
 				} else if(Input.isReleasing(buttonQuit)){
 					Gdx.app.exit();
 				} else if(Input.isReleasing(buttonSound)){

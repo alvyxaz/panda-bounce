@@ -95,9 +95,9 @@ public class GuiScore {
 			
 			if(multiplier == 15){
 				/*
-				 * ACHIEVEMENT: C-C-C-Combo
+				 * ACHIEVEMENT: Ground shaker
 				 */
-				Achievements.unlockAchievement(Achievements.ccombo);
+				Achievements.unlockAchievement(Achievements.groundShaker);
 			}
 		}
 

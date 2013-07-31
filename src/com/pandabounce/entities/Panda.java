@@ -1,5 +1,6 @@
 package com.pandabounce.entities;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -276,8 +277,11 @@ public class Panda {
 	
 	public void slide(float dX, float dY){
 		state = STATE_SLIDING; dY *= -1;
-		xVelocity = dX*7*MyGame.WORLD_TO_BOX;
-		yVelocity = dY*7*MyGame.WORLD_TO_BOX;
+		
+		dX /= Gdx.graphics.getDensity() * 4f;
+		dY /= Gdx.graphics.getDensity() * 4f;
+		xVelocity = dX*40*MyGame.WORLD_TO_BOX;
+		yVelocity = dY*40*MyGame.WORLD_TO_BOX;
 		body.setLinearVelocity(xVelocity, yVelocity);
 		speedCoef = 1;
 		
