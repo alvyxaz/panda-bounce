@@ -4,6 +4,8 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 
 public class DesktopGame {
 	public static void main (String[] args) {
-        new LwjglApplication(new MyGame(new GoogleDesktop()), "Game", (int) 480, 800, false);
+		MyGame game = new MyGame(new GoogleDesktop());
+		game.ads = new AdsDesktop();
+        new LwjglApplication(game, "Game", (int) 480, 800, false);
 	}
 }

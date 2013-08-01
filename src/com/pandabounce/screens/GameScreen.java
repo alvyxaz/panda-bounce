@@ -514,9 +514,11 @@ public abstract class GameScreen extends BaseScreen {
 			if (Input.isReleasing(buttonMainMenu)) {
 				this.switchScreenTo(game.screenTitle);
 				state = FADE_OUT;
+				game.ads.hideAds();
 			} else if (Input.isReleasing()) {
 				targetState = PLAYING;
 				state = FADE_IN;
+				game.ads.hideAds();
 			}
 			break;
 		case END:
@@ -524,6 +526,7 @@ public abstract class GameScreen extends BaseScreen {
 				if (Input.isTouching(endWindow.playAgain)) {
 					state = FADE_OUT;
 					targetState = READY;
+					MyGame.ads.hideAds();
 				} else if (Input.isReleasing(endWindow.submitScore)) {
 					MyGame.google.submitScore(score.score);
 				}
@@ -560,6 +563,7 @@ public abstract class GameScreen extends BaseScreen {
 			if (Input.isReleasing(pauseButton)) {
 				state = PAUSE;
 				transitionOpacity = 0.5f;
+				game.ads.showAds();
 			}
 
 			if (timer.enabled) {

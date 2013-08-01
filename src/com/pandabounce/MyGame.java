@@ -30,6 +30,7 @@ public class MyGame extends Game implements ApplicationListener {
 	public static boolean mute;
 	
 	public static GoogleInterface google;
+	public static AdsInterface ads;
 	
 	public TitleScreen screenTitle;
 	public ModeSurvival screenSurvival;

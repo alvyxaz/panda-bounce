@@ -59,7 +59,7 @@ public class GuiEndWindow {
 	}
 	
 	public void show(int score){
-		
+		MyGame.ads.showAds();
 		state = FLYING_IN;
 		this.score = score;
 		this.scoreText = ""+ score;
