@@ -649,6 +649,16 @@ public abstract class GameScreen extends BaseScreen {
 		score.reset();
 		timer.reset();
 
+		// Bees
+		for (int i = 0; i < bees.length; i++) {
+			bees[i] = null;
+		}
+
+		// Hedgehogs
+		for (int i = 0; i < hedgehogs.length; i++) {
+			hedgehogs[i] = null;
+		}
+
 		if (box != null)
 			box.regenerationTimer = 10f;
 
