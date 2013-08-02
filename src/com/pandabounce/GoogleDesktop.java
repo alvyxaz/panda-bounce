@@ -2,6 +2,8 @@ package com.pandabounce;
 
 public class GoogleDesktop implements GoogleInterface{
 
+	public MyGame game;
+	
 	@Override
 	public void Login() {
 		System.out.println("Desktop: would of logged in here");
@@ -14,7 +16,7 @@ public class GoogleDesktop implements GoogleInterface{
 
 	@Override
 	public boolean isSignedIn() {
-		return false;
+		return true;
 	}
 
 	public void submitScore(int score){
@@ -32,8 +34,8 @@ public class GoogleDesktop implements GoogleInterface{
 	}
 
 	@Override
-	public void unlockAchievement(String ach) {
-		System.out.println("Unlocked ---- " + ach + " ----");
+	public void unlockAchievement(String ach, String friendly) {
+		System.out.println("Unlocked ---- " + friendly + " ----");
 	}
 
 }

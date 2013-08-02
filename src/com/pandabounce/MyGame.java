@@ -35,8 +35,11 @@ public class MyGame extends Game implements ApplicationListener {
 	public TitleScreen screenTitle;
 	public ModeSurvival screenSurvival;
 	
-	public MyGame(GoogleInterface google){
+	ActionResolver actionResolver;
+	
+	public MyGame(GoogleInterface google, ActionResolver actionResolver){
 		this.google = google;
+		this.actionResolver = actionResolver; 
 	}
 	
     public void create () {
@@ -63,7 +66,7 @@ public class MyGame extends Game implements ApplicationListener {
 		screenSurvival = new ModeSurvival(this);
 		
 		// Setting first screen to render
-		setScreen(screenTitle);
+		setScreen(screenSurvival);
     }
 
     public void render () {

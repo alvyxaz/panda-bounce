@@ -32,6 +32,7 @@ public class Achievements {
 	
 	private static int [] achievements;
 	private static String [] achievementTitles;
+	public static String [] friendlyTitles;
 	
 	public static void loadData(){
 		/*
@@ -63,6 +64,22 @@ public class Achievements {
 		achievementTitles[10] = "achiev_allergic_to_bees";
 		achievementTitles[11] = "achiev_almost_a_millionaire";
 		achievementTitles[12] = "achiev_the_survivor";
+		
+		friendlyTitles = new String[count];
+		friendlyTitles[0] = "Panda's First Steps";
+		friendlyTitles[1] = "Wasp Encounter";
+		friendlyTitles[2] = "Hedgehog Encounter";
+		friendlyTitles[3] = "Touch The Sky";
+		friendlyTitles[4] = "Risk Taker";
+		friendlyTitles[5] = "Double The Fun";
+		friendlyTitles[6] = "I've been expecting you";
+		friendlyTitles[7] = "C-C-Combo";
+		friendlyTitles[8] = "Ground Shaker";
+		friendlyTitles[9] = "First Blood";
+		friendlyTitles[10] = "Allergic To Bees";
+		friendlyTitles[11] = "Almost a Millionaire";
+		friendlyTitles[12] = "The Survivor";
+
 	}
 	
 	public static void unlockAchievement(int ach){
@@ -70,8 +87,9 @@ public class Achievements {
 		
 		Preferences prefs = Gdx.app.getPreferences("achievements");
 		
+		MyGame.google.unlockAchievement(achievementTitles[ach], friendlyTitles[ach]);
+		
 		if(MyGame.google.isSignedIn()){
-			MyGame.google.unlockAchievement(achievementTitles[ach]);
 			achievements[ach] = UNLOCKED_ONLINE;
 			prefs.putInteger(Integer.toString(ach), UNLOCKED_ONLINE);
 		} else {
@@ -86,7 +104,7 @@ public class Achievements {
 		Preferences prefs = Gdx.app.getPreferences("achievements");
 		for(int i = 0; i < count; i++){
 			if(achievements[i]  == UNLOCKED_OFFLINE){
-				MyGame.google.unlockAchievement(achievementTitles[i]);
+				MyGame.google.unlockAchievement(achievementTitles[i], friendlyTitles[i]);
 				achievements[i] = UNLOCKED_ONLINE;
 				prefs.putInteger(Integer.toString(i), UNLOCKED_ONLINE);
 			}

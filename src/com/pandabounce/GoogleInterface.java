@@ -16,5 +16,5 @@ public interface GoogleInterface {
 	//gets the score and gives access to the raw score data
 	public void getScoresData();
 
-	public void unlockAchievement (String ach);
+	public void unlockAchievement (String ach, String friendly);
 }

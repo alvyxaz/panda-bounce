@@ -83,6 +83,7 @@ public abstract class GameScreen extends BaseScreen {
 
 	private final boolean movementRegistered = false;
 	private final Rectangle buttonMainMenu;
+	
 	/*
 	 * Graphic enhancements
 	 */
@@ -133,7 +134,7 @@ public abstract class GameScreen extends BaseScreen {
 
 		buttonMainMenu = new Rectangle(MyGame.SCREEN_HALF_WIDTH
 				- Art.guiButtonSmall.getRegionWidth() / 2,
-				MyGame.SCREEN_HALF_HEIGHT / 2,
+				MyGame.SCREEN_HALF_HEIGHT / 2 - 50,
 				Art.guiButtonSmall.getRegionWidth(),
 				Art.guiButtonSmall.getRegionHeight());
 
@@ -468,6 +469,11 @@ public abstract class GameScreen extends BaseScreen {
 					MyGame.SCREEN_HEIGHT);
 			spriteBatch.setColor(Color.WHITE);
 			endWindow.draw(spriteBatch, deltaTime);
+			spriteBatch.draw(Art.guiButtonSmall, buttonMainMenu.x,
+					buttonMainMenu.y);
+			Art.fontKomika24Gold.draw(spriteBatch, "Main Menu",
+					buttonMainMenu.x, buttonMainMenu.y + buttonMainMenu.height
+							- 16);
 			break;
 		case FADE_OUT:
 			spriteBatch.setColor(0, 0, 0, transitionOpacity);
@@ -478,7 +484,7 @@ public abstract class GameScreen extends BaseScreen {
 		}
 
 		spriteBatch.end();
-		// debugRenderer.render(world, debugMatrix);
+		 debugRenderer.render(world, debugMatrix);
 	}
 
 	public abstract void drawLevel(float deltaTime);
@@ -527,6 +533,10 @@ public abstract class GameScreen extends BaseScreen {
 					state = FADE_OUT;
 					targetState = READY;
 					MyGame.ads.hideAds();
+				} else if (Input.isReleasing(buttonMainMenu)) {
+					this.switchScreenTo(game.screenTitle);
+					state = FADE_OUT;
+					game.ads.hideAds();
 				} else if (Input.isReleasing(endWindow.submitScore)) {
 					MyGame.google.submitScore(score.score);
 				}

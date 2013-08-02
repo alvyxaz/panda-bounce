@@ -86,7 +86,7 @@ public abstract class BaseScreen implements Screen {
 				isSwitchInProgress = false;
 			}
 		}
-		
+
 	}
 
 	@Override
