@@ -578,12 +578,18 @@ public abstract class GameScreen extends BaseScreen {
 			panda.update(deltaTime);
 
 			// Bees
-			for (int i = 0; i < bees.length; i++)
-				bees[i].update(deltaTime);
+			for (int i = 0; i < bees.length; i++) {
+				if (bees[i] != null) {
+					bees[i].update(deltaTime);
+				}
+			}
 
 			// Hedgehogs
-			for (int i = 0; i < hedgehogs.length; i++)
-				hedgehogs[i].update(deltaTime);
+			for (int i = 0; i < hedgehogs.length; i++) {
+				if (hedgehogs[i] != null) {
+					hedgehogs[i].update(deltaTime);
+				}
+			}
 
 			// Checking input
 			if (Input.isReleasing()) {
@@ -642,14 +648,6 @@ public abstract class GameScreen extends BaseScreen {
 		panda.regenerate();
 		score.reset();
 		timer.reset();
-
-		for (int i = 0; i < hedgehogs.length; i++) {
-			hedgehogs[i].regenerate();
-		}
-
-		for (int i = 0; i < bees.length; i++) {
-			bees[i].regenerate();
-		}
 
 		if (box != null)
 			box.regenerationTimer = 10f;
