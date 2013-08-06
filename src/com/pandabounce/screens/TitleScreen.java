@@ -23,6 +23,8 @@ public class TitleScreen extends BaseScreen {
 	private static final int STATE_OPENING = 0;
 	private static final int STATE_LIVE = 1;
 	
+	private float transitionOpacity = 0;
+	
 	public TitleScreen(MyGame game) {
 		super(game);
 
@@ -97,6 +99,13 @@ public class TitleScreen extends BaseScreen {
 			spriteBatch.draw(Art.guiSoundOn, buttonSound.x, buttonSound.y);
 		}
 		
+		if(transitionOpacity != 1 && transitionOpacity != 0){
+			spriteBatch.setColor(0, 0, 0, transitionOpacity);
+			spriteBatch.draw(Art.px, 0, 0, MyGame.SCREEN_WIDTH,
+					MyGame.SCREEN_HEIGHT);
+			spriteBatch.setColor(Color.WHITE);
+		}
+		
 		spriteBatch.end();
 	}
 
@@ -106,18 +115,18 @@ public class TitleScreen extends BaseScreen {
 		switch(state){
 			case STATE_OPENING:
 				if(logo.y < MyGame.SCREEN_HEIGHT- Art.logo.getRegionHeight() - 50){
-					logo.y += 400 * deltaTime;
-					buttonPlay.y += 400 * deltaTime;
-					buttonGuide.y += 400 * deltaTime;
-					buttonLeaderboard.y += 400 * deltaTime;
-					buttonQuit.y += 400 * deltaTime;
-					buttonSignIn.y += 400 * deltaTime;
+					logo.y += 800 * deltaTime;
+					buttonPlay.y += 800 * deltaTime;
+					buttonGuide.y += 800 * deltaTime;
+					buttonLeaderboard.y += 800 * deltaTime;
+					buttonQuit.y += 800 * deltaTime;
+					buttonSignIn.y += 800 * deltaTime;
 				} else {
 					state = STATE_LIVE;
 				}
 				break;
 			case STATE_LIVE:
-				if(Input.isTouching(buttonPlay)){
+				if(Input.isReleasing(buttonPlay)){
 					game.screenSurvival.restartGame();
 					this.switchScreenTo(game.screenSurvival);
 				} else if(Input.isReleasing(buttonLeaderboard)){
@@ -136,6 +145,9 @@ public class TitleScreen extends BaseScreen {
 					if(MyGame.mute){
 						Sounds.stopMusic();
 					}
+				} else if(Input.isReleasing(buttonGuide)){
+					game.screenGuide.currentPage = 0;
+					this.switchScreenTo(game.screenGuide);
 				}
 				
 				if(Input.isReleasing(buttonSignIn) && !MyGame.google.isSignedIn()){
@@ -147,12 +159,16 @@ public class TitleScreen extends BaseScreen {
 				}
 				break;
 		}
-		
 	}
 
 	@Override
 	public boolean beforeScreenSwitch(float deltaTime) {
-		return true;
+		transitionOpacity += deltaTime * 2;
+		if (transitionOpacity > 1) {
+			transitionOpacity = 0;
+			return true;
+		}
+		return false;
 	}
 
 	@Override

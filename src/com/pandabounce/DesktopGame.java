@@ -8,6 +8,6 @@ public class DesktopGame {
 		MyGame game = new MyGame(new GoogleDesktop(), actionResolver);
 		game.ads = new AdsDesktop();
 		((GoogleDesktop)game.google).game = game;
-        new LwjglApplication(game, "Game", (int) 540, 960, false);
+        new LwjglApplication(game, "Game", (int) 480, 800, false);
 	}
 }

@@ -89,7 +89,7 @@ public class GuiScore {
 				 */
 				Achievements.unlockAchievement(Achievements.ccombo);
 			}
-			multiplierTime = 3;
+			multiplierTime = 2;
 			multiplier++;
 			multiplierText = multiplier+"";
 			

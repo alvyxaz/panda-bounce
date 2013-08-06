@@ -34,6 +34,7 @@ public class MyGame extends Game implements ApplicationListener {
 	
 	public TitleScreen screenTitle;
 	public ModeSurvival screenSurvival;
+	public GuideScreen screenGuide;
 	
 	ActionResolver actionResolver;
 	
@@ -64,9 +65,10 @@ public class MyGame extends Game implements ApplicationListener {
 		// Initializing screens
 		screenTitle = new TitleScreen(this);
 		screenSurvival = new ModeSurvival(this);
+		screenGuide = new GuideScreen(this);
 		
 		// Setting first screen to render
-		setScreen(screenTitle);
+		setScreen(screenGuide);
     }
 
     public void render () {
