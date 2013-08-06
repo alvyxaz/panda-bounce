@@ -19,7 +19,7 @@ public class GuiHealthBar {
 	public GuiHealthBar(Panda panda) {
 		this.panda = panda;
 		this.width = maxWidth;
-		this.x = MyGame.SCREEN_HALF_WIDTH + 40;
+		this.x = MyGame.SCREEN_WIDTH - 10 - Art.guiHealthBar.getRegionWidth();
 		this.y = MyGame.SCREEN_HEIGHT - Art.guiHealthBar.getRegionHeight() - 10;
 		this.height = Art.guiHealth.getRegionHeight();
 	}

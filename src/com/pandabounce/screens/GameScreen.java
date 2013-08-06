@@ -352,6 +352,7 @@ public abstract class GameScreen extends BaseScreen {
 					state = END;
 					endWindow.show(score.score);
 					transitionOpacity = 0.5f;
+					game.ads.showInterstitial();
 				}
 
 				if (panda.refreshAnimation) {
@@ -484,7 +485,7 @@ public abstract class GameScreen extends BaseScreen {
 		}
 
 		spriteBatch.end();
-		 debugRenderer.render(world, debugMatrix);
+//		 debugRenderer.render(world, debugMatrix);
 	}
 
 	public abstract void drawLevel(float deltaTime);

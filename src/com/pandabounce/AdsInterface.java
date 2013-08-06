@@ -8,4 +8,6 @@ public interface AdsInterface {
 	
 	public void hideAds();
 	
+	public void showInterstitial();
+	
 }
