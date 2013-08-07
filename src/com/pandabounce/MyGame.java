@@ -68,7 +68,7 @@ public class MyGame extends Game implements ApplicationListener {
 		screenGuide = new GuideScreen(this);
 		
 		// Setting first screen to render
-		setScreen(screenGuide);
+		setScreen(screenTitle);
     }
 
     public void render () {

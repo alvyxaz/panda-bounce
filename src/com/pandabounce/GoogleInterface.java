@@ -17,4 +17,6 @@ public interface GoogleInterface {
 	public void getScoresData();
 
 	public void unlockAchievement (String ach, String friendly);
+	
+	public void showAchievements();
 }

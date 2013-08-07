@@ -6,12 +6,10 @@ public class GoogleDesktop implements GoogleInterface{
 	
 	@Override
 	public void Login() {
-		System.out.println("Desktop: would of logged in here");
 	}
 
 	@Override
 	public void LogOut() {
-		System.out.println("Desktop: would of logged out here");
 	}
 
 	@Override
@@ -36,6 +34,11 @@ public class GoogleDesktop implements GoogleInterface{
 	@Override
 	public void unlockAchievement(String ach, String friendly) {
 		System.out.println("Unlocked ---- " + friendly + " ----");
+	}
+
+	@Override
+	public void showAchievements() {
+		System.out.println("Requesting achievements");
 	}
 
 }

@@ -73,7 +73,7 @@ public class GuideScreen extends BaseScreen {
 			drawTitle("HEDGEHOGS");
 			spriteBatch.draw(Art.hedgehog, 
 					MyGame.SCREEN_HALF_WIDTH - Art.hedgehog.getRegionWidth()/2, pictureY);
-			drawText("Cute creatures, but avoid them if you don't want to be hurt.");
+			drawText("Cute creatures, but avoid them if you don't want to get hurt.");
 			break;
 		case WASP:
 			drawTitle("WASP");

@@ -14,6 +14,7 @@ public class TitleScreen extends BaseScreen {
 	private Rectangle logo;
 	private Rectangle buttonPlay;
 	private Rectangle buttonLeaderboard;
+	private Rectangle buttonAchievements;
 	private Rectangle buttonGuide;
 	private Rectangle buttonQuit;
 	private Rectangle buttonSignIn;
@@ -44,6 +45,11 @@ public class TitleScreen extends BaseScreen {
 		height -= Art.guiButtonSmall.getRegionHeight() + 30;
 		
 		buttonLeaderboard = new Rectangle(MyGame.SCREEN_HALF_WIDTH - Art.guiButtonBig.getRegionWidth()/2, height,
+				Art.guiButtonBig.getRegionWidth(), Art.guiButtonBig.getRegionHeight());
+		
+		height -= Art.guiButtonSmall.getRegionHeight() + 30;
+		
+		buttonAchievements = new Rectangle(MyGame.SCREEN_HALF_WIDTH - Art.guiButtonBig.getRegionWidth()/2, height,
 				Art.guiButtonBig.getRegionWidth(), Art.guiButtonBig.getRegionHeight());
 		
 		height -= Art.guiButtonSmall.getRegionHeight() + 30;
@@ -83,6 +89,10 @@ public class TitleScreen extends BaseScreen {
 		Art.fontKomika24Gold.drawWrapped(spriteBatch, "Leaderboard", 
 				buttonLeaderboard.x, buttonLeaderboard.y+ buttonLeaderboard.height - 16, buttonLeaderboard.width, HAlignment.CENTER);
 		
+		spriteBatch.draw(Art.guiButtonBig, buttonAchievements.x, buttonAchievements.y);
+		Art.fontKomika24Gold.drawWrapped(spriteBatch, "Achievements", 
+				buttonAchievements.x, buttonAchievements.y+ buttonAchievements.height - 16, buttonAchievements.width, HAlignment.CENTER);
+		
 		spriteBatch.draw(Art.guiButtonSmall, buttonQuit.x, buttonQuit.y);
 		Art.fontKomika24Gold.drawWrapped(spriteBatch, "Quit", 
 				buttonQuit.x, buttonQuit.y+ buttonQuit.height - 16, buttonQuit.width, HAlignment.CENTER);
@@ -121,6 +131,7 @@ public class TitleScreen extends BaseScreen {
 					buttonLeaderboard.y += 800 * deltaTime;
 					buttonQuit.y += 800 * deltaTime;
 					buttonSignIn.y += 800 * deltaTime;
+					buttonAchievements.y += 800 * deltaTime;
 				} else {
 					state = STATE_LIVE;
 				}
@@ -148,6 +159,8 @@ public class TitleScreen extends BaseScreen {
 				} else if(Input.isReleasing(buttonGuide)){
 					game.screenGuide.currentPage = 0;
 					this.switchScreenTo(game.screenGuide);
+				} else if(Input.isReleasing(buttonAchievements)){
+					game.google.showAchievements();
 				}
 				
 				if(Input.isReleasing(buttonSignIn) && !MyGame.google.isSignedIn()){

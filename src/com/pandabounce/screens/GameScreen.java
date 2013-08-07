@@ -1,6 +1,7 @@
 package com.pandabounce.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Matrix4;
@@ -352,7 +353,6 @@ public abstract class GameScreen extends BaseScreen {
 					state = END;
 					endWindow.show(score.score);
 					transitionOpacity = 0.5f;
-					game.ads.showInterstitial();
 				}
 
 				if (panda.refreshAnimation) {
@@ -529,6 +529,7 @@ public abstract class GameScreen extends BaseScreen {
 			}
 			break;
 		case END:
+			Gdx.input.setCatchBackKey(false);
 			if (endWindow.isWaitingForInput()) {
 				if (Input.isTouching(endWindow.playAgain)) {
 					state = FADE_OUT;
@@ -551,12 +552,18 @@ public abstract class GameScreen extends BaseScreen {
 					if (targetState == READY) {
 						restartGame();
 					}
+					game.ads.showInterstitial();
 					state = FADE_IN;
 				}
 			}
 			break;
 		case PLAYING:
 
+			if (Gdx.input.isKeyPressed(Keys.BACK)){
+				state = PAUSE;
+				transitionOpacity = 0.5f;
+			}
+			
 			switch (panda.effectType) {
 			case 2:
 				updateLevel(deltaTime / 2);
@@ -653,6 +660,7 @@ public abstract class GameScreen extends BaseScreen {
 	}
 
 	public void restartGame() {
+		Gdx.input.setCatchBackKey(true);
 		state = FADE_OUT;
 		targetState = READY;
 
