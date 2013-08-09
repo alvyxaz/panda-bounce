@@ -46,7 +46,7 @@ public class GuiEndWindow {
 	}
 
 	public void initializeComments() {
-		int count = 3;
+		int count = 8;
 		commentScore = new int[count];
 		commentText = new String[count];
 
