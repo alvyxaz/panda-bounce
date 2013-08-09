@@ -280,8 +280,8 @@ public class Panda {
 		
 		float dip = Gdx.graphics.getDensity() * 160;
 		
-		dX = dX * 2000/dip;
-		dY = dY * 2000/dip;
+		dX = dX * 2500/dip;
+		dY = dY * 2500/dip;
 
 		xVelocity = dX*MyGame.WORLD_TO_BOX;
 		yVelocity = dY*MyGame.WORLD_TO_BOX;
