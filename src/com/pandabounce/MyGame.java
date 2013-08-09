@@ -35,6 +35,7 @@ public class MyGame extends Game implements ApplicationListener {
 	public TitleScreen screenTitle;
 	public ModeSurvival screenSurvival;
 	public GuideScreen screenGuide;
+	public BrandScreen screenBrand;
 	
 	ActionResolver actionResolver;
 	
@@ -67,8 +68,10 @@ public class MyGame extends Game implements ApplicationListener {
 		screenSurvival = new ModeSurvival(this);
 		screenGuide = new GuideScreen(this);
 		
+		screenBrand = new BrandScreen(this);
+		
 		// Setting first screen to render
-		setScreen(screenTitle);
+		setScreen(screenBrand);
     }
 
     public void render () {
@@ -113,6 +116,7 @@ public class MyGame extends Game implements ApplicationListener {
     }
 
     public void resume () {
+    	Art.loadTextures();
     }
 
     // TODO : Dispose all resources

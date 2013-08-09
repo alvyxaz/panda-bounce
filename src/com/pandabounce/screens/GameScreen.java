@@ -329,11 +329,6 @@ public abstract class GameScreen extends BaseScreen {
 						tempBox.regenerate = true;
 
 						/*
-						 * ACHIEVEMENT: Risk taker
-						 */
-						Achievements.unlockAchievement(Achievements.riskTaker);
-
-						/*
 						 * ACHIEVEMENT: Double the fun
 						 */
 						if (panda.effectType == 6) {
@@ -552,7 +547,10 @@ public abstract class GameScreen extends BaseScreen {
 					if (targetState == READY) {
 						restartGame();
 					}
-					game.ads.showInterstitial();
+					int toShow = game.random.nextInt(1);
+					if(toShow == 1){
+						game.ads.showInterstitial();
+					}
 					state = FADE_IN;
 				}
 			}

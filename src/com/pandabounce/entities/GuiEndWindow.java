@@ -85,11 +85,6 @@ public class GuiEndWindow {
 			bestText = ""+oldBest;
 		}
 		
-		/*
-		 * ACHIEVEMENT: Panda's first steps
-		 */
-		Achievements.unlockAchievement(Achievements.pandasFirstSteps);
-		
 		// Increment games played
 		int gamesPlayed = MyGame.preferences.getInteger("games played", 0) + 1;
 		MyGame.preferences.putInteger("games played", gamesPlayed);

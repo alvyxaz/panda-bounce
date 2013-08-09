@@ -138,7 +138,7 @@ public class Art {
 		temp.dispose();
 	}
 	
-	private static void loadFonts() {
+	public static void loadFonts() {
 		fontDefault = new BitmapFont();
 		fontKomika24Gold = new BitmapFont(Gdx.files.internal("assets/fonts/komika-24-gold.fnt"), 
 				Gdx.files.internal("assets/fonts/komika-24-gold.png"), false);

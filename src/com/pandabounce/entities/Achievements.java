@@ -40,10 +40,10 @@ public class Achievements {
 		 */
 		Preferences prefs = Gdx.app.getPreferences("achievements");
 		
-		// Cleaning up achievements
-		for(int i = 0; i < count; i++)
-			prefs.putInteger(Integer.toString(i), LOCKED);
-		prefs.flush();
+//		// Cleaning up achievements
+//		for(int i = 0; i < count; i++)
+//			prefs.putInteger(Integer.toString(i), LOCKED);
+//		prefs.flush();
 		
 		achievements = new int[count];
 		for(int i = 0; i < count; i++){

@@ -27,9 +27,9 @@ public class ModeSurvival extends GameScreen {
 				MyGame.random.nextInt(MyGame.SCREEN_HEIGHT - 50), world);
 
 		// Making hedgehogs
-		hedgehogs = new Hedgehog[3];
+		hedgehogs = new Hedgehog[6];
 
-		bees = new Bee[1];
+		bees = new Bee[4];
 
 		box = new SurpriseBox(MyGame.random.nextInt(MyGame.SCREEN_WIDTH - 50),
 				MyGame.random.nextInt(MyGame.SCREEN_HEIGHT - 50), world);
@@ -49,24 +49,66 @@ public class ModeSurvival extends GameScreen {
 			}
 		}
 		if (timer.time > 20) {
-			if (hedgehogs[1] == null) {
-				hedgehogs[1] = new Hedgehog(world);
-				hedgehogs[1].regenerate();
-			}
-		}
-		if (timer.time > 30) {
-			if (hedgehogs[2] == null) {
-				hedgehogs[2] = new Hedgehog(world);
-				hedgehogs[2].regenerate();
-			}
-		}
-		if (timer.time > 45) {
 			if (bees[0] == null) {
 				bees[0] = new Bee(world, panda.getPosition());
 				bees[0].regenerate();
 			}
 		}
+		if (timer.time > 40) {
+			if (hedgehogs[1] == null) {
+				hedgehogs[1] = new Hedgehog(world);
+				hedgehogs[1].regenerate();
+			}
+		}
+		if (timer.time > 60) {
+			if (hedgehogs[2] == null) {
+				hedgehogs[2] = new Hedgehog(world);
+				hedgehogs[2].regenerate();
+			}
+		}
+		
+		if (timer.time > 80) {
+			if (bees[1] == null) {
+				bees[1] = new Bee(world, panda.getPosition());
+				bees[1].regenerate();
+			}
+		}
+		
+		if (timer.time > 100) {
+			if (bees[2] == null) {
+				bees[2] = new Bee(world, panda.getPosition());
+				bees[2].regenerate();
+			}
+		}
+		
+		if (timer.time > 120) {
+			if (hedgehogs[3] == null) {
+				hedgehogs[3] = new Hedgehog(world);
+				hedgehogs[3].regenerate();
+			}
+		}
+		
+		if (timer.time > 140) {
+			if (hedgehogs[4] == null) {
+				hedgehogs[4] = new Hedgehog(world);
+				hedgehogs[4].regenerate();
+			}
+		}
 
+		if (timer.time > 160) {
+			if (bees[3] == null) {
+				bees[3] = new Bee(world, panda.getPosition());
+				bees[3].regenerate();
+			}
+		}
+		
+		if (timer.time > 180) {
+			if (hedgehogs[4] == null) {
+				hedgehogs[4] = new Hedgehog(world);
+				hedgehogs[4].regenerate();
+			}
+		}
+		
 		box.update(deltaTime);
 	}
 

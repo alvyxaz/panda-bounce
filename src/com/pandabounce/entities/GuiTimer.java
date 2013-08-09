@@ -22,6 +22,8 @@ public class GuiTimer {
 
 	public boolean ascending = false;
 
+	private boolean gaveAchievement = false;
+	
 	public GuiTimer(int x, int y) {
 		digits = new int[4];
 		this.x = x;
@@ -48,11 +50,11 @@ public class GuiTimer {
 		if (previousSecond != digits[3]) {
 			timeString = String.format("%02d:%02d", (int) (time / 60),
 					(int) (time % 60));
-			if ((int) (time / 60) == 6) {
-				/*
-				 * ACHIEVEMENT: The survivor
-				 */
-				Achievements.unlockAchievement(Achievements.theSurvivor);
+			if (!gaveAchievement && (int) (time / 60) == 3) {
+					/*
+					 * ACHIEVEMENT: The survivor
+					 */
+					Achievements.unlockAchievement(Achievements.theSurvivor);
 			}
 		}
 	}

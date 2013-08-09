@@ -22,7 +22,7 @@ public class Panda {
 	public float hitBoxCenterX;	// Relative Y center of the hitBox
 	
 	public float health; // Percentage
-	public float maxHealth = 5;
+	public float maxHealth = 100;
 	
 	// Basic states
 	public int state = 0;
@@ -278,10 +278,13 @@ public class Panda {
 	public void slide(float dX, float dY){
 		state = STATE_SLIDING; dY *= -1;
 		
-		dX /= Gdx.graphics.getDensity() * 4f;
-		dY /= Gdx.graphics.getDensity() * 4f;
-		xVelocity = dX*40*MyGame.WORLD_TO_BOX;
-		yVelocity = dY*40*MyGame.WORLD_TO_BOX;
+		float dip = Gdx.graphics.getDensity() * 160;
+		
+		dX = dX * 2000/dip;
+		dY = dY * 2000/dip;
+
+		xVelocity = dX*MyGame.WORLD_TO_BOX;
+		yVelocity = dY*MyGame.WORLD_TO_BOX;
 		body.setLinearVelocity(xVelocity, yVelocity);
 		speedCoef = 1;
 		
