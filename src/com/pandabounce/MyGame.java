@@ -90,7 +90,7 @@ public class MyGame extends Game implements ApplicationListener {
 		float mismatch = difference - (int) difference;
 		float scale = ((int) difference) >= 1 ? (int) difference : mismatch; 
 		
-		if(mismatch <= 0.7f){
+		if(mismatch <= 0.3f){
 			SCREEN_WIDTH = (int)(Gdx.graphics.getWidth()/scale);
 			SCREEN_HEIGHT= (int)(Gdx.graphics.getHeight()/scale);
 		} else if(mismatch > 0.7f){
@@ -117,6 +117,7 @@ public class MyGame extends Game implements ApplicationListener {
 
     public void resume () {
     	Art.loadTextures();
+    	this.getScreen().resume();
     }
 
     // TODO : Dispose all resources

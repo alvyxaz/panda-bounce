@@ -105,6 +105,8 @@ public class GuiEndWindow {
 		// Increment games played
 		int gamesPlayed = MyGame.preferences.getInteger("games played", 0) + 1;
 		MyGame.preferences.putInteger("games played", gamesPlayed);
+		MyGame.preferences.flush();
+		
 	}
 
 	public void draw(SpriteBatch spriteBatch, float deltaTime) {

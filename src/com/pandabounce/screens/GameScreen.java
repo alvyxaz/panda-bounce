@@ -84,6 +84,7 @@ public abstract class GameScreen extends BaseScreen {
 
 	private final boolean movementRegistered = false;
 	private final Rectangle buttonMainMenu;
+	private boolean playingAgain = false;
 	
 	/*
 	 * Graphic enhancements
@@ -244,7 +245,7 @@ public abstract class GameScreen extends BaseScreen {
 									.getUserData().equals("hedgehog"))) {
 						switch (panda.effectType) {
 						case 6:
-							panda.damage(2 * 5);
+							panda.damage(2 * 10);
 							panda.continueSlide();
 							score.resetMultiplier();
 							break;
@@ -252,7 +253,7 @@ public abstract class GameScreen extends BaseScreen {
 							// doesn't take any damage
 							break;
 						default:
-							panda.damage(5);
+							panda.damage(10);
 							panda.continueSlide();
 							score.resetMultiplier();
 						}
@@ -267,14 +268,14 @@ public abstract class GameScreen extends BaseScreen {
 									.getUserData().equals("bee"))) {
 						switch (panda.effectType) {
 						case 6:
-							panda.damage(2 * 10);
+							panda.damage(2 * 20);
 							score.resetMultiplier();
 							break;
 						case 8:
 							// doesn't take any damage
 							break;
 						default:
-							panda.damage(10);
+							panda.damage(20);
 							score.resetMultiplier();
 							if (panda.health <= 0) {
 								/*
@@ -348,6 +349,7 @@ public abstract class GameScreen extends BaseScreen {
 					state = END;
 					endWindow.show(score.score);
 					transitionOpacity = 0.5f;
+					playingAgain = false;
 				}
 
 				if (panda.refreshAnimation) {
@@ -530,6 +532,7 @@ public abstract class GameScreen extends BaseScreen {
 					state = FADE_OUT;
 					targetState = READY;
 					MyGame.ads.hideAds();
+					playingAgain = true;
 				} else if (Input.isReleasing(buttonMainMenu)) {
 					this.switchScreenTo(game.screenTitle);
 					state = FADE_OUT;
@@ -547,9 +550,11 @@ public abstract class GameScreen extends BaseScreen {
 					if (targetState == READY) {
 						restartGame();
 					}
-					int toShow = game.random.nextInt(1);
-					if(toShow == 1){
-						game.ads.showInterstitial();
+					if(playingAgain){
+						int toShow = game.random.nextInt(2);
+						if(toShow == 1){
+							game.ads.showInterstitial();
+						}
 					}
 					state = FADE_IN;
 				}
@@ -692,6 +697,25 @@ public abstract class GameScreen extends BaseScreen {
 			Achievements.unlockAchievement(Achievements.iveBeenExpectingYou);
 		}
 
+	}
+	
+	public void regenerateEnemies(){
+		for (int i = 0; i < bees.length; i++) {
+			if (bees[i] != null) {
+				bees[i].regenerate();
+			}
+		}
+		
+		for (int i = 0; i < hedgehogs.length; i++) {
+			if (hedgehogs[i] != null) {
+				hedgehogs[i].regenerate();
+			}
+		}
+	}
+	
+	@Override
+	public void resume(){
+		regenerateEnemies();
 	}
 
 	public void drawBackground(SpriteBatch spriteBatch) {

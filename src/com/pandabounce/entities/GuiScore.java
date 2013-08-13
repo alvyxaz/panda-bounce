@@ -71,7 +71,7 @@ public class GuiScore {
 	
 	public void onStarPickedUp() {
 		starsPickedUp++;
-		if(starsPickedUp == 50){
+		if(starsPickedUp == 150){
 			/*
 			 * ACHIEVEMENT: Touch the sky
 			 */
@@ -111,7 +111,7 @@ public class GuiScore {
 		score += multiplier * x;
 		scoreText = String.format("%09d", score);
 		scaleMultiplier = 1.2f;
-		if(score > 10000){
+		if(score >= 10000){
 			/*
 			 * ACHIEVEMENT: Allmost a millionaire
 			 */

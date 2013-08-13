@@ -17,6 +17,7 @@ public class AdsDesktop implements AdsInterface {
 
 	@Override
 	public void showInterstitial() {
+		System.out.println("SHOW INTER");
 	}
 
 }
